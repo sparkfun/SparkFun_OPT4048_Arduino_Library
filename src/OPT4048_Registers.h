@@ -152,7 +152,7 @@ typedef union {
 #define SFE_OPT4048_INT_CONTROL 0x0B
 
 typedef union {
-    struct 
+    struct
     {
         uint8_t threshold_ch_sel : 8;
         uint8_t int_dir : 2;
@@ -160,14 +160,13 @@ typedef union {
         uint8_t reserved : 1;
         uint8_t i2c_burst : 1;
     };
-    
-} opt4048_int_control_t;
 
+} opt4048_int_control_t;
 
 #define SFE_OPT4048_FLAGS 0x0C
 
 typedef union {
-    struct 
+    struct
     {
         uint16_t reserved : 12;
         uint8_t overload_flag : 2;
@@ -175,18 +174,18 @@ typedef union {
         uint8_t flag_high : 1;
         uint8_t flag_low : 1;
     };
-    
+
 } opt4048_flags_t;
 
 #define SFE_OPT4048_DEVICE_ID 0x0D
 
 typedef union {
-    struct 
+    struct
     {
         uint16_t reserved : 2;
         uint8_t DIDL : 2;
-        uint16_t DIDH : 12; 
+        uint16_t DIDH : 12;
     };
-    
+
 } opt4048_device_id_t;
 #endif
