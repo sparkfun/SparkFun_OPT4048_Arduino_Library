@@ -1,7 +1,7 @@
 #ifndef SFE_OT4048_REGS_H
 #define SFE_OT4048_REGS_H
 
-#define OPT4048_ADDR_HIGH 0x45
+#define OPT4048_ADDR_HIGH 0x45 // Default
 #define OPT4048_ADDR_LOW 0x44
 #define OPT4048_ADDR_SDA 0x46
 #define OPT4048_ADDR_SCL 0x45
@@ -89,7 +89,7 @@ typedef union {
 
 #define SFE_OPT4048_EXP_RES_CH3 0x06
 
-/// @brief OPT4048 Register for Exponent and Result (MSB) for Channel 3 
+/// @brief OPT4048 Register for Exponent and Result (MSB) for Channel 3
 typedef union {
     struct
     {
@@ -102,7 +102,7 @@ typedef union {
 
 #define SFE_OPT4048_RES_CNT_CRC_CH3 0x07
 
-/// @brief  OPT4048 Register for Result (LSB), Counter, and CRC for Channel 3 
+/// @brief  OPT4048 Register for Result (LSB), Counter, and CRC for Channel 3
 typedef union {
     struct
     {
@@ -157,7 +157,7 @@ typedef union {
     };
 } opt4048_control_reg_t;
 
-/// @brief OPT4048 Register with settings for the interrupt pin. 
+/// @brief OPT4048 Register with settings for the interrupt pin.
 #define SFE_OPT4048_INT_CONTROL 0x0B
 
 typedef union {
@@ -174,7 +174,7 @@ typedef union {
 
 #define SFE_OPT4048_FLAGS 0x0C
 
-/// @brief OPT4048 register containing various status flags. 
+/// @brief OPT4048 register containing various status flags.
 typedef union {
     struct
     {

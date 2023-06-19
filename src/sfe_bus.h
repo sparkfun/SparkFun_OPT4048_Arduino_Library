@@ -55,7 +55,7 @@
 namespace sfe_OPT4048 {
 
 /// @brief This is an abstract interface for the I2C bus.
-class QwIDeviceBus 
+class QwDeviceBus 
 {
 	public: 
 
@@ -68,7 +68,7 @@ class QwIDeviceBus
 };
 
 /// @brief This class implements the I2C interface for the OPT4048
-class QwI2C : public QwIDeviceBus
+class QwI2C : public QwDeviceBus
 {
 	public: 
 
