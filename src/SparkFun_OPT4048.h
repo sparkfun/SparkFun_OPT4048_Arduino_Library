@@ -67,7 +67,6 @@ class QwOpt4048
 
         bool setI2CBurst(opt4048_control_reg_t burst);
         bool getI2CBurst(opt4048_control_reg_t *burst);
-        ///////////////////////////////////////////////////////////////////Color Information
 
         bool setOverflowFlag(opt4048_flags_t overflow);
         bool getOverflowFlag(opt4048_flags_t *overflow);
