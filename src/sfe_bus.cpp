@@ -6,9 +6,9 @@
 //
 // Do you like this library? Help support SparkFun. Buy a board!
 //
-//SparkFun Qwiic 6DoF - ISM330DHCX        https://www.sparkfun.com/products/19764
+// SparkFun Qwiic 6DoF - ISM330DHCX        https://www.sparkfun.com/products/19764
 //
-// Written by Kirk Benell @ SparkFun Electronics 
+// Written by Kirk Benell @ SparkFun Electronics
 // Modified by Elias Santistevan @ SparkFun Electronics, April 2022
 //
 // Repository:
@@ -38,11 +38,9 @@
 //    ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 // The following classes specify the behavior for communicating
 // over the respective data buses: Inter-Integrated Circuit (I2C)
 // Can you change references to ISM330DHCX to OPT4048?
-
 
 #include "sfe_bus.h"
 #include <Arduino.h>
@@ -52,61 +50,61 @@
 // What we use for transfer chunk size
 const static uint16_t kChunkSize = kMaxTransferBuffer;
 
-namespace sfe_OPT4048 {
+namespace sfe_OPT4048
+{
 
 QwI2C::QwI2C(void) : _i2cPort{nullptr}
 {
 }
 
 /// @brief  Initializes I2C and checks for device
-/// @param wirePort I2C port 
+/// @param wirePort I2C port
 /// @param bInit   If true, initializes the I2C port
 /// @return True if device is present and initialized, false otherwise
 bool QwI2C::init(TwoWire &wirePort, bool bInit)
 {
 
     // if we don't have a wire port already
-    if( !_i2cPort )
+    if (!_i2cPort)
     {
         _i2cPort = &wirePort;
 
-        if( bInit )
+        if (bInit)
             _i2cPort->begin();
     }
-		
+
     return true;
 }
 
 /// @brief Initializes I2C and checks for device
-/// @return True if device is present and initialized, false otherwise 
+/// @return True if device is present and initialized, false otherwise
 bool QwI2C::init()
 {
-		if( !_i2cPort )
-			return init(Wire);
-		else
-			return false;
+    if (!_i2cPort)
+        return init(Wire);
+    else
+        return false;
 }
 
 /// @brief Checks for device presence on the I2C bus
 /// @param i2c_address I2C address of device
-/// @return True if device is present, false otherwise 
+/// @return True if device is present, false otherwise
 bool QwI2C::ping(uint8_t i2c_address)
 {
 
-    if( !_i2cPort )
+    if (!_i2cPort)
         return false;
 
     _i2cPort->beginTransmission(i2c_address);
     return _i2cPort->endTransmission() == 0;
 }
 
-
 /// @brief Reads a register region from a device.
-/// @param i2c_address I2C address of device 
-/// @param offset Register offset to read from 
-/// @param data Pointer to byte to store read data 
-/// @param length Number of bytes to read 
-/// @return Number of bytes read (-1 indicates failure) 
+/// @param i2c_address I2C address of device
+/// @param offset Register offset to read from
+/// @param data Pointer to byte to store read data
+/// @param length Number of bytes to read
+/// @return Number of bytes read (-1 indicates failure)
 int QwI2C::writeRegisterRegion(uint8_t i2c_address, uint8_t offset, const uint8_t *data, uint16_t length)
 {
 
@@ -118,11 +116,11 @@ int QwI2C::writeRegisterRegion(uint8_t i2c_address, uint8_t offset, const uint8_
 }
 
 /// @brief Reads a single byte from a register
-/// @param addr I2C address of device 
-/// @param reg  Register offset to read from 
-/// @param data Pointer to byte to store read data 
-/// @param numBytes Number of bytes to read 
-/// @return Number of bytes read (-1 indicates failure) 
+/// @param addr I2C address of device
+/// @param reg  Register offset to read from
+/// @param data Pointer to byte to store read data
+/// @param numBytes Number of bytes to read
+/// @return Number of bytes read (-1 indicates failure)
 int QwI2C::readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t *data, uint16_t numBytes)
 {
     uint8_t nChunk;
@@ -145,7 +143,7 @@ int QwI2C::readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t *data, uint16_t
         }
 
         if (_i2cPort->endTransmission() != 0)
-            return -1; 
+            return -1;
 
         // We're chunking in data - keeping the max chunk to kMaxI2CBufferLength
         nChunk = numBytes > kChunkSize ? kChunkSize : numBytes;
@@ -153,11 +151,12 @@ int QwI2C::readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t *data, uint16_t
         nReturned = _i2cPort->requestFrom((int)addr, (int)nChunk, (int)true);
 
         if (nReturned == 0)
-            return -1; 
+            return -1;
 
-        for (i = 0; i < nReturned; i++){
+        for (i = 0; i < nReturned; i++)
+        {
             *data++ = _i2cPort->read();
-				}
+        }
 
         // Decrement the amount of data recieved from the overall data request amount
         numBytes = numBytes - nReturned;
@@ -167,4 +166,4 @@ int QwI2C::readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t *data, uint16_t
     return 0; // Success
 }
 
-}
+} // namespace sfe_OPT4048

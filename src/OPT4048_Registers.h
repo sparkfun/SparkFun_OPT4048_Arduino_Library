@@ -15,9 +15,9 @@ typedef union {
         uint8_t exponent_ch0 : 4;
         uint16_t result_msb_ch0 : 12;
     };
-    uint16_t byte;
+    uint16_t word;
 
-} opt4048_exp_res_ch0_reg_t;
+} opt4048_reg_exp_res_ch0_t;
 
 #define SFE_OPT4048_REGISTER_RES_CNT_CRC_CH0 0x01
 
@@ -29,9 +29,9 @@ typedef union {
         uint8_t counter_ch0 : 4;
         uint8_t crc_ch0 : 4;
     };
-    uint8_t byte;
+    uint16_t word;
 
-} opt4048_res_cnt_crc_ch0_reg_t;
+} opt4048_reg_res_cnt_crc_ch0_t;
 
 #define SFE_OPT4048_REGISTER_EXP_RES_CH1 0x02
 
@@ -42,9 +42,9 @@ typedef union {
         uint8_t exponent_ch1 : 4;
         uint16_t result_msb_ch1 : 12;
     };
-    uint16_t byte;
+    uint16_t word;
 
-} opt4048_exp_res_ch1_reg_t;
+} opt4048_reg_exp_res_ch1_t;
 
 #define SFE_OPT4048_REGISTER_RES_CNT_CRC_CH1 0x03
 
@@ -56,9 +56,9 @@ typedef union {
         uint8_t counter_ch1 : 4;
         uint8_t crc_ch1 : 4;
     };
-    uint8_t byte;
+    uint16_t word;
 
-} opt4048_res_cnt_crc_ch1_reg_t;
+} opt4048_reg_res_cnt_crc_ch1_t;
 
 #define SFE_OPT4048_REGISTER_EXP_RES_CH2 0x04
 
@@ -69,9 +69,9 @@ typedef union {
         uint8_t exponent_ch2 : 4;
         uint16_t result_msb_ch2 : 12;
     };
-    uint16_t byte;
+    uint16_t word;
 
-} opt4048_exp_res_ch2_reg_t;
+} opt4048_reg_exp_res_ch2_t;
 
 #define SFE_OPT4048_REGISTER_RES_CNT_CRC_CH2 0x05
 
@@ -83,9 +83,9 @@ typedef union {
         uint8_t counter_ch2 : 4;
         uint8_t crc_ch2 : 4;
     };
-    uint8_t byte;
+    uint16_t word;
 
-} opt4048_res_cnt_crc_ch2_reg_t;
+} opt4048_reg_res_cnt_crc_ch2_t;
 
 #define SFE_OPT4048_REGISTER_EXP_RES_CH3 0x06
 
@@ -96,9 +96,9 @@ typedef union {
         uint8_t exponent_ch3 : 4;
         uint16_t result_msb_ch3 : 12;
     };
-    uint16_t byte;
+    uint16_t word;
 
-} opt4048_exp_res_ch3_reg_t;
+} opt4048_reg_exp_res_ch3_t;
 
 #define SFE_OPT4048_REGISTER_RES_CNT_CRC_CH3 0x07
 
@@ -110,9 +110,9 @@ typedef union {
         uint8_t counter_ch3 : 4;
         uint8_t crc_ch3 : 4;
     };
-    uint8_t byte;
+    uint8_t word;
 
-} opt4048_res_cnt_crc_ch3_reg_t;
+} opt4048_reg_res_cnt_crc_ch3_t;
 
 #define SFE_OPT4048_REGISTER_THRESH_H_EXP_RES 0x08
 
@@ -123,9 +123,9 @@ typedef union {
         uint8_t thresh_exp : 4;
         uint16_t thresh_result : 12;
     };
-    uint16_t byte;
+    uint16_t word;
 
-} opt4048_thresh_exp_res_reg_low_t;
+} opt4048_reg_thresh_exp_res_low_t;
 
 #define SFE_OPT4048_REGISTER_THRESH_L_EXP_RES 0x09
 
@@ -136,9 +136,9 @@ typedef union {
         uint8_t thresh_exp : 4;
         uint16_t thresh_result : 12;
     };
-    uint16_t byte;
+    uint16_t word;
 
-} opt4048_thresh_exp_res_reg_high_t;
+} opt4048_reg_thresh_exp_res_high_t;
 
 /// @brief OPT4048 Register that controls the main functions of the device.
 #define SFE_OPT4048_REGISTER_CONTROL 0x0A
@@ -148,15 +148,15 @@ typedef union {
     {
         uint8_t qwake : 1;
         uint8_t reserved : 1;
-        uint8_t range : 1;
-        uint8_t converstion_time : 1;
-        uint8_t op_mode : 1;
+        uint8_t range : 4;
+        uint8_t converstion_time : 4;
+        uint8_t op_mode : 2;
         uint8_t latch : 1;
         uint8_t int_pol : 1;
-        uint8_t fault_count : 1;
+        uint8_t fault_count : 2;
     };
-    uint8_t byte;
-} opt4048_control_reg_t;
+    uint16_t word;
+} opt4048_reg_control_t;
 
 /// @brief OPT4048 Register with settings for the interrupt pin.
 #define SFE_OPT4048_REGISTER_INT_CONTROL 0x0B
@@ -170,9 +170,9 @@ typedef union {
         uint8_t reserved : 1;
         uint8_t i2c_burst : 1;
     };
-    uint8_t byte;
+    uint16_t word;
 
-} opt4048_int_control_t;
+} opt4048_reg_int_control_t;
 
 #define SFE_OPT4048_REGISTER_FLAGS 0x0C
 
@@ -186,9 +186,9 @@ typedef union {
         uint8_t flag_high : 1;
         uint8_t flag_low : 1;
     };
-    uint16_t byte;
+    uint16_t word;
 
-} opt4048_flags_t;
+} opt4048_reg_flags_t;
 
 #define SFE_OPT4048_REGISTER_DEVICE_ID 0x0D
 
@@ -200,8 +200,8 @@ typedef union {
         uint8_t DIDL : 2;
         uint16_t DIDH : 12;
     };
-    uint16_t byte; 
+    uint16_t word; 
 
-} opt4048_device_id_t;
+} opt4048_reg_device_id_t;
 
 #endif
