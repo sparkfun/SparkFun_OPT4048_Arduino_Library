@@ -6,7 +6,6 @@
 #define OPT4048_ADDR_SDA 0x46
 #define OPT4048_ADDR_SCL 0x45
 
-
 /// @brief OPT4048 Register for Exponent and Result (MSB) for Channel 0
 #define SFE_OPT4048_REGISTER_EXP_RES_CH0 0x00
 typedef union {
@@ -187,7 +186,7 @@ typedef union {
         uint8_t DIDL : 2;
         uint16_t DIDH : 12;
     };
-    uint16_t word; 
+    uint16_t word;
 
 } opt4048_reg_device_id_t;
 
