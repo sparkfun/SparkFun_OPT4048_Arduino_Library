@@ -40,8 +40,8 @@ uint16_t QwOpt4048::getUniqueId()
 
     retVal = readRegisterRegion(SFE_OPT4048_REGISTER_DEVICE_ID, buff);
 
-    uniqueId = buff[0] << 8;
-    uniqueId |= buff[1];
+    uniqueId = buff[1] << 8;
+    uniqueId |= buff[0];
 
     if (retVal != 0)
         return 0;
@@ -107,13 +107,13 @@ bool QwOpt4048::setRange(opt4048_range_t range)
     if (retVal != 0)
         return false;
 
-    controlReg.word = buff[0] << 8;
-    controlReg.word |= buff[1];
+    controlReg.word = buff[1] << 8;
+    controlReg.word |= buff[0];
 
     controlReg.range = range;
 
-    buff[0] = controlReg >> 8;
-    buff[1] = controlReg;
+    buff[1] = controlReg >> 8;
+    buff[0] = controlReg;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, &range);
 
@@ -150,13 +150,13 @@ bool QwOpt4048::setConversionTime(opt4048_conversion_time_t time)
     if (retVal != 0)
         return false;
 
-    controlReg.word = buff[0] << 8;
-    controlReg.word |= buff[1];
+    controlReg.word = buff[1] << 8;
+    controlReg.word |= buff[0];
 
     controlReg.conversionTime = time;
 
-    buff[0] = controlReg >> 8;
-    buff[1] = controlReg;
+    buff[1] = controlReg >> 8;
+    buff[0] = controlReg;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
@@ -180,13 +180,13 @@ bool QwOPT4048::enableQwake(bool enable)
     if (retVal != 0)
         return false;
 
-    controlReg.word = buff[0] << 8;
-    controlReg.word |= buff[1];
+    controlReg.word = buff[1] << 8;
+    controlReg.word |= buff[0];
 
     controlReg.qwakeEnable = (uint8_t)enable;
 
-    buff[0] = controlReg.word >> 8;
-    buff[1] = controlReg.word;
+    buff[1] = controlReg.word >> 8;
+    buff[0] = controlReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
@@ -214,13 +214,13 @@ bool QwOPT4048::setOperationMode(opt4048_operation_mode_t mode)
     if (retVal != 0)
         return false;
 
-    controlReg.word = buff[0] << 8;
-    controlReg.word |= buff[1];
+    controlReg.word = buff[1] << 8;
+    controlReg.word |= buff[0];
 
     controlReg.operationMode = mode;
 
-    buff[0] = controlReg.word >> 8;
-    buff[1] = controlReg.word;
+    buff[1] = controlReg.word >> 8;
+    buff[0] = controlReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
@@ -244,13 +244,13 @@ bool QwOPT4048::enableIntLatch(bool enable)
     if (retVal != 0)
         return false;
 
-    controlReg.word = buff[0] << 8;
-    controlReg.word |= buff[1];
+    controlReg.word = buff[1] << 8;
+    controlReg.word |= buff[0];
 
     controlReg.latch = (uint8_t)enable;
 
-    buff[0] = controlReg.word >> 8;
-    buff[1] = controlReg.word;
+    buff[1] = controlReg.word >> 8;
+    buff[0] = controlReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
@@ -274,17 +274,168 @@ bool QwOPT4048::enableIntActiveHigh(bool enable)
     if (retVal != 0)
         return false;
 
-    intReg.word = buff[0] << 8;
-    intReg.word |= buff[1];
+    intReg.word = buff[1] << 8;
+    intReg.word |= buff[0];
 
     intReg.int_pol = (uint8_t)enable;
 
-    buff[0] = intReg.word >> 8;
-    buff[1] = intReg.word;
+    buff[1] = intReg.word >> 8;
+    buff[0] = intReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
 
     if (retVal != 0)
+        return false;
+
+    return true;
+}
+
+/// @brief Changes the behavior of the interrupt pin to be an INPUT to trigger
+/// single shot. 
+/// @param enable True to enable, false to disable.
+/// @return True on successful execution.
+bool QwOPT4048::enableIntInput(bool enable)
+{
+    uint8_t buff[2];
+    int32_t retVal;
+    opt4048_reg_control_t intReg;
+
+    retVal = readRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
+
+    if (retVal != 0)
+        return false;
+
+    intReg.word = buff[1] << 8;
+    intReg.word |= buff[0];
+
+    intReg.int_dir = (uint8_t)enable;
+
+    buff[1] = intReg.word >> 8;
+    buff[0] = intReg.word;
+
+    retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
+
+    if (retVal != 0)
+        return false;
+
+    return true;
+}
+
+/// @brief Changes the behavior interrupt mechanism after the end of conversion
+/// @param mechanism The mechanism to set
+/// @return True on successful execution.
+bool QwOPT4048::enableIntMechanism(opt4048_mechanism_t mechanism)
+{
+    uint8_t buff[2];
+    int32_t retVal;
+    opt4048_reg_control_t intReg;
+
+    retVal = readRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
+
+    if (retVal != 0)
+        return false;
+
+    intReg.word = buff[1] << 8;
+    intReg.word |= buff[0];
+
+    intReg.int_cfg = mechanism;
+
+    buff[1] = intReg.word >> 8;
+    buff[0] = intReg.word;
+
+    retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
+
+    if (retVal != 0)
+        return false;
+
+    return true;
+}
+
+/// @brief Sets the flag.
+/// @param flag The flag to set
+/// @return True on successful execution.
+bool QwOPT4048::setFlag(opt4048_reg_control_t flag)
+{
+    uint8_t buff[2];
+    int32_t retVal;
+    opt4048_reg_control_t flagReg;
+
+    retVal = readRegisterRegion(SFE_OPT4048_REGISTER_FLAGS, buff);
+
+    if (retVal != 0)
+        return false;
+
+    flagReg.word = buff[1] << 8;
+    flagReg.word |= buff[0];
+    
+    flagReg.word |= flag; 
+
+    buff[1] = flagReg.word >> 8;
+    buff[0] = flagReg.word;
+
+    retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_FLAGS, buff);
+
+    if (retVal != 0)
+        return false;
+
+    return true;
+}
+
+/// @brief Enables the overload flag
+/// @param enable True to enable, false to disable.
+/// @return True on successful execution. 
+bool QwOPT4048::enableOverloadFlag(bool enable)
+{
+    opt4048_reg_control_t flagReg;
+
+    flagReg.overload_flag = 1; 
+
+    if(!setFlag(flagReg))
+        return false;
+
+    return true;
+}
+
+/// @brief Enables the conversion ready flag
+/// @param enable True to enable, false to disable.
+/// @return True on successful execution. 
+bool QwOPT4048::enableOverloadFlag(bool enable)
+{
+    opt4048_reg_control_t flagReg;
+
+    flagReg.conv_ready_flag = 1; 
+
+    if(!setFlag(flagReg))
+        return false;
+
+    return true;
+}
+
+/// @brief Enables the flag high flag
+/// @param enable True to enable, false to disable.
+/// @return True on successful execution. 
+bool QwOPT4048::enableTooBrightFlag(bool enable)
+{
+    opt4048_reg_control_t flagReg;
+
+    flagReg.flag_high = 1; 
+
+    if(!setFlag(flagReg))
+        return false;
+
+    return true;
+}
+
+/// @brief Enables the flag low flag
+/// @param enable True to enable, false to disable.
+/// @return True on successful execution. 
+bool QwOPT4048::enableTooDimFlag(bool enable)
+{
+    opt4048_reg_control_t flagReg;
+
+    flagReg.flag_low = 1; 
+
+    if(!setFlag(flagReg))
         return false;
 
     return true;
@@ -308,13 +459,13 @@ bool QwOPT4048::setFaultCount(opt4048_fault_count_t count)
     if (retVal != 0)
         return false;
 
-    controlReg.word = buff[0] << 8;
-    controlReg.word |= buff[1];
+    controlReg.word = buff[1] << 8;
+    controlReg.word |= buff[0];
 
     controlReg.fault_count = count;
 
-    buff[0] = controlReg.word >> 8;
-    buff[1] = controlReg.word;
+    buff[1] = controlReg.word >> 8;
+    buff[0] = controlReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
@@ -343,13 +494,13 @@ bool QwOPT4048::setThresholdChannel(opt4048_threshold_channel_t channel)
     if (retVal != 0)
         return false;
 
-    intReg.word = buff[0] << 8;
-    intReg.word |= buff[1];
+    intReg.word = buff[1] << 8;
+    intReg.word |= buff[0];
 
     intReg.threshold_ch_sel = channel;
 
-    buff[0] = intReg.word >> 8;
-    buff[1] = intReg.word;
+    buff[1] = intReg.word >> 8;
+    buff[0] = intReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
 
@@ -373,13 +524,13 @@ bool QwOPT4048::enableI2CBurst(bool enable)
     if (retVal != 0)
         return false;
 
-    intReg.word = buff[0] << 8;
-    intReg.word |= buff[1];
+    intReg.word = buff[1] << 8;
+    intReg.word |= buff[0];
 
     intReg.i2c_burst = (uint8_t)enable;
 
-    buff[0] = intReg.word >> 8;
-    buff[1] = intReg.word;
+    buff[1] = intReg.word >> 8;
+    buff[0] = intReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
 
@@ -388,3 +539,13 @@ bool QwOPT4048::enableI2CBurst(bool enable)
 
     return true;
 }
+
+/// @brief Enable CRC for ADC calues
+/// @param enable True to enable, false to disable.
+/// @return True on successful execution. 
+bool QwOPT4048::enableCRC(bool enable)
+{
+    crcEnabled = true;  
+}
+
+

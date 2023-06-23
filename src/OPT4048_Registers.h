@@ -153,7 +153,7 @@ typedef union {
     struct
     {
         uint8_t threshold_ch_sel : 8;
-        uint8_t int_dir : 2;
+        uint8_t int_dir : 1;
         uint8_t int_cfg : 2;
         uint8_t reserved : 1;
         uint8_t i2c_burst : 1;
@@ -168,8 +168,8 @@ typedef union {
     struct
     {
         uint16_t reserved : 12;
-        uint8_t overload_flag : 2;
-        uint8_t conv_ready_flag : 2;
+        uint8_t overload_flag : 1;
+        uint8_t conv_ready_flag : 1;
         uint8_t flag_high : 1;
         uint8_t flag_low : 1;
     };

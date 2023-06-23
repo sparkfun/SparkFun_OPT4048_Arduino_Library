@@ -122,7 +122,8 @@ class QwOpt4048
     typedef enum
     {
         INT_SMBUS_ALERT = 0x00,
-        INT_DR_NEXT_CHANNEL INT_DR_ALL_CHANNELS = 0x03
+        INT_DR_NEXT_CHANNEL, 
+        INT_DR_ALL_CHANNELS = 0x03
     } opt4048_mechanism_t;
     bool setIntMechanism(opt4048_mechanism_t mechanism);
     uint8_t getIntMechanism();
@@ -130,13 +131,7 @@ class QwOpt4048
     bool enableI2CBurst(bool enable);
     bool getI2CBurst();
 
-    typedef enum
-    {
-        FLAG_LOW = 0x00,
-        FLAG_HIGH,
-        CONVERSION_READY_FLAG,
-        OVERLOAD_FLAG
-    } opt4048_flags_t bool setFlag(opt4048_flags_t flag);
+    bool setFlag(opt4048_flags_t flag);
     uint8_t getFlag();
 
     bool enableOverloadFlag(bool enable);
