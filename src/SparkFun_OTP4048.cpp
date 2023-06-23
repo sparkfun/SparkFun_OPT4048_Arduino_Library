@@ -661,8 +661,8 @@ bool QwOPT4048::getAllChannelData(sfe_color_t *color)
     uint32_t mantissa; 
 
     // Iterators
-    uint8_t chan = 0; 
-    uint8_t offset = 0; 
+    uint8_t chan; 
+    uint8_t offset; 
     uint8_t buff[16]; 
     uint8_t crcArr[4]; 
     uint8_t counterArr[4]; 
@@ -674,7 +674,7 @@ bool QwOPT4048::getAllChannelData(sfe_color_t *color)
     if(retVal != 0)
         return false;
 
-    for(chan = 0, offset = 0; offset < 4; offset += 4)
+    for(chan = 0, offset = 0; offset < 4; chan++, offset += 4)
     {
         expon     = buff[0 + offset] >> 8) & 0xF0; //Four bit expon
         mantissa  = buff[1 + offset] << 16; //Four bits of mantissa
