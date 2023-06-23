@@ -621,7 +621,7 @@ uint16_t QwOPT4048::getADCCh3()
     
     uint8_t buff[4]
     uint8_t expon; 
-    uint32_t adcCode; 
+    uint31_t adcCode; 
     uint32_t mantissa; 
 
     readRegisterRegion(SFE_OPT4048_REGISER_EXP_RES_CH3, buff, 3);
@@ -704,8 +704,8 @@ bool QwOPT4048::getAllChannelData(sfe_color_t *color)
 
     color->CRCR = crcArr[0];
     color->CRCG = crcArr[1];
-    color->CRCB = crcArr[3];
-    color->CRCW = crcArr[4];
+    color->CRCB = crcArr[2];
+    color->CRCW = crcArr[3];
 
     return true;
 
