@@ -548,4 +548,192 @@ bool QwOPT4048::enableCRC(bool enable)
     crcEnabled = true;  
 }
 
+/// @brief Reads Channel Zero (Red) 
+/// @return Returns the ADC value of Channel Zero
+uint16_t QwOPT4048::getADCCh0()
+{
+    uint8_t buff[2]
+    uint8_t expon; 
+    uint32_t adcCode; 
+    uint32_t mantissa; 
 
+    readRegisterRegion(SFE_OPT4048_REGISER_EXP_RES_CH0, buff);
+
+    expon = buff[0] >> 8) & 0xF0; //Four bit expon
+    mantissa = buff[1] << 16; //Four bits of mantissa
+    mantissa |= buff[0] << 8; //8 more bits of mantissa 
+    mantissa |= buff[3]; //8 more bits of mantissa - 20 total.
+    
+    adcCode = mantissa << expon;
+
+    return adcCode; 
+}
+
+
+/// @brief Reads Channel One (Green) 
+/// @return Returns the ADC value of Channel One
+uint16_t QwOPT4048::getADCCh1()
+{
+    
+    uint8_t buff[2]
+    uint8_t expon; 
+    uint32_t adcCode; 
+    uint32_t mantissa; 
+
+    readRegisterRegion(SFE_OPT4048_REGISER_EXP_RES_CH1, buff);
+
+    expon = buff[0] >> 8) & 0xF0; //Four bit expon
+    mantissa = buff[1] << 16; //Four bits of mantissa
+    mantissa |= buff[0] << 8; //8 more bits of mantissa 
+    mantissa |= buff[3]; //8 more bits of mantissa - 20 total.
+    
+    adcCode = mantissa << expon;
+
+    return adcCode; 
+}
+
+/// @brief Reads Channel Two (Blue) 
+/// @return Returns the ADC value of Channel Two
+uint16_t QwOPT4048::getADCCh2()
+{
+    
+    uint8_t buff[2]
+    uint8_t expon; 
+    uint32_t adcCode; 
+    uint32_t mantissa; 
+
+    readRegisterRegion(SFE_OPT4048_REGISER_EXP_RES_CH2, buff);
+
+    expon = buff[0] >> 8) & 0xF0; //Four bit expon
+    mantissa = buff[1] << 16; //Four bits of mantissa
+    mantissa |= buff[0] << 8; //8 more bits of mantissa 
+    mantissa |= buff[3]; //8 more bits of mantissa - 20 total.
+    
+    adcCode = mantissa << expon;
+
+    return adcCode; 
+}
+
+/// @brief Reads Channel Three (White) 
+/// @return Returns the ADC value of Channel Three
+uint16_t QwOPT4048::getADCCh3()
+{
+    
+    uint8_t buff[4]
+    uint8_t expon; 
+    uint32_t adcCode; 
+    uint32_t mantissa; 
+
+    readRegisterRegion(SFE_OPT4048_REGISER_EXP_RES_CH3, buff, 3);
+
+    expon = buff[0] >> 8) & 0xF0; //Four bit expon
+    mantissa = buff[1] << 16; //Four bits of mantissa
+    mantissa |= buff[0] << 8; //8 more bits of mantissa 
+    mantissa |= buff[3]; //8 more bits of mantissa - 20 total.
+    
+    adcCode = mantissa << expon;
+
+    return adcCode; 
+}
+
+/// @brief Retrieves all ADC values for all channels: Red, Green, Blue, and White. 
+/// @return Returns the ADC value of Channel Three
+sfe_color_t QwOPT4048::getAllChannels()
+{
+    
+    sfe_color_t color;
+    
+    sfe_color_t.red = getADCCh0();
+    sfe_color_t.green = getADCCh1();
+    sfe_color_t.blue = getADCCh2();
+    sfe_color_t.white = getADCCh3();
+
+    return color;
+
+}
+
+bool QwOPT4048::getAllChannelData(sfe_color_t *color)
+{
+    uint8_t expon; 
+    uint8_t crc; 
+    int32_t retVal;  
+    uint32_t adcCode; 
+    uint32_t mantissa; 
+
+    // Iterators
+    uint8_t chan = 0; 
+    uint8_t offset = 0; 
+    uint8_t buff[16]; 
+    uint8_t crcArr[4]; 
+    uint8_t counterArr[4]; 
+    uint32_t adcArr[4]; 
+    
+
+    retVal = readRegisterRegion(SFE_OPT4048_REGISER_EXP_RES_CH0, buff, 16);
+
+    if(retVal != 0)
+        return false;
+
+    for(chan = 0, offset = 0; offset < 4; offset += 4)
+    {
+        expon     = buff[0 + offset] >> 8) & 0xF0; //Four bit expon
+        mantissa  = buff[1 + offset] << 16; //Four bits of mantissa
+        mantissa |= buff[0 + offset] << 8; //8 more bits of mantissa 
+        mantissa |= buff[3 + offset]; //8 more bits of mantissa - 20 total.
+        crc       = buff[2 + offset] & 0x0F; 
+        counterArr[chan] = buff[2] >> 4; 
+        adcArr[chan]     = mantissa << expon; 
+
+        if(crcEnabled = true)
+        {
+            crcArr[chan] = calculateCRC(mantissa, expon, crc)
+        }
+        
+        chan++;
+    }
+
+    color->red = adcArr[0];
+    color->green = adcArr[1];
+    color->blue = adcArr[2];
+    color->white = adcArr[3];
+
+    color->counterR = counterArr[0];
+    color->counterG = counterArr[1];
+    color->counterR = counterArr[2];
+    color->counterR = counterArr[3];
+
+    color->CRCR = crcArr[0];
+    color->CRCG = crcArr[1];
+    color->CRCB = crcArr[3];
+    color->CRCW = crcArr[4];
+
+    return true;
+
+}
+
+
+uint8_t QwOPT4048::calculateCRC(uint32_t manitssa, uint8_t expon, uint8_t crc)
+{
+
+    mantissaBits mBits = mantissa; 
+    exponBits exBits = expon;
+    crcBits cBits = crc; 
+    crcBits compareAgains; 
+
+    compareAgainst.bit0 = expon XOR mantissa XOR cBits.byte;
+
+    compareAgainst.bit1 = cBits.bit1 XOR cBits.bit3 XOR mBits.bit1 XOR mbits.bit3\
+                            XOR mbits.bit5 XOR mbits.bit7 XOR mbits.bit9 XOR mbits.bit11\
+                            XOR mbits.bit13 XOR mbits.bit15 XOR mbits.bit17 XOR mbits.bit19\
+                            XOR exBits.bit1 XOR exBits.bit3;
+
+    compareAgainst.bit2 = cBits.bit3 XOR mbits.bit3 XOR mbits.bit7 XOR mbits.bit11\ 
+                            XOR mbits.bit16 XOR mbits.bit18 XOR exBits.bit3;
+
+    compareAgainst.bit3 = mbits.bit3 XOR mbits.bit11 XOR mbits.bit19;
+
+    if(compareAgainst.byte == crc)
+        return 1; 
+
+    return 0; 
+}

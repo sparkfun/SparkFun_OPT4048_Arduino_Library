@@ -4,14 +4,72 @@
 
 typedef struct
 {
-    uint32_t x;
-    uint32_t y;
-    uint32_t z;
-    uint32_t l;
-    uint8_t counter; // Sample counter
-    uint8_t CRC;
+    uint32_t red;
+    uint32_t green;
+    uint32_t blue;
+    uint32_t white;
+    uint8_t counterR; // Sample counter
+    uint8_t counterG; // Sample counter
+    uint8_t counterB; // Sample counter
+    uint8_t counterW; // Sample counter
+    uint8_t CRCR;
+    uint8_t CRCG;
+    uint8_t CRCB;
+    uint8_t CRCW;
 
 } sfe_color_t;
+
+union crcBits
+{
+    struct 
+    {
+        uint8_t bit0 : 1; 
+        uint8_t bit1 : 1; 
+        uint8_t bit2 : 1; 
+        uint8_t bit3 : 1; 
+    }; 
+    uint8_t byte; 
+};
+
+union exponBits
+{
+    struct 
+    {
+        uint8_t bit0 : 1; 
+        uint8_t bit1 : 1; 
+        uint8_t bit2 : 1; 
+        uint8_t bit3 : 1; 
+    }; 
+    uint8_t byte; 
+};
+
+union mantissaBits
+{
+    struct 
+    {
+        uint8_t bit0 : 1; 
+        uint8_t bit1 : 1; 
+        uint8_t bit2 : 1; 
+        uint8_t bit3 : 1; 
+        uint8_t bit4 : 1; 
+        uint8_t bit5 : 1; 
+        uint8_t bit6 : 1; 
+        uint8_t bit7 : 1; 
+        uint8_t bit8 : 1; 
+        uint8_t bit9 : 1; 
+        uint8_t bit10 : 1; 
+        uint8_t bit11 : 1; 
+        uint8_t bit12 : 1; 
+        uint8_t bit13 : 1; 
+        uint8_t bit14 : 1; 
+        uint8_t bit15 : 1; 
+        uint8_t bit16 : 1; 
+        uint8_t bit17 : 1; 
+        uint8_t bit18 : 1; 
+        uint8_t bit19 : 1; 
+    }; 
+    uint32_t word; 
+};
 
 #define OPT4048_ERROR_NONE 0
 #define OPT4048_ERROR_I2C -1
@@ -145,9 +203,9 @@ class QwOpt4048
     uint32_t getADCCh2();
     uint32_t getADCCh3();
     sfe_color_t getAllChannels();
+    uint8_t calculateCRC(uint32_t manitssa, uint8_t expon, uint8_t crc);
 
     uint32_t getLux();
-
     uint32_t getCIEx();
     uint32_t getCIEy();
 
