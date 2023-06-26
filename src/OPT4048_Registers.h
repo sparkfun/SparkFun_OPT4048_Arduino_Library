@@ -1,10 +1,12 @@
 #pragma once
 #include "Arduino.h"
 
-#define OPT4048_ADDR_HIGH 0x45 // Default
-#define OPT4048_ADDR_LOW 0x44
+#define OPT4048_ADDR_HIGH 0x45 
+#define OPT4048_ADDR_LOW 0x44 // DEFAULT
 #define OPT4048_ADDR_SDA 0x46
 #define OPT4048_ADDR_SCL 0x45
+
+#define OPT4048_DEVICE_ID 0x2108
 
 /// @brief OPT4048 Register for Exponent and Result (MSB) for Channel 0
 #define SFE_OPT4048_REGISTER_EXP_RES_CH0 0x00

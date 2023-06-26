@@ -29,7 +29,7 @@ class SparkFun_OPT4048 : public QwOpt4048
     //
     // Version 1:
     // User skips passing in an I2C object which then defaults to Wire.
-    bool begin(uint8_t deviceAddress = OPT4048_ADDR_HIGH)
+    bool begin(uint8_t deviceAddress = OPT4048_ADDR_LOW)
     {
         // Setup  I2C object and pass into the superclass
         setCommunicationBus(_i2cBus, deviceAddress);
@@ -43,7 +43,7 @@ class SparkFun_OPT4048 : public QwOpt4048
 
     // Version 2:
     // User passes in an I2C object and an address (optional).
-    bool begin(TwoWire &wirePort, uint8_t deviceAddress = OPT4048_ADDR_HIGH)
+    bool begin(TwoWire &wirePort, uint8_t deviceAddress = OPT4048_ADDR_LOW)
     {
         // Setup  I2C object and pass into the superclass
         setCommunicationBus(_i2cBus, deviceAddress);

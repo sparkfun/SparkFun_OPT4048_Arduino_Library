@@ -38,6 +38,9 @@ uint16_t QwOpt4048::getDeviceID()
     uniqueId = buff[1] << 8;
     uniqueId |= buff[0];
 
+    Serial.print("Unique ID: 0x");
+    Serial.println(uniqueId, HEX);
+
     if (retVal != 0)
         return 0;
 
