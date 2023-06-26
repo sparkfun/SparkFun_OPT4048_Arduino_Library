@@ -3,11 +3,11 @@
 #include "sfe_opt4048.h"
 #include <Wire.h>
 
-class SparkFun_opt4048 : public QwOpt4048
+class SparkFun_OPT4048 : public QwOpt4048
 {
 
   public:
-    SparkFun_opt4048(){};
+    SparkFun_OPT4048(){};
 
     ///////////////////////////////////////////////////////////////////////
     // begin()
@@ -38,7 +38,7 @@ class SparkFun_opt4048 : public QwOpt4048
         _i2cBus.init();
 
         // Initialize the system - return results
-        return this->QwDevopt4048::init();
+        return this->QwOpt4048::init();
     }
 
     // Version 2:
@@ -52,11 +52,10 @@ class SparkFun_opt4048 : public QwOpt4048
         _i2cBus.init(wirePort, true);
 
         // Initialize the system - return results
-        return this->QwOpt4048:init();
+        return this->QwOpt4048::init();
     }
 
   private:
     // I2C bus class
-    sfe_opt4048::QwI2C _i2cBus;
+    sfe_OPT4048::QwI2C _i2cBus;
 };
-

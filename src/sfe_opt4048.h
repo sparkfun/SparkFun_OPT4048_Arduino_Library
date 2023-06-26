@@ -1,3 +1,4 @@
+#pragma once
 #include "OPT4048_Registers.h"
 #include "sfe_bus.h"
 #include <Math.h>
@@ -85,18 +86,18 @@ typedef union {
 class QwOpt4048
 {
   public:
-    QwOpt4048() : _i2cAddress{0}, _i2cPort{nullptr} {};
+
+    QwOpt4048() : _i2cAddress{0}  {};
 
     bool init();
     bool isConnected();
-    // Hold off on this
-    int8_t getErrorCode();
     uint16_t getDeviceID();
 
-    void setCommunicationBus(sfe_OPT4048::QwDeviceBus *theBus, uint8_t i2cAddress);
+    void setCommunicationBus(sfe_OPT4048::QwDeviceBus &theBus, uint8_t i2cAddress);
+    void setCommunicationBus(sfe_OPT4048::QwDeviceBus &theBus);
 
-    int32_t writeRegisterRegion(uint8_t address, uint8_t offset, const uint8_t *data, uint16_t length = 2);
-    int32_t readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t *data, uint16_t numBytes = 2);
+    int32_t writeRegisterRegion(uint8_t offset, uint8_t *data, uint16_t length = 2);
+    int32_t readRegisterRegion(uint8_t offset, uint8_t *data, uint16_t numBytes = 2);
 
     ///////////////////////////////////////////////////////////////////Device Settings
 
@@ -176,7 +177,7 @@ class QwOpt4048
     uint16_t getThresholdHigh();
     uint16_t getThresholdLow();
 
-    bool enableCRC(bool enable);
+    void enableCRC(bool enable);
 
     ///////////////////////////////////////////////////////////////////Interrupt Settings
     bool enableIntInput(bool enable);
@@ -194,7 +195,7 @@ class QwOpt4048
     bool enableI2CBurst(bool enable);
     bool getI2CBurst();
 
-    bool setFlag(opt4048_flags_t flag);
+    bool setFlag(opt4048_reg_control_t flag);
     uint8_t getFlag();
 
     bool enableOverloadFlag(bool enable);

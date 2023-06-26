@@ -1,5 +1,5 @@
-#ifndef SFE_OT4048_REGS_H
-#define SFE_OT4048_REGS_H
+#pragma once
+#include "Arduino.h"
 
 #define OPT4048_ADDR_HIGH 0x45 // Default
 #define OPT4048_ADDR_LOW 0x44
@@ -138,7 +138,7 @@ typedef union {
         uint8_t qwake : 1;
         uint8_t reserved : 1;
         uint8_t range : 4;
-        uint8_t converstion_time : 4;
+        uint8_t conversion_time : 4;
         uint8_t op_mode : 2;
         uint8_t latch : 1;
         uint8_t int_pol : 1;
@@ -190,4 +190,3 @@ typedef union {
 
 } opt4048_reg_device_id_t;
 
-#endif

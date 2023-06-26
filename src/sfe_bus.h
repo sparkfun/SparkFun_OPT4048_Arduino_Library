@@ -6,13 +6,13 @@
 //
 // Do you like this library? Help support SparkFun. Buy a board!
 //
-// SparkFun Tristimulus Color Sensor - OPT4048        
+// SparkFun Tristimulus Color Sensor - OPT4048
 // 	Qwiic 1x1
 //		* https://www.sparkfun.com/products/
 //	Qwiic Mini
 //		* https://www.sparkfun.com/products/
 //
-// Written by Elias Santistevan @ SparkFun Electronics, 
+// Written by Elias Santistevan @ SparkFun Electronics,
 //
 // Repository:
 //	    * https://github.com/sparkfun/SparkFun_OPT4048_Arduino_Library
@@ -44,47 +44,44 @@
 // The following classes specify the behavior for communicating
 // over the respective data buses: Inter-Integrated Circuit (I2C)
 // and Serial Peripheral Interface (SPI). For ease of implementation
-// an abstract interface (QwIDeviceBus) is used. 
+// an abstract interface (QwIDeviceBus) is used.
 
 #pragma once
 
-
-
 #include <Wire.h>
 
-namespace sfe_OPT4048 {
+namespace sfe_OPT4048
+{
 
 /// @brief This is an abstract interface for the I2C bus.
-class QwDeviceBus 
+class QwDeviceBus
 {
-	public: 
+  public:
+    virtual bool ping(uint8_t address) = 0;
 
-		virtual bool ping(uint8_t address) = 0;
+    virtual int writeRegisterRegion(uint8_t address, uint8_t offset, const uint8_t *data, uint16_t length) = 0;
 
-		virtual int writeRegisterRegion(uint8_t address, uint8_t offset, const uint8_t* data, uint16_t length) = 0;
-
-		virtual int readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t* data, uint16_t numBytes) = 0;
-
+    virtual int readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t *data, uint16_t numBytes) = 0;
 };
 
 /// @brief This class implements the I2C interface for the OPT4048
 class QwI2C : public QwDeviceBus
 {
-	public: 
+  public:
+    QwI2C(void);
 
-		QwI2C(void);
+    bool init();
 
-		bool init();
+    bool init(TwoWire &wirePort, bool bInit = false);
 
-		bool init(TwoWire& wirePort, bool bInit=false);
+    bool ping(uint8_t address);
 
-		bool ping(uint8_t address);
+    int writeRegisterRegion(uint8_t address, uint8_t offset, const uint8_t *data, uint16_t length);
 
-		int writeRegisterRegion(uint8_t address, uint8_t offset, const uint8_t* data, uint16_t length);
+    int readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t *data, uint16_t numBytes);
 
-		int readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t* data, uint16_t numBytes);
-
-	private: 
-
-    TwoWire* _i2cPort;
+  private:
+    TwoWire *_i2cPort;
 };
+
+} // namespace sfe_OPT4048

@@ -1,4 +1,4 @@
-#include <SparkFun_OPT4048.h>
+#include "SparkFun_OPT4048.h"
 #include <Wire.h>
 
 void setup()
@@ -8,7 +8,7 @@ void setup()
 
     Wire.begin();
 
-    QwOpt4048 myColor;
+    SparkFun_OPT4048 myColor;
 
     if (!myColor.begin())
     {
@@ -19,4 +19,5 @@ void setup()
 
 void loop()
 {
+
 }
