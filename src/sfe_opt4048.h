@@ -21,7 +21,7 @@ typedef struct
 
 } sfe_color_t;
 
-/// @brief  Union used to re-calculate the CRC for optional double check. 
+/// @brief  Union used to re-calculate the CRC for optional double check.
 typedef union {
     struct
     {
@@ -33,7 +33,7 @@ typedef union {
     uint8_t byte;
 } crcBits;
 
-/// @brief  Union used to re-calculate the CRC for optional double check. 
+/// @brief  Union used to re-calculate the CRC for optional double check.
 typedef union {
     struct
     {
@@ -45,7 +45,7 @@ typedef union {
     uint8_t byte;
 } exponBits;
 
-/// @brief  Union used to re-calculate the CRC for optional double check. 
+/// @brief  Union used to re-calculate the CRC for optional double check.
 typedef union {
     struct
     {
@@ -76,6 +76,7 @@ typedef union {
 #define OPT4048_ERROR_NONE 0
 #define OPT4048_ERROR_I2C -1
 #define OPT4048_ERROR_PARAM -2
+
 #define OPT_MATRIX_ROWS 4
 #define OPT_MATRIX_COLS 4
 
@@ -220,7 +221,7 @@ class QwOpt4048
     uint8_t _i2cAddress;
     bool crcEnabled = false;
 
-    // Table in 9.2.4 of Datasheet for calculating CIE x and y, and Lux. 
+    // Table in 9.2.4 of Datasheet for calculating CIE x and y, and Lux.
     const long double cieMatrix[OPT_MATRIX_ROWS][OPT_MATRIX_COLS] = {
         {pow(2.34802002, -4), pow(-1.89652390, -5), pow(1.20811684, -5), 0},
         {pow(4.07467441, -5), pow(1.98958202, -4), pow(-1.58848114, -5), pow(2.15, -3)},
