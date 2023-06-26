@@ -178,7 +178,7 @@ bool QwOpt4048::enableQwake(bool enable)
     controlReg.word = buff[1] << 8;
     controlReg.word |= buff[0];
 
-    controlReg.qwake= (uint8_t)enable;
+    controlReg.qwake = (uint8_t)enable;
 
     buff[1] = controlReg.word >> 8;
     buff[0] = controlReg.word;
@@ -349,7 +349,7 @@ bool QwOpt4048::setIntMechanism(opt4048_mechanism_t mechanism)
 /// @brief Sets the flag.
 /// @param flag The flag to set
 /// @return True on successful execution.
-bool QwOpt4048::setFlag(opt4048_reg_control_t flag)
+bool QwOpt4048::setFlag(opt4048_reg_flags_t flag)
 {
     uint8_t buff[2];
     int32_t retVal;
@@ -546,16 +546,17 @@ void QwOpt4048::enableCRC(bool enable)
 /// @return Returns the ADC value of Channel Zero
 uint32_t QwOpt4048::getADCCh0()
 {
-    uint8_t buff[2] uint8_t expon;
+    uint8_t buff[4];
+    uint8_t expon;
     uint32_t adcCode;
     uint32_t mantissa;
 
-    readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH0, buff);
+    readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH0, buff, 4);
 
-    expon = buff[0] >> 8) & 0xF0; //Four bit expon
-    mantissa = buff[1] << 16;     // Four bits of mantissa
-    mantissa |= buff[0] << 8;     // 8 more bits of mantissa
-    mantissa |= buff[3];          // 8 more bits of mantissa - 20 total.
+    expon = (buff[0] >> 8) & 0xF0; // Four bit expon
+    mantissa = buff[1] << 16;      // Four bits of mantissa
+    mantissa |= buff[0] << 8;      // 8 more bits of mantissa
+    mantissa |= buff[3];           // 8 more bits of mantissa - 20 total.
 
     adcCode = mantissa << expon;
 
@@ -567,17 +568,17 @@ uint32_t QwOpt4048::getADCCh0()
 uint32_t QwOpt4048::getADCCh1()
 {
 
-    uint8_t buff[2]; 
+    uint8_t buff[4];
     uint8_t expon;
     uint32_t adcCode;
     uint32_t mantissa;
 
-    readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH1, buff);
+    readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH1, buff, 4);
 
-    expon = buff[0] >> 8) & 0xF0; //Four bit expon
-    mantissa = buff[1] << 16;     // Four bits of mantissa
-    mantissa |= buff[0] << 8;     // 8 more bits of mantissa
-    mantissa |= buff[3];          // 8 more bits of mantissa - 20 total.
+    expon = buff[0] >> 8 & 0xF0; // Four bit expon
+    mantissa = buff[1] << 16;    // Four bits of mantissa
+    mantissa |= buff[0] << 8;    // 8 more bits of mantissa
+    mantissa |= buff[3];         // 8 more bits of mantissa - 20 total.
 
     adcCode = mantissa << expon;
 
@@ -589,17 +590,17 @@ uint32_t QwOpt4048::getADCCh1()
 uint32_t QwOpt4048::getADCCh2()
 {
 
-    uint8_t buff[2];
+    uint8_t buff[4];
     uint8_t expon;
     uint32_t adcCode;
     uint32_t mantissa;
 
-    readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH2, buff);
+    readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH2, buff, 4);
 
-    expon = (buff[0] >> 8) & 0xF0; //Four bit expon
-    mantissa = buff[1] << 16;     // Four bits of mantissa
-    mantissa |= buff[0] << 8;     // 8 more bits of mantissa
-    mantissa |= buff[3];          // 8 more bits of mantissa - 20 total.
+    expon = (buff[0] >> 8) & 0xF0; // Four bit expon
+    mantissa = buff[1] << 16;      // Four bits of mantissa
+    mantissa |= buff[0] << 8;      // 8 more bits of mantissa
+    mantissa |= buff[3];           // 8 more bits of mantissa - 20 total.
 
     adcCode = mantissa << expon;
 
@@ -616,12 +617,12 @@ uint32_t QwOpt4048::getADCCh3()
     uint32_t adcCode;
     uint32_t mantissa;
 
-    readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH3, buff, 3);
+    readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH3, buff, 4);
 
-    expon = (buff[0] >> 8) & 0xF0; //Four bit expon
-    mantissa = buff[1] << 16;     // Four bits of mantissa
-    mantissa |= buff[0] << 8;     // 8 more bits of mantissa
-    mantissa |= buff[3];          // 8 more bits of mantissa - 20 total.
+    expon = (buff[0] >> 8) & 0xF0; // Four bit expon
+    mantissa = buff[1] << 16;      // Four bits of mantissa
+    mantissa |= buff[0] << 8;      // 8 more bits of mantissa
+    mantissa |= buff[3];           // 8 more bits of mantissa - 20 total.
 
     adcCode = mantissa << expon;
 
@@ -657,10 +658,10 @@ bool QwOpt4048::getAllChannelData(sfe_color_t *color)
     // Iterators
     uint8_t chan;
     uint8_t offset;
-    uint8_t buff[16];
-    uint8_t crcArr[4];
-    uint8_t counterArr[4];
-    uint32_t adcArr[4];
+    uint8_t buff[16]= {0};
+    uint8_t crcArr[4]= {0};
+    uint8_t counterArr[4]= {0};
+    uint32_t adcArr[4]= {0};
 
     retVal = readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH0, buff, 16);
 
@@ -669,17 +670,17 @@ bool QwOpt4048::getAllChannelData(sfe_color_t *color)
 
     for (chan = 0, offset = 0; offset < 4; chan++, offset += 4)
     {
-        expon     = buff[0 + offset] >> 8) & 0xF0; //Four bit expon
-        mantissa = buff[1 + offset] << 16;         // Four bits of mantissa
-        mantissa |= buff[0 + offset] << 8;         // 8 more bits of mantissa
-        mantissa |= buff[3 + offset];              // 8 more bits of mantissa - 20 total.
+        expon = (buff[0 + offset] >> 8) & 0xF0; // Four bit expon
+        mantissa = buff[1 + offset] << 16;      // Four bits of mantissa
+        mantissa |= buff[0 + offset] << 8;      // 8 more bits of mantissa
+        mantissa |= buff[3 + offset];           // 8 more bits of mantissa - 20 total.
         crc = buff[2 + offset] & 0x0F;
         counterArr[chan] = buff[2] >> 4;
         adcArr[chan] = mantissa << expon;
 
-        if (crcEnabled = true)
+        if (crcEnabled == true)
         {
-            crcArr[chan] = calculateCRC(mantissa, expon, crc)
+            crcArr[chan] = calculateCRC(mantissa, expon, crc);
         }
 
         chan++;
@@ -721,15 +722,16 @@ uint8_t QwOpt4048::calculateCRC(uint32_t mantissa, uint8_t expon, uint8_t crc)
     exBits.byte = expon;
     cBits.byte = crc;
 
-    compareAgainst.bit0 = expon XOR mantissa XOR cBits.byte;
+    compareAgainst.bit0 = exBits.byte xor mantissa xor cBits.byte;
 
-    compareAgainst.bit1 = cBits.bit1 XOR cBits.bit3 XOR mBits.bit1 XOR mbits.bit3 XOR mbits.bit5 XOR mbits.bit7 XOR mbits.bit9 XOR
-            mbits.bit11 XOR mbits.bit13 XOR mbits.bit15 XOR mbits.bit17 XOR mbits.bit19 XOR exBits.bit1 XOR exBits.bit3;
+    compareAgainst.bit1 =
+        cBits.bit1 xor cBits.bit3 xor mBits.bit1 xor mBits.bit3 xor mBits.bit5 xor mBits.bit7 xor mBits.bit9 xor
+        mBits.bit11 xor mBits.bit13 xor mBits.bit15 xor mBits.bit17 xor mBits.bit19 xor exBits.bit1 xor exBits.bit3;
 
-    compareAgainst.bit2 = cBits.bit3 XOR mbits.bit3 XOR mbits.bit7 XOR mbits.bit11 XOR
-            mbits.bit16 XOR mbits.bit18 XOR exBits.bit3;
+    compareAgainst.bit2 =
+        cBits.bit3 xor mBits.bit3 xor mBits.bit7 xor mBits.bit11 xor mBits.bit16 xor mBits.bit18 xor exBits.bit3;
 
-    compareAgainst.bit3 = mbits.bit3 XOR mbits.bit11 XOR mbits.bit19;
+    compareAgainst.bit3 = mBits.bit3 xor mBits.bit11 xor mBits.bit19;
 
     if (compareAgainst.byte == crc)
         return 1;
@@ -752,18 +754,17 @@ uint32_t QwOpt4048::getLux()
 
 /// @brief  Retrieves the CIE X value of the sensor.
 /// @return Returns the CIE X value of the sensor
-int32_t QwOpt4048::getCIEx()
+uint32_t QwOpt4048::getCIEx()
 {
-    int32_t retVal;
-    int32_t x;
-    int32_t y;
-    int32_t z;
-    int32_t CIEx;
+    int32_t x = 0;
+    int32_t y = 0;
+    int32_t z = 0;
+    uint32_t CIEx;
     sfe_color_t color;
 
-    retVal = getAllChannelData(&color);
+    getAllChannelData(&color);
 
-    for (int col = 0; i < OPT_MATRIX_COLS; col++)
+    for (int col = 0; col < OPT_MATRIX_COLS; col++)
     {
         x += color.red * cieMatrix[0][col];
         y += color.green * cieMatrix[1][col];
@@ -777,18 +778,17 @@ int32_t QwOpt4048::getCIEx()
 
 /// @brief Retrieves the CIE Y value of the sensor.
 /// @return Returns the CIE Y value of the sensor
-int32_t QwOpt4048::getCIEy()
+uint32_t QwOpt4048::getCIEy()
 {
-    int32_t retVal;
-    int32_t x;
-    int32_t y;
-    int32_t z;
-    int32_t CIEy;
+    int32_t x = 0;
+    int32_t y = 0;
+    int32_t z = 0;
+    uint32_t CIEy;
     sfe_color_t color;
 
-    retVal = getAllChannelData(&color);
+    getAllChannelData(&color);
 
-    for (int col = 0; i < OPT_MATRIX_COLS; col++)
+    for (int col = 0; col < OPT_MATRIX_COLS; col++)
     {
         x += color.red * cieMatrix[0][col];
         y += color.green * cieMatrix[1][col];
@@ -804,10 +804,9 @@ int32_t QwOpt4048::getCIEy()
 /// @return Returns the CCT of the sensor in Kelvin
 uint32_t QwOpt4048::getCCT()
 {
-    int32_t retVal;
-    int32_t CIEx;
-    int32_t CIEy;
-    int32_t CCT;
+    uint32_t CIEx;
+    uint32_t CIEy;
+    uint32_t CCT;
 
     CIEx = getCIEx();
     CIEy = getCIEy();

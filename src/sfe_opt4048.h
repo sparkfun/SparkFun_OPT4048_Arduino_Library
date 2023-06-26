@@ -195,7 +195,7 @@ class QwOpt4048
     bool enableI2CBurst(bool enable);
     bool getI2CBurst();
 
-    bool setFlag(opt4048_reg_control_t flag);
+    bool setFlag(opt4048_reg_flags_t flag);
     uint8_t getFlag();
 
     bool enableOverloadFlag(bool enable);
