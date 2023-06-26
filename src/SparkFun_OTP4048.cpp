@@ -637,7 +637,7 @@ uint16_t QwOPT4048::getADCCh3()
 }
 
 /// @brief Retrieves all ADC values for all channels: Red, Green, Blue, and White. 
-/// @return Returns the ADC value of Channel Three
+/// @return Returns the ADC values of the channels.
 sfe_color_t QwOPT4048::getAllChannels()
 {
     
@@ -652,6 +652,10 @@ sfe_color_t QwOPT4048::getAllChannels()
 
 }
 
+/// @brief Retrieves all ADC values for all channels: Red, Green, Blue, and White, as well as the sample counter, and 
+///        the CRC value.
+/// @param color Pointer to the color struct to be populated with the channels values. 
+/// @return Returns true on successful execution, false otherwise.
 bool QwOPT4048::getAllChannelData(sfe_color_t *color)
 {
     uint8_t expon; 
@@ -712,13 +716,19 @@ bool QwOPT4048::getAllChannelData(sfe_color_t *color)
 }
 
 
-uint8_t QwOPT4048::calculateCRC(uint32_t manitssa, uint8_t expon, uint8_t crc)
+/// @brief  Calculates the CRC for the OPT4048. Note that the OPT4048 does this already
+///         but this is a way to double check the value. 
+/// @param mantissa The mantissa value of the ADC 
+/// @param exponent The exponent value of the ADC 
+/// @param crc The CRC value of the ADC 
+/// @return Returns the calculated CRC value. 
+uint8_t QwOPT4048::calculateCRC(uint32_t mantissa, uint8_t expon, uint8_t crc)
 {
 
-    mantissaBits mBits = mantissa; 
-    exponBits exBits = expon;
-    crcBits cBits = crc; 
-    crcBits compareAgains; 
+    mantissaBits mBits.word = mantissa; 
+    exponBits exBits.byte = expon;
+    crcBits cBits.byte = crc; 
+    crcBits compareAgainst; 
 
     compareAgainst.bit0 = expon XOR mantissa XOR cBits.byte;
 
@@ -736,4 +746,86 @@ uint8_t QwOPT4048::calculateCRC(uint32_t manitssa, uint8_t expon, uint8_t crc)
         return 1; 
 
     return 0; 
+}
+
+/// @brief Retrieves the Lux value.
+/// @return Returns the Lux value of the sensor 
+uint32_t QwOPT4048::getLux()
+{
+    int32_t retVal;
+    uint32_t adcCh1;
+    uint32_t lux;
+
+    adcCh1 = getADCCh1(); 
+    lux = adcCh1 * cieMatrix[2][4];
+
+    return lux; 
+}
+
+/// @brief  Retrieves the CIE X value of the sensor.
+/// @return Returns the CIE X value of the sensor 
+int32_t QwOPT4048::getCIEx()
+{
+    int32_t retVal;
+    int32_t x;  
+    int32_t y;  
+    int32_t z;  
+    int32_t CIEx;  
+    sfe_color_t color; 
+
+    retVal = getAllChannelData(&color);
+
+    for(int col = 0; i < OPT_MATRIX_COLS; col++ )
+    {
+        x += color.red * cieMatrix[0][col];
+        y += color.green * cieMatrix[1][col];
+        z += color.blue * cieMatrix[2][col];
+    }
+
+    CIEx = x / (x + y + z);
+
+    return CIEx; 
+}
+
+/// @brief Retrieves the CIE Y value of the sensor.
+/// @return Returns the CIE Y value of the sensor 
+int32_t QwOPT4048::getCIEy()
+{
+    int32_t retVal;
+    int32_t x;  
+    int32_t y;  
+    int32_t z;  
+    int32_t CIEy;  
+    sfe_color_t color; 
+
+    retVal = getAllChannelData(&color);
+
+    for(int col = 0; i < OPT_MATRIX_COLS; col++ )
+    {
+        x += color.red * cieMatrix[0][col];
+        y += color.green * cieMatrix[1][col];
+        z += color.blue * cieMatrix[2][col];
+    }
+
+    CIEy = y / (x + y + z);
+
+    return CIEy; 
+}
+
+
+/// @brief Retrieves the Correlated Color Temperature (CCT) of the sensor.
+/// @return Returns the CCT of the sensor in Kelvin 
+uint32_t QwOPT4048::getCCT()
+{
+    int32_t retVal;
+    int32_t CIEx;
+    int32_t CIEy;
+    int32_t CCT;
+
+    CIEx = getCIEx();
+    CIEy = getCIEy();
+
+    CCT = (CIEx - 0.3320)/(0.1858 - CIEy);
+
+    return CCT; 
 }
