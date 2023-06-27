@@ -6,7 +6,7 @@
 #define OPT4048_ADDR_SDA 0x46
 #define OPT4048_ADDR_SCL 0x45
 
-#define OPT4048_DEVICE_ID 0x2108
+#define OPT4048_DEVICE_ID 0x24
 
 /// @brief OPT4048 Register for Exponent and Result (MSB) for Channel 0
 #define SFE_OPT4048_REGISTER_EXP_RES_CH0 0x00
@@ -180,7 +180,7 @@ typedef union {
 } opt4048_reg_flags_t;
 
 /// @brief  OPT4048 Register containing the device ID.
-#define SFE_OPT4048_REGISTER_DEVICE_ID 0x0D
+#define SFE_OPT4048_REGISTER_DEVICE_ID 0x11
 typedef union {
     struct
     {

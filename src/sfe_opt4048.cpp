@@ -7,7 +7,10 @@ bool QwOpt4048::init(void)
     if (!_sfeBus->ping(_i2cAddress))
         return false;
 
-    if (getDeviceID() != OPT4048_DEVICE_ID)
+    uint8_t ID = getDeviceID();
+    Serial.println(ID, HEX);
+
+    if (ID != OPT4048_DEVICE_ID)
         return false;
 
     return true;
@@ -24,7 +27,7 @@ bool QwOpt4048::isConnected()
         return true;
 }
 
-/// @brief Retrieves the the device's ID: 0x2108 for the OPT4048.
+/// @brief Retrieves the the device's ID: 0x24 for the OPT4048.
 /// @return Returns the unique ID.
 uint16_t QwOpt4048::getDeviceID()
 {
@@ -35,8 +38,8 @@ uint16_t QwOpt4048::getDeviceID()
 
     retVal = readRegisterRegion(SFE_OPT4048_REGISTER_DEVICE_ID, buff);
 
-    uniqueId = buff[1] << 8;
-    uniqueId |= buff[0];
+    uniqueId = ((buff[1] & 0x0F) | buff[0]) << 2;
+    uniqueId |= (buff[0] & 0x30) >> 10;
 
     Serial.print("Unique ID: 0x");
     Serial.println(uniqueId, HEX);
