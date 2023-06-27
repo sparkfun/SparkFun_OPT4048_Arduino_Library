@@ -74,14 +74,10 @@ typedef union {
     uint32_t word;
 } mantissaBits;
 
-#define OPT4048_ERROR_NONE 0
-#define OPT4048_ERROR_I2C -1
-#define OPT4048_ERROR_PARAM -2
-
 #define OPT_MATRIX_ROWS 4
 #define OPT_MATRIX_COLS 4
 
-#define OPT4048_DEVICE_ID 0x2108
+#define OPT4048_DEVICE_ID 0x24
 
 class QwOpt4048
 {
@@ -116,7 +112,7 @@ class QwOpt4048
         RANGE_AUTO = 0x0C
     } opt4048_range_t;
     bool setRange(opt4048_range_t range);
-    uint8_t getRange();
+    opt4048_range_t getRange();
 
     typedef enum
     {
@@ -135,7 +131,7 @@ class QwOpt4048
 
     } opt4048_conversion_time_t;
     bool setConversionTime(opt4048_conversion_time_t time);
-    uint8_t getConversionTime();
+    opt4048_conversion_time_t getConversionTime();
 
     typedef enum
     {
@@ -146,7 +142,7 @@ class QwOpt4048
 
     } opt4048_operation_mode_t;
     bool setOperationMode(opt4048_operation_mode_t mode);
-    uint8_t getOperationMode();
+    opt4048_operation_mode_t getOperationMode();
 
     bool enableIntLatch(bool enable);
     bool getIntLatch();
@@ -162,7 +158,7 @@ class QwOpt4048
         FAULT_COUNT_8
     } opt4048_fault_count_t;
     bool setFaultCount(opt4048_fault_count_t count);
-    uint8_t getFaultCount();
+    opt4048_fault_count_t getFaultCount();
 
     typedef enum
     {
@@ -172,7 +168,7 @@ class QwOpt4048
         THRESH_CHANNEL_CH3
     } opt4048_threshold_channel_t;
     bool setThresholdChannel(opt4048_threshold_channel_t channel);
-    uint8_t getThresholdChannel();
+    opt4048_threshold_channel_t getThresholdChannel();
 
     uint16_t getThresholdHigh();
     uint16_t getThresholdLow();
@@ -190,7 +186,7 @@ class QwOpt4048
         INT_DR_ALL_CHANNELS = 0x03
     } opt4048_mechanism_t;
     bool setIntMechanism(opt4048_mechanism_t mechanism);
-    uint8_t getIntMechanism();
+    opt4048_mechanism_t getIntMechanism();
 
     bool enableI2CBurst(bool enable);
     bool getI2CBurst();
@@ -208,7 +204,7 @@ class QwOpt4048
     uint32_t getADCCh1();
     uint32_t getADCCh2();
     uint32_t getADCCh3();
-    sfe_color_t getAllChannels();
+    sfe_color_t getAllADC();
     bool getAllChannelData(sfe_color_t *color);
     uint8_t calculateCRC(uint32_t manitssa, uint8_t expon, uint8_t crc);
 
@@ -218,6 +214,7 @@ class QwOpt4048
     uint32_t getCCT();
 
   private:
+
     sfe_OPT4048::QwDeviceBus *_sfeBus;
     uint8_t _i2cAddress;
     bool crcEnabled = false;

@@ -7,10 +7,7 @@ bool QwOpt4048::init(void)
     if (!_sfeBus->ping(_i2cAddress))
         return false;
 
-    uint8_t ID = getDeviceID();
-    Serial.println(ID, HEX);
-
-    if (ID != OPT4048_DEVICE_ID)
+    if (getDeviceID() != OPT4048_DEVICE_ID)
         return false;
 
     return true;
@@ -40,9 +37,6 @@ uint16_t QwOpt4048::getDeviceID()
 
     uniqueId = ((buff[1] & 0x0F) | buff[0]) << 2;
     uniqueId |= (buff[0] & 0x30) >> 10;
-
-    Serial.print("Unique ID: 0x");
-    Serial.println(uniqueId, HEX);
 
     if (retVal != 0)
         return 0;
@@ -167,7 +161,7 @@ bool QwOpt4048::setConversionTime(opt4048_conversion_time_t time)
     return true;
 }
 
-/// @brief Enable the quick wake uup feature of the OPT4048.
+/// @brief Enable the quick wake up feature of the OPT4048.
 /// @param enable True to enable, false to disable.
 /// @return True on successful execution.
 bool QwOpt4048::enableQwake(bool enable)
@@ -196,6 +190,26 @@ bool QwOpt4048::enableQwake(bool enable)
 
     return true;
 }
+
+/// @brief Checks the quick wake bit. 
+/// @return True the quick wake bit is set. 
+bool QwOpt4048::getQwake()
+{
+    uint8_t buff[2];
+    int32_t retVal;
+    opt4048_reg_control_t controlReg;
+
+    retVal = readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
+
+    controlReg.word = buff[1] << 8;
+    controlReg.word |= buff[0];
+
+    if( controlReg.qwake != 0x01)
+        return false;
+
+    return true;
+}
+
 
 /// @brief Sets the OPT4048's operation mode.
 /// @param mode The mode to set the device to. Possible Values:
@@ -637,7 +651,7 @@ uint32_t QwOpt4048::getADCCh3()
 
 /// @brief Retrieves all ADC values for all channels: Red, Green, Blue, and White.
 /// @return Returns the ADC values of the channels.
-sfe_color_t QwOpt4048::getAllChannels()
+sfe_color_t QwOpt4048::getAllADC()
 {
 
     sfe_color_t color;
@@ -731,11 +745,14 @@ uint8_t QwOpt4048::calculateCRC(uint32_t mantissa, uint8_t expon, uint8_t crc)
     compareAgainst.bit0 = exBits.byte xor mantissa xor cBits.byte;
 
     compareAgainst.bit1 =
-        cBits.bit1 xor cBits.bit3 xor mBits.bit1 xor mBits.bit3 xor mBits.bit5 xor mBits.bit7 xor mBits.bit9 xor
-        mBits.bit11 xor mBits.bit13 xor mBits.bit15 xor mBits.bit17 xor mBits.bit19 xor exBits.bit1 xor exBits.bit3;
+        cBits.bit1 xor cBits.bit3 xor mBits.bit1 xor mBits.bit3 xor
+        mBits.bit5 xor mBits.bit7 xor mBits.bit9 xor
+        mBits.bit11 xor mBits.bit13 xor mBits.bit15 xor mBits.bit17 xor
+        mBits.bit19 xor exBits.bit1 xor exBits.bit3;
 
     compareAgainst.bit2 =
-        cBits.bit3 xor mBits.bit3 xor mBits.bit7 xor mBits.bit11 xor mBits.bit16 xor mBits.bit18 xor exBits.bit3;
+        cBits.bit3 xor mBits.bit3 xor mBits.bit7 xor mBits.bit11 xor
+        mBits.bit16 xor mBits.bit18 xor exBits.bit3;
 
     compareAgainst.bit3 = mBits.bit3 xor mBits.bit11 xor mBits.bit19;
 
