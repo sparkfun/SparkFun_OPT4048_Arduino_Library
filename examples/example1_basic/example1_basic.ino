@@ -21,11 +21,11 @@ void setup()
    // myColor.enableQwake(false);
    // Serial.println(myColor.getQwake(), HEX);
    // 
-    //myColor.setRange(RANGE_9LUX);
-    //Serial.println(myColor.getRange(), HEX);
-
-    //myColor.setConversionTime(CONVERSION_TIME_200MS);
-    //Serial.println(myColor.getConversionTime(), HEX);
+    myColor.setRange(RANGE_144LUX);
+    Serial.println(myColor.getRange(), HEX);
+    myColor.setConversionTime(CONVERSION_TIME_200MS);
+    Serial.println(myColor.getConversionTime(), HEX);
+    myColor.setOperationMode(OPERATION_MODE_CONTINUOUS);
 
     //myColor.setOperationMode(OPERATION_MODE_CONTINUOUS);
     //Serial.println(myColor.getOperationMode(), HEX);
@@ -55,8 +55,8 @@ void setup()
    //myColor.setIntMechanism(INT_DR_ALL_CHANNELS);
    //Serial.println(myColor.getIntMechanism(),HEX);
 
-   myColor.enableI2CBurst(true);
-   Serial.println(myColor.getI2CBurst(), HEX);
+   //myColor.enableI2CBurst(true);
+   //Serial.println(myColor.getI2CBurst(), HEX);
 
    // uint8_t getFlag();
    //Serial.println(myColor.getOverloadFlag(), HEX);
@@ -64,10 +64,6 @@ void setup()
    //Serial.println(myColor.getTooBrightFlag(),HEX);
    //Serial.println(myColor.getTooDimFlag(),HEX);
    // ///////////////////////////////////////////////////////////////////Color Information
-   // uint32_t getADCCh0();
-   // uint32_t getADCCh1();
-   // uint32_t getADCCh2();
-   // uint32_t getADCCh3();
    // sfe_color_t getAllADC();
    // bool getAllChannelData(sfe_color_t *color);
    // uint8_t calculateCRC(uint32_t manitssa, uint8_t expon, uint8_t crc);
@@ -78,9 +74,13 @@ void setup()
    // uint32_t getCCT();
 
     Serial.println("Great");
-    while(1);
 }
 
 void loop()
 {
+   Serial.println(myColor.getADCCh0());
+   Serial.println(myColor.getADCCh1());
+   Serial.println(myColor.getADCCh2());
+   Serial.println(myColor.getADCCh3());
+   delay(200);
 }

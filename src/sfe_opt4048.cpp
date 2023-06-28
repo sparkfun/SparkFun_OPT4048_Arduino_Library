@@ -506,10 +506,8 @@ opt4048_reg_flags_t QwOpt4048::getAllFlags()
 bool QwOpt4048::getOverloadFlag()
 {
     opt4048_reg_flags_t flagReg;
-    flagReg = getFlag();
+    flagReg = getAllFlags();
 
-    Serial.print("Flag at Overload function: ");
-    Serial.println(flagReg.word);
     if(flagReg.overload_flag != 1)
         return false;
 
@@ -523,7 +521,7 @@ bool QwOpt4048::getOverloadFlag()
 bool QwOpt4048::getConvReadyFlag()
 {
     opt4048_reg_flags_t flagReg;
-    flagReg = getFlag();
+    flagReg = getAllFlags();
 
     if(flagReg.conv_ready_flag != 1)
         return false;
@@ -536,7 +534,7 @@ bool QwOpt4048::getConvReadyFlag()
 bool QwOpt4048::getTooBrightFlag()
 {
     opt4048_reg_flags_t flagReg;
-    flagReg = getFlag();
+    flagReg = getAllFlags();
 
     if(flagReg.flag_high != 1)
         return false;
@@ -549,7 +547,7 @@ bool QwOpt4048::getTooBrightFlag()
 bool QwOpt4048::getTooDimFlag()
 {
     opt4048_reg_flags_t flagReg;
-    flagReg = getFlag();
+    flagReg = getAllFlags();
 
     if(flagReg.flag_low != 1)
         return false;
