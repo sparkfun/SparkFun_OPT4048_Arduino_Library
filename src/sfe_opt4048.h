@@ -78,7 +78,6 @@ typedef union {
 #define OPT_MATRIX_COLS 4
 
 #define OPT4048_DEVICE_ID 0x24
-
 class QwOpt4048
 {
   public:
@@ -100,47 +99,12 @@ class QwOpt4048
     bool enableQwake(bool enable);
     bool getQwake();
 
-    typedef enum
-    {
-        RANGE_2KLUX2 = 0x00,
-        RANGE_4KLUX5,
-        RANGE_9LUX,
-        RANGE_18LUX,
-        RANGE_36LUX,
-        RANGE_72LUX,
-        RANGE_144LUX,
-        RANGE_AUTO = 0x0C
-    } opt4048_range_t;
     bool setRange(opt4048_range_t range);
     opt4048_range_t getRange();
 
-    typedef enum
-    {
-        CONVERSION_TIME_600US = 0x00,
-        CONVERSION_TIME_1MS,
-        CONVERSION_TIME_1MS8,
-        CONVERSION_TIME_3MS4,
-        CONVERSION_TIME_6MS5,
-        CONVERSION_TIME_12MS7,
-        CONVERSION_TIME_25MS,
-        CONVERSION_TIME_50MS,
-        CONVERSION_TIME_100MS,
-        CONVERSION_TIME_200MS,
-        CONVERSION_TIME_400MS,
-        CONVERSION_TIME_800MS
-
-    } opt4048_conversion_time_t;
     bool setConversionTime(opt4048_conversion_time_t time);
     opt4048_conversion_time_t getConversionTime();
 
-    typedef enum
-    {
-        OPERATION_MODE_POWER_DOWN = 0x00,
-        OPERATION_MODE_AUTO_ONE_SHOT,
-        OPERATION_MODE_ONE_SHOT,
-        OPERATION_MODE_CONTINUOUS
-
-    } opt4048_operation_mode_t;
     bool setOperationMode(opt4048_operation_mode_t mode);
     opt4048_operation_mode_t getOperationMode();
 
@@ -148,29 +112,17 @@ class QwOpt4048
     bool getIntLatch();
 
     bool enableIntActiveHigh(bool enable);
-    bool getIntPolarity();
+    bool getIntActiveHigh();
 
-    typedef enum
-    {
-        FAULT_COUNT_1 = 0x00,
-        FAULT_COUNT_2,
-        FAULT_COUNT_4,
-        FAULT_COUNT_8
-    } opt4048_fault_count_t;
     bool setFaultCount(opt4048_fault_count_t count);
     opt4048_fault_count_t getFaultCount();
 
-    typedef enum
-    {
-        THRESH_CHANNEL_CH0 = 0x00,
-        THRESH_CHANNEL_CH1,
-        THRESH_CHANNEL_CH2,
-        THRESH_CHANNEL_CH3
-    } opt4048_threshold_channel_t;
     bool setThresholdChannel(opt4048_threshold_channel_t channel);
     opt4048_threshold_channel_t getThresholdChannel();
 
+    bool setThresholdHigh(float thresh);
     uint16_t getThresholdHigh();
+    bool setThresholdLow(float thresh);
     uint16_t getThresholdLow();
 
     void enableCRC(bool enable);
@@ -179,12 +131,6 @@ class QwOpt4048
     bool enableIntInput(bool enable);
     bool getIntInputEnable();
 
-    typedef enum
-    {
-        INT_SMBUS_ALERT = 0x00,
-        INT_DR_NEXT_CHANNEL,
-        INT_DR_ALL_CHANNELS = 0x03
-    } opt4048_mechanism_t;
     bool setIntMechanism(opt4048_mechanism_t mechanism);
     opt4048_mechanism_t getIntMechanism();
 
@@ -192,7 +138,7 @@ class QwOpt4048
     bool getI2CBurst();
 
     bool setFlag(opt4048_reg_flags_t flag);
-    uint8_t getFlag();
+    opt4048_reg_flags_t getFlag();
 
     bool enableOverloadFlag(bool enable);
     bool enableConvReadyFlag(bool enable);

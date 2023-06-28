@@ -1,4 +1,5 @@
 #include "sfe_opt4048.h"
+#include "OPT4048_Registers.h"
 
 /// @brief Sets the struct that interfaces with STMicroelectronic's C Library.
 /// @return true on successful execution.
@@ -118,6 +119,21 @@ bool QwOpt4048::setRange(opt4048_range_t range)
     return true;
 }
 
+/// @brief Retrieves the light range in lux of the OPT4048. 
+/// @return The range of lux able to be measured. 
+opt4048_range_t QwOpt4048::getRange()
+{
+    uint8_t buff[2];
+    opt4048_reg_control_t controlReg;
+
+    readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
+
+    controlReg.word = buff[1] << 8;
+    controlReg.word |= buff[0];
+
+    return (opt4048_range_t)controlReg.range;
+}
+
 /// @brief Sets the OPT4048's conversion time which will effect its resolution. Longer conversion time
 /// will result in higher resolution.
 /// @param time The conversion time to set the device to. Possible values:
@@ -161,6 +177,22 @@ bool QwOpt4048::setConversionTime(opt4048_conversion_time_t time)
     return true;
 }
 
+
+/// @brief Retrieves the conversion time used for the ADC. 
+/// @return The OPT4048 conversion time. 
+opt4048_conversion_time_t QwOpt4048::getConversionTime()
+{
+    uint8_t buff[2];
+    opt4048_reg_control_t controlReg;
+
+    readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
+
+    controlReg.word = buff[1] << 8;
+    controlReg.word |= buff[0];
+
+    return (opt4048_conversion_time_t)controlReg.conversion_time;
+}
+
 /// @brief Enable the quick wake up feature of the OPT4048.
 /// @param enable True to enable, false to disable.
 /// @return True on successful execution.
@@ -196,10 +228,9 @@ bool QwOpt4048::enableQwake(bool enable)
 bool QwOpt4048::getQwake()
 {
     uint8_t buff[2];
-    int32_t retVal;
     opt4048_reg_control_t controlReg;
 
-    retVal = readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
+    readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
     controlReg.word = buff[1] << 8;
     controlReg.word |= buff[0];
@@ -245,6 +276,22 @@ bool QwOpt4048::setOperationMode(opt4048_operation_mode_t mode)
     return true;
 }
 
+
+/// @brief Retrieves the set operation mode.
+/// @return The OPT4048 conversion time. 
+opt4048_operation_mode_t QwOpt4048::getOperationMode()
+{
+    uint8_t buff[2];
+    opt4048_reg_control_t controlReg;
+
+    readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
+
+    controlReg.word = buff[1] << 8;
+    controlReg.word |= buff[0];
+
+    return (opt4048_operation_mode_t)controlReg.op_mode;
+}
+
 /// @brief Changes the behavior of the interrupt from pin to latch.
 /// @param enable True to enable, false to disable.
 /// @return True on successful execution.
@@ -275,6 +322,24 @@ bool QwOpt4048::enableIntLatch(bool enable)
     return true;
 }
 
+/// @brief Checks if the interrupt is set to pulse or latch. 
+/// @return True if set to latch, false if not. 
+bool QwOpt4048::getIntLatch()
+{
+    uint8_t buff[2];
+    opt4048_reg_control_t controlReg;
+
+    readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
+
+    controlReg.word = buff[1] << 8;
+    controlReg.word |= buff[0];
+
+    if(controlReg.latch == 1)
+        return true;
+
+    return false; 
+}
+
 /// @brief Sets the OPT4048's interrupt polarity.
 /// @param enable True to enable, false to disable.
 /// @return True on successful execution.
@@ -303,6 +368,25 @@ bool QwOpt4048::enableIntActiveHigh(bool enable)
         return false;
 
     return true;
+}
+
+/// @brief Sets the OPT4048's interrupt polarity.
+/// @param enable True to enable, false to disable.
+/// @return True on successful execution.
+bool QwOpt4048::getIntActiveHigh()
+{
+    uint8_t buff[2];
+    opt4048_reg_control_t intReg;
+
+    readRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
+
+    intReg.word = buff[1] << 8;
+    intReg.word |= buff[0];
+
+    if(!intReg.int_pol)
+        return false; 
+
+    return true;   
 }
 
 /// @brief Changes the behavior of the interrupt pin to be an INPUT to trigger
@@ -336,6 +420,25 @@ bool QwOpt4048::enableIntInput(bool enable)
     return true;
 }
 
+/// @brief Gets the interrupt input bit
+/// @return True if the interrupt is set to INPUT. 
+bool QwOpt4048::getIntInputEnable()
+{
+    uint8_t buff[2];
+    opt4048_reg_int_control_t intReg;
+
+    readRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
+
+    intReg.word = buff[1] << 8;
+    intReg.word |= buff[0];
+
+    if(!intReg.int_dir)
+        return false; 
+
+    return true; 
+}
+
+
 /// @brief Changes the behavior interrupt mechanism after the end of conversion
 /// @param mechanism The mechanism to set
 /// @return True on successful execution.
@@ -364,6 +467,23 @@ bool QwOpt4048::setIntMechanism(opt4048_mechanism_t mechanism)
         return false;
 
     return true;
+}
+
+
+/// @brief Gets the interrupt mechanism for the OPT4048
+/// @return Returns the enabled mechanism.
+opt4048_mechanism_t QwOpt4048::getIntMechanism()
+{
+    uint8_t buff[2];
+    opt4048_reg_int_control_t intReg;
+
+    readRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
+
+    intReg.word = buff[1] << 8;
+    intReg.word |= buff[0];
+
+    return((opt4048_mechanism_t)intReg.int_cfg);
+
 }
 
 /// @brief Sets the flag.
@@ -490,6 +610,23 @@ bool QwOpt4048::setFaultCount(opt4048_fault_count_t count)
     return true;
 }
 
+
+/// @brief Retrieves the number of faults (light values over or under) before an interrupt is triggered.
+/// @return The fault count. 
+opt4048_fault_count_t QwOpt4048::getFaultCount()
+{
+    uint8_t buff[2];
+    opt4048_reg_control_t controlReg;
+
+    readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
+
+    controlReg.word = buff[1] << 8;
+    controlReg.word |= buff[0];
+
+    return((opt4048_fault_count_t)controlReg.fault_count);
+
+}
+
 /// @brief Sets the channel for threshold logic
 /// @param channel The channel to set the threshold logic to.
 ///   THRESH_CHANNEL_CH0,
@@ -524,6 +661,101 @@ bool QwOpt4048::setThresholdChannel(opt4048_threshold_channel_t channel)
     return true;
 }
 
+/// @brief Retrives the threshold channel.
+/// @return True on successful execution.
+opt4048_threshold_channel_t QwOpt4048::getThresholdChannel()
+{
+    uint8_t buff[2];
+    opt4048_reg_int_control_t intReg;
+
+    readRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
+
+    intReg.word = buff[1] << 8;
+    intReg.word |= buff[0];
+
+    return((opt4048_threshold_channel_t)intReg.threshold_ch_sel);
+}
+
+/// @brief Sets the Lux High Value threshold. 
+/// @param thresh The value in float
+/// @return Returns the high threshold. 
+bool QwOpt4048::setThresholdHigh(float thresh)
+{
+    if(thresh < 2.15 || thresh > 144000)
+        return false; 
+
+    uint8_t buff[2];
+    int32_t retVal;
+    //opt4048_reg_thresh_exp_res_high_t threshReg; 
+
+    retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_THRESH_H_EXP_RES, buff);
+
+    if(retVal != 0)
+        return false;
+
+    return true;
+    
+}
+
+/// @brief Retrieves the Lux High Value threshold. 
+/// @return Returns the high threshold. 
+uint16_t QwOpt4048::getThresholdHigh()
+{
+    uint8_t buff[2];
+    opt4048_reg_thresh_exp_res_high_t threshReg; 
+    uint16_t thresholdHigh; 
+
+    readRegisterRegion(SFE_OPT4048_REGISTER_THRESH_H_EXP_RES, buff);
+
+    threshReg.word = buff[1] << 8;
+    threshReg.word |= buff[0];
+
+    thresholdHigh = threshReg.thresh_result << threshReg.thresh_exp; 
+
+    return thresholdHigh; 
+}
+
+/// @brief Sets the Lux Low Value threshold. 
+/// @param thresh The value in float
+/// @return Returns the high threshold. 
+bool QwOpt4048::setThresholdLow(float thresh)
+{
+    if(thresh < 2.15 || thresh > 144000)
+        return false; 
+
+    uint8_t buff[2];
+    int32_t retVal;
+    //opt4048_reg_thresh_exp_res_low_t threshReg; 
+
+    retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_THRESH_L_EXP_RES, buff);
+
+    if(retVal != 0)
+        return false;
+
+    return true;
+    
+}
+
+
+
+/// @brief Retrieves the Lux Low Value threshold. 
+/// @return Returns the low threshold. 
+uint16_t QwOpt4048::getThresholdLow()
+{
+    uint8_t buff[2];
+    opt4048_reg_thresh_exp_res_low_t threshReg; 
+    uint16_t thresholdLow; 
+
+    readRegisterRegion(SFE_OPT4048_REGISTER_THRESH_L_EXP_RES, buff);
+
+    threshReg.word = buff[1] << 8;
+    threshReg.word |= buff[0];
+
+    thresholdLow = threshReg.thresh_result << threshReg.thresh_exp; 
+
+    return thresholdLow; 
+}
+
 /// @brief Enable register auto increment .
 /// @param enable True to enable, false to disable.
 /// @return True on successful execution.
@@ -549,6 +781,25 @@ bool QwOpt4048::enableI2CBurst(bool enable)
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
 
     if (retVal != 0)
+        return false;
+
+    return true;
+}
+
+
+/// @brief Retrieves the I2C burst bit. 
+/// @return True if I2C burst is enabled, false otherwise. 
+bool QwOpt4048::getI2CBurst()
+{
+    uint8_t buff[2];
+    opt4048_reg_int_control_t intReg;
+
+    readRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
+
+    intReg.word = buff[1] << 8;
+    intReg.word |= buff[0];
+
+    if(!intReg.i2c_burst != 1)
         return false;
 
     return true;

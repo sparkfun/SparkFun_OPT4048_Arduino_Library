@@ -16,38 +16,44 @@ void setup()
         while (1) ;
     }
 
-    myColor.enableQwake(true);
-    Serial.println(myColor.getQwake(), HEX);
-    myColor.enableQwake(false);
-    Serial.println(myColor.getQwake(), HEX);
+   // myColor.enableQwake(true);
+   // Serial.println(myColor.getQwake(), HEX);
+   // myColor.enableQwake(false);
+   // Serial.println(myColor.getQwake(), HEX);
    // 
-   // bool setRange(opt4048_range_t range);
-   // opt4048_range_t getRange();
-   // bool setConversionTime(opt4048_conversion_time_t time);
-   // opt4048_conversion_time_t getConversionTime();
-   // bool setOperationMode(opt4048_operation_mode_t mode);
-   // opt4048_operation_mode_t getOperationMode();
-   // bool enableIntLatch(bool enable);
-   // bool getIntLatch();
-   // bool setFaultCount(opt4048_fault_count_t count);
-   // opt4048_fault_count_t getFaultCount();
+    //myColor.setRange(RANGE_9LUX);
+    //Serial.println(myColor.getRange(), HEX);
 
-   // bool enableIntActiveHigh(bool enable);
-   // bool getIntPolarity();
-   // bool setThresholdChannel(opt4048_threshold_channel_t channel);
-   // opt4048_threshold_channel_t getThresholdChannel();
+    //myColor.setConversionTime(CONVERSION_TIME_200MS);
+    //Serial.println(myColor.getConversionTime(), HEX);
 
+    //myColor.setOperationMode(OPERATION_MODE_CONTINUOUS);
+    //Serial.println(myColor.getOperationMode(), HEX);
+
+    //Serial.println("Latch: ");
+    //myColor.enableIntLatch(true);
+    //Serial.println(myColor.getIntLatch(), HEX);
+
+    ////WHAT.
+    //myColor.setFaultCount(FAULT_COUNT_2);
+    //Serial.println(myColor.getFaultCount(), HEX);
+
+    //myColor.enableIntActiveHigh(true);
+    //Serial.println(myColor.getIntActiveHigh(), HEX);
+ 
+    //myColor.setThresholdChannel(THRESH_CHANNEL_CH3);
+    //Serial.println(myColor.getThresholdChannel(), HEX);
+ 
    // uint16_t getThresholdHigh();
    // uint16_t getThresholdLow();
 
    // void enableCRC(bool enable);
 
-   // bool enableIntInput(bool enable);
-   // bool getIntInputEnable();
-   // bool enableIntInput(bool enable);
-   // bool getIntInputEnable();
-   // bool setIntMechanism(opt4048_mechanism_t mechanism);
-   // opt4048_mechanism_t getIntMechanism();
+   myColor.enableIntInput(true);
+   Serial.println(myColor.getIntInputEnable(), HEX);
+
+   myColor.setIntMechanism(INT_DR_ALL_CHANNELS);
+   Serial.println(myColor.getIntMechanism(),HEX);
 
    // bool enableI2CBurst(bool enable);
    // bool getI2CBurst();

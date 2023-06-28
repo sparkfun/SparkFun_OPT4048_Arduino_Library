@@ -109,7 +109,7 @@ typedef union {
 } opt4048_reg_res_cnt_crc_ch3_t;
 
 /// @brief OPT4048 Register for Threshold  Exponent and Result - Low
-#define SFE_OPT4048_REGISTER_THRESH_H_EXP_RES 0x08
+#define SFE_OPT4048_REGISTER_THRESH_L_EXP_RES 0x08
 typedef union {
     struct
     {
@@ -121,7 +121,7 @@ typedef union {
 } opt4048_reg_thresh_exp_res_low_t;
 
 /// @brief OPT4048 Register for Threshold Exponent and Threshold Result - High
-#define SFE_OPT4048_REGISTER_THRESH_L_EXP_RES 0x09
+#define SFE_OPT4048_REGISTER_THRESH_H_EXP_RES 0x09
 typedef union {
     struct
     {
@@ -134,6 +134,53 @@ typedef union {
 
 /// @brief OPT4048 Register that controls the main functions of the device.
 #define SFE_OPT4048_REGISTER_CONTROL 0x0A
+
+typedef enum
+{
+    RANGE_2KLUX2 = 0x00,
+    RANGE_4KLUX5,
+    RANGE_9LUX,
+    RANGE_18LUX,
+    RANGE_36LUX,
+    RANGE_72LUX,
+    RANGE_144LUX,
+    RANGE_AUTO = 0x0C
+} opt4048_range_t;
+
+typedef enum
+{
+    CONVERSION_TIME_600US = 0x00,
+    CONVERSION_TIME_1MS,
+    CONVERSION_TIME_1MS8,
+    CONVERSION_TIME_3MS4,
+    CONVERSION_TIME_6MS5,
+    CONVERSION_TIME_12MS7,
+    CONVERSION_TIME_25MS,
+    CONVERSION_TIME_50MS,
+    CONVERSION_TIME_100MS,
+    CONVERSION_TIME_200MS,
+    CONVERSION_TIME_400MS,
+    CONVERSION_TIME_800MS
+
+} opt4048_conversion_time_t;
+
+typedef enum
+{
+    OPERATION_MODE_POWER_DOWN = 0x00,
+    OPERATION_MODE_AUTO_ONE_SHOT,
+    OPERATION_MODE_ONE_SHOT,
+    OPERATION_MODE_CONTINUOUS
+
+} opt4048_operation_mode_t;
+
+typedef enum
+{
+    FAULT_COUNT_1 = 0x00,
+    FAULT_COUNT_2,
+    FAULT_COUNT_3,
+    FAULT_COUNT_8
+} opt4048_fault_count_t;
+
 typedef union {
     struct
     {
@@ -149,7 +196,15 @@ typedef union {
     uint16_t word;
 } opt4048_reg_control_t;
 
-/// @brief OPT4048 Register with settings for the interrupt pin.
+typedef enum
+{
+    THRESH_CHANNEL_CH0 = 0x00,
+    THRESH_CHANNEL_CH1,
+    THRESH_CHANNEL_CH2,
+    THRESH_CHANNEL_CH3
+} opt4048_threshold_channel_t;
+
+/// @brief OPT4047 Register with settings for the interrupt pin.
 #define SFE_OPT4048_REGISTER_INT_CONTROL 0x0B
 typedef union {
     struct
@@ -163,6 +218,13 @@ typedef union {
     uint16_t word;
 
 } opt4048_reg_int_control_t;
+
+typedef enum
+{
+    INT_SMBUS_ALERT = 0x00,
+    INT_DR_NEXT_CHANNEL,
+    INT_DR_ALL_CHANNELS = 0x03
+} opt4048_mechanism_t;
 
 /// @brief OPT4048 register containing various status flags.
 #define SFE_OPT4048_REGISTER_FLAGS 0x0C
