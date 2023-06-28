@@ -486,91 +486,72 @@ opt4048_mechanism_t QwOpt4048::getIntMechanism()
 
 }
 
-/// @brief Sets the flag.
-/// @param flag The flag to set
-/// @return True on successful execution.
-bool QwOpt4048::setFlag(opt4048_reg_flags_t flag)
+/// @brief Retrieves the flag register
+/// @return The contents of the flag register
+opt4048_reg_flags_t QwOpt4048::getAllFlags()
 {
     uint8_t buff[2];
-    int32_t retVal;
     opt4048_reg_flags_t flagReg;
 
-    retVal = readRegisterRegion(SFE_OPT4048_REGISTER_FLAGS, buff);
-
-    if (retVal != 0)
-        return false;
+    readRegisterRegion(SFE_OPT4048_REGISTER_FLAGS, buff);
 
     flagReg.word = buff[1] << 8;
     flagReg.word |= buff[0];
 
-    flagReg.word |= flag.word;
+    return flagReg;
+}
 
-    buff[1] = flagReg.word >> 8;
-    buff[0] = flagReg.word;
+/// @brief Checks the overload flag bit. 
+/// @return True if the overload flag bit is set, false otherwise
+bool QwOpt4048::getOverloadFlag()
+{
+    opt4048_reg_flags_t flagReg;
+    flagReg = getFlag();
 
-    retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_FLAGS, buff);
-
-    if (retVal != 0)
+    Serial.print("Flag at Overload function: ");
+    Serial.println(flagReg.word);
+    if(flagReg.overload_flag != 1)
         return false;
 
     return true;
 }
 
-/// @brief Enables the overload flag
-/// @param enable True to enable, false to disable.
-/// @return True on successful execution.
-bool QwOpt4048::enableOverloadFlag(bool enable)
+
+
+/// @brief Checks the conversion ready flag bit. 
+/// @return True if that flag bit is set, false otherwise
+bool QwOpt4048::getConvReadyFlag()
 {
     opt4048_reg_flags_t flagReg;
+    flagReg = getFlag();
 
-    flagReg.overload_flag = 1;
-
-    if (!setFlag(flagReg))
+    if(flagReg.conv_ready_flag != 1)
         return false;
 
     return true;
 }
 
-/// @brief Enables the conversion ready flag
-/// @param enable True to enable, false to disable.
-/// @return True on successful execution.
-bool QwOpt4048::enableConvReadyFlag(bool enable)
+/// @brief Checks the too bright flag bit. 
+/// @return True if that flag bit is set, false otherwise
+bool QwOpt4048::getTooBrightFlag()
 {
     opt4048_reg_flags_t flagReg;
+    flagReg = getFlag();
 
-    flagReg.conv_ready_flag = 1;
-
-    if (!setFlag(flagReg))
+    if(flagReg.flag_high != 1)
         return false;
 
     return true;
 }
 
-/// @brief Enables the flag high flag
-/// @param enable True to enable, false to disable.
-/// @return True on successful execution.
-bool QwOpt4048::enableTooBrightFlag(bool enable)
+/// @brief Checks the too dim flag bit. 
+/// @return True if that flag bit is set, false otherwise
+bool QwOpt4048::getTooDimFlag()
 {
     opt4048_reg_flags_t flagReg;
+    flagReg = getFlag();
 
-    flagReg.flag_high = 1;
-
-    if (!setFlag(flagReg))
-        return false;
-
-    return true;
-}
-
-/// @brief Enables the flag low flag
-/// @param enable True to enable, false to disable.
-/// @return True on successful execution.
-bool QwOpt4048::enableTooDimFlag(bool enable)
-{
-    opt4048_reg_flags_t flagReg;
-
-    flagReg.flag_low = 1;
-
-    if (!setFlag(flagReg))
+    if(flagReg.flag_low != 1)
         return false;
 
     return true;

@@ -231,11 +231,11 @@ typedef enum
 typedef union {
     struct
     {
-        uint16_t reserved : 12;
         uint8_t overload_flag : 1;
         uint8_t conv_ready_flag : 1;
         uint8_t flag_high : 1;
         uint8_t flag_low : 1;
+        uint16_t reserved : 12;
     };
     uint16_t word;
 

@@ -137,13 +137,11 @@ class QwOpt4048
     bool enableI2CBurst(bool enable);
     bool getI2CBurst();
 
-    bool setFlag(opt4048_reg_flags_t flag);
-    opt4048_reg_flags_t getFlag();
-
-    bool enableOverloadFlag(bool enable);
-    bool enableConvReadyFlag(bool enable);
-    bool enableTooBrightFlag(bool enable);
-    bool enableTooDimFlag(bool enable);
+    opt4048_reg_flags_t getAllFlags();
+    bool getOverloadFlag();
+    bool getConvReadyFlag();
+    bool getTooBrightFlag();
+    bool getTooDimFlag();
 
     ///////////////////////////////////////////////////////////////////Color Information
     uint32_t getADCCh0();

@@ -49,22 +49,20 @@ void setup()
 
    // void enableCRC(bool enable);
 
-   myColor.enableIntInput(true);
-   Serial.println(myColor.getIntInputEnable(), HEX);
+   //myColor.enableIntInput(true);
+   //Serial.println(myColor.getIntInputEnable(), HEX);
 
-   myColor.setIntMechanism(INT_DR_ALL_CHANNELS);
-   Serial.println(myColor.getIntMechanism(),HEX);
+   //myColor.setIntMechanism(INT_DR_ALL_CHANNELS);
+   //Serial.println(myColor.getIntMechanism(),HEX);
 
-   // bool enableI2CBurst(bool enable);
-   // bool getI2CBurst();
+   myColor.enableI2CBurst(true);
+   Serial.println(myColor.getI2CBurst(), HEX);
 
-   // bool setFlag(opt4048_reg_flags_t flag);
    // uint8_t getFlag();
-
-   // bool enableOverloadFlag(bool enable);
-   // bool enableConvReadyFlag(bool enable);
-   // bool enableTooBrightFlag(bool enable);
-   // bool enableTooDimFlag(bool enable);
+   //Serial.println(myColor.getOverloadFlag(), HEX);
+   //Serial.println(myColor.getConvReadyFlag(),HEX);
+   //Serial.println(myColor.getTooBrightFlag(),HEX);
+   //Serial.println(myColor.getTooDimFlag(),HEX);
    // ///////////////////////////////////////////////////////////////////Color Information
    // uint32_t getADCCh0();
    // uint32_t getADCCh1();
