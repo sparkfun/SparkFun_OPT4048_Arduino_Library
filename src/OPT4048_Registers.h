@@ -38,8 +38,8 @@ typedef union {
 typedef union {
     struct
     {
-        uint8_t exponent_ch1 : 4;
         uint16_t result_msb_ch1 : 12;
+        uint8_t exponent_ch1 : 4;
     };
     uint16_t word;
 
@@ -50,9 +50,9 @@ typedef union {
 typedef union {
     struct
     {
-        uint8_t result_lsb_ch1 : 8;
         uint8_t counter_ch1 : 4;
         uint8_t crc_ch1 : 4;
+        uint8_t result_lsb_ch1 : 8;
     };
     uint16_t word;
 
@@ -184,14 +184,14 @@ typedef enum
 typedef union {
     struct
     {
-        uint8_t qwake : 1;
-        uint8_t reserved : 1;
-        uint8_t range : 4;
         uint8_t conversion_time : 4;
         uint8_t op_mode : 2;
         uint8_t latch : 1;
         uint8_t int_pol : 1;
         uint8_t fault_count : 2;
+        uint8_t qwake : 1;
+        uint8_t reserved : 1;
+        uint8_t range : 4;
     };
     uint16_t word;
 } opt4048_reg_control_t;
