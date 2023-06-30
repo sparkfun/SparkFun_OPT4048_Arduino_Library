@@ -21,7 +21,7 @@ void setup()
    // myColor.enableQwake(false);
    // Serial.println(myColor.getQwake(), HEX);
    // 
-    myColor.setRange(RANGE_144LUX);
+    myColor.setRange(RANGE_9LUX);
     Serial.println(myColor.getRange(), BIN);
     myColor.setConversionTime(CONVERSION_TIME_200MS);
    // Serial.println(myColor.getConversionTime(), BIN);

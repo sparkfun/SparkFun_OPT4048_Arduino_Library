@@ -103,13 +103,13 @@ bool QwOpt4048::setRange(opt4048_range_t range)
     if (retVal != 0)
         return false;
 
-    controlReg.word = buff[1] << 8;
-    controlReg.word |= buff[0];
+    controlReg.word = buff[0] << 8;
+    controlReg.word |= buff[1];
 
     controlReg.range = range;
 
-    buff[1] = controlReg.word >> 8;
-    buff[0] = controlReg.word;
+    buff[0] = controlReg.word >> 8;
+    buff[1] = controlReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
@@ -129,8 +129,8 @@ opt4048_range_t QwOpt4048::getRange()
     
     readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
-    controlReg.word = buff[1] << 8;
-    controlReg.word |= buff[0];
+    controlReg.word = buff[0] << 8;
+    controlReg.word |= buff[1];
 
     return (opt4048_range_t)controlReg.range;
 }
@@ -162,13 +162,13 @@ bool QwOpt4048::setConversionTime(opt4048_conversion_time_t time)
     if (retVal != 0)
         return false;
 
-    controlReg.word = buff[1] << 8;
-    controlReg.word |= buff[0];
+    controlReg.word = buff[0] << 8;
+    controlReg.word |= buff[1];
 
     controlReg.conversion_time = time;
 
-    buff[1] = controlReg.word >> 8;
-    buff[0] = controlReg.word;
+    buff[0] = controlReg.word >> 8;
+    buff[1] = controlReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
@@ -188,8 +188,8 @@ opt4048_conversion_time_t QwOpt4048::getConversionTime()
 
     readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
-    controlReg.word = buff[1] << 8;
-    controlReg.word |= buff[0];
+    controlReg.word = buff[0] << 8;
+    controlReg.word |= buff[1];
 
     return (opt4048_conversion_time_t)controlReg.conversion_time;
 }
@@ -208,13 +208,13 @@ bool QwOpt4048::enableQwake(bool enable)
     if (retVal != 0)
         return false;
 
-    controlReg.word = buff[1] << 8;
-    controlReg.word |= buff[0];
+    controlReg.word = buff[0] << 8;
+    controlReg.word |= buff[1];
 
     controlReg.qwake = (uint8_t)enable;
 
-    buff[1] = controlReg.word >> 8;
-    buff[0] = controlReg.word;
+    buff[0] = controlReg.word >> 8;
+    buff[1] = controlReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
@@ -233,8 +233,8 @@ bool QwOpt4048::getQwake()
 
     readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
-    controlReg.word = buff[1] << 8;
-    controlReg.word |= buff[0];
+    controlReg.word = buff[0] << 8;
+    controlReg.word |= buff[1];
 
     if( controlReg.qwake != 0x01)
         return false;
@@ -261,13 +261,13 @@ bool QwOpt4048::setOperationMode(opt4048_operation_mode_t mode)
     if (retVal != 0)
         return false;
 
-    controlReg.word = buff[1] << 8;
-    controlReg.word |= buff[0];
+    controlReg.word = buff[0] << 8;
+    controlReg.word |= buff[1];
 
     controlReg.op_mode = mode;
 
-    buff[1] = controlReg.word >> 8;
-    buff[0] = controlReg.word;
+    buff[0] = controlReg.word >> 8;
+    buff[1] = controlReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
@@ -287,8 +287,8 @@ opt4048_operation_mode_t QwOpt4048::getOperationMode()
 
     readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
-    controlReg.word = buff[1] << 8;
-    controlReg.word |= buff[0];
+    controlReg.word = buff[0] << 8;
+    controlReg.word |= buff[1];
 
     return (opt4048_operation_mode_t)controlReg.op_mode;
 }
@@ -307,13 +307,13 @@ bool QwOpt4048::enableIntLatch(bool enable)
     if (retVal != 0)
         return false;
 
-    controlReg.word = buff[1] << 8;
-    controlReg.word |= buff[0];
+    controlReg.word = buff[0] << 8;
+    controlReg.word |= buff[1];
 
     controlReg.latch = (uint8_t)enable;
 
-    buff[1] = controlReg.word >> 8;
-    buff[0] = controlReg.word;
+    buff[0] = controlReg.word >> 8;
+    buff[1] = controlReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
@@ -332,8 +332,8 @@ bool QwOpt4048::getIntLatch()
 
     readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
-    controlReg.word = buff[1] << 8;
-    controlReg.word |= buff[0];
+    controlReg.word = buff[0] << 8;
+    controlReg.word |= buff[1];
 
     if(controlReg.latch == 1)
         return true;
@@ -355,13 +355,13 @@ bool QwOpt4048::enableIntActiveHigh(bool enable)
     if (retVal != 0)
         return false;
 
-    intReg.word = buff[1] << 8;
-    intReg.word |= buff[0];
+    intReg.word = buff[0] << 8;
+    intReg.word |= buff[1];
 
     intReg.int_pol = (uint8_t)enable;
 
-    buff[1] = intReg.word >> 8;
-    buff[0] = intReg.word;
+    buff[0] = intReg.word >> 8;
+    buff[1] = intReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
 
@@ -381,8 +381,8 @@ bool QwOpt4048::getIntActiveHigh()
 
     readRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
 
-    intReg.word = buff[1] << 8;
-    intReg.word |= buff[0];
+    intReg.word = buff[0] << 8;
+    intReg.word |= buff[1];
 
     if(!intReg.int_pol)
         return false; 
@@ -405,13 +405,13 @@ bool QwOpt4048::enableIntInput(bool enable)
     if (retVal != 0)
         return false;
 
-    intReg.word = buff[1] << 8;
-    intReg.word |= buff[0];
+    intReg.word = buff[0] << 8;
+    intReg.word |= buff[1];
 
     intReg.int_dir = (uint8_t)enable;
 
-    buff[1] = intReg.word >> 8;
-    buff[0] = intReg.word;
+    buff[0] = intReg.word >> 8;
+    buff[1] = intReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
 
@@ -430,8 +430,8 @@ bool QwOpt4048::getIntInputEnable()
 
     readRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
 
-    intReg.word = buff[1] << 8;
-    intReg.word |= buff[0];
+    intReg.word = buff[0] << 8;
+    intReg.word |= buff[1];
 
     if(!intReg.int_dir)
         return false; 
@@ -454,13 +454,13 @@ bool QwOpt4048::setIntMechanism(opt4048_mechanism_t mechanism)
     if (retVal != 0)
         return false;
 
-    intReg.word = buff[1] << 8;
-    intReg.word |= buff[0];
+    intReg.word = buff[0] << 8;
+    intReg.word |= buff[1];
 
     intReg.int_cfg = mechanism;
 
-    buff[1] = intReg.word >> 8;
-    buff[0] = intReg.word;
+    buff[0] = intReg.word >> 8;
+    buff[1] = intReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
 
@@ -480,8 +480,8 @@ opt4048_mechanism_t QwOpt4048::getIntMechanism()
 
     readRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
 
-    intReg.word = buff[1] << 8;
-    intReg.word |= buff[0];
+    intReg.word = buff[0] << 8;
+    intReg.word |= buff[1];
 
     return((opt4048_mechanism_t)intReg.int_cfg);
 
@@ -496,8 +496,8 @@ opt4048_reg_flags_t QwOpt4048::getAllFlags()
 
     readRegisterRegion(SFE_OPT4048_REGISTER_FLAGS, buff);
 
-    flagReg.word = buff[1] << 8;
-    flagReg.word |= buff[0];
+    flagReg.word = buff[0] << 8;
+    flagReg.word |= buff[1];
 
     return flagReg;
 }
@@ -574,13 +574,13 @@ bool QwOpt4048::setFaultCount(opt4048_fault_count_t count)
     if (retVal != 0)
         return false;
 
-    controlReg.word = buff[1] << 8;
-    controlReg.word |= buff[0];
+    controlReg.word = buff[0] << 8;
+    controlReg.word |= buff[1];
 
     controlReg.fault_count = count;
 
-    buff[1] = controlReg.word >> 8;
-    buff[0] = controlReg.word;
+    buff[0] = controlReg.word >> 8;
+    buff[1] = controlReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
@@ -601,8 +601,8 @@ opt4048_fault_count_t QwOpt4048::getFaultCount()
 
     readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
-    controlReg.word = buff[1] << 8;
-    controlReg.word |= buff[0];
+    controlReg.word = buff[0] << 8;
+    controlReg.word |= buff[1];
 
     return((opt4048_fault_count_t)controlReg.fault_count);
 
@@ -626,13 +626,13 @@ bool QwOpt4048::setThresholdChannel(opt4048_threshold_channel_t channel)
     if (retVal != 0)
         return false;
 
-    intReg.word = buff[1] << 8;
-    intReg.word |= buff[0];
+    intReg.word = buff[0] << 8;
+    intReg.word |= buff[1];
 
     intReg.threshold_ch_sel = channel;
 
-    buff[1] = intReg.word >> 8;
-    buff[0] = intReg.word;
+    buff[0] = intReg.word >> 8;
+    buff[1] = intReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
 
@@ -651,8 +651,8 @@ opt4048_threshold_channel_t QwOpt4048::getThresholdChannel()
 
     readRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
 
-    intReg.word = buff[1] << 8;
-    intReg.word |= buff[0];
+    intReg.word = buff[0] << 8;
+    intReg.word |= buff[1];
 
     return((opt4048_threshold_channel_t)intReg.threshold_ch_sel);
 }
@@ -688,8 +688,8 @@ uint16_t QwOpt4048::getThresholdHigh()
 
     readRegisterRegion(SFE_OPT4048_REGISTER_THRESH_H_EXP_RES, buff);
 
-    threshReg.word = buff[1] << 8;
-    threshReg.word |= buff[0];
+    threshReg.word = buff[0] << 8;
+    threshReg.word |= buff[1];
 
     thresholdHigh = threshReg.thresh_result << threshReg.thresh_exp; 
 
@@ -729,8 +729,8 @@ uint16_t QwOpt4048::getThresholdLow()
 
     readRegisterRegion(SFE_OPT4048_REGISTER_THRESH_L_EXP_RES, buff);
 
-    threshReg.word = buff[1] << 8;
-    threshReg.word |= buff[0];
+    threshReg.word = buff[0] << 8;
+    threshReg.word |= buff[1];
 
     thresholdLow = threshReg.thresh_result << threshReg.thresh_exp; 
 
@@ -751,13 +751,13 @@ bool QwOpt4048::enableI2CBurst(bool enable)
     if (retVal != 0)
         return false;
 
-    intReg.word = buff[1] << 8;
-    intReg.word |= buff[0];
+    intReg.word = buff[0] << 8;
+    intReg.word |= buff[1];
 
     intReg.i2c_burst = (uint8_t)enable;
 
-    buff[1] = intReg.word >> 8;
-    buff[0] = intReg.word;
+    buff[0] = intReg.word >> 8;
+    buff[1] = intReg.word;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
 
@@ -777,8 +777,8 @@ bool QwOpt4048::getI2CBurst()
 
     readRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
 
-    intReg.word = buff[1] << 8;
-    intReg.word |= buff[0];
+    intReg.word = buff[0] << 8;
+    intReg.word |= buff[1];
 
     if(intReg.i2c_burst != 1)
         return false;
