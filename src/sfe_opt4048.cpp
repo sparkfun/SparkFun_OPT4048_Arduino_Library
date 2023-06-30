@@ -126,6 +126,7 @@ opt4048_range_t QwOpt4048::getRange()
     uint8_t buff[2];
     opt4048_reg_control_t controlReg;
 
+    
     readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
     controlReg.word = buff[1] << 8;
@@ -596,6 +597,7 @@ opt4048_fault_count_t QwOpt4048::getFaultCount()
 {
     uint8_t buff[2];
     opt4048_reg_control_t controlReg;
+    controlReg.fault_count = 0; 
 
     readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
@@ -778,7 +780,7 @@ bool QwOpt4048::getI2CBurst()
     intReg.word = buff[1] << 8;
     intReg.word |= buff[0];
 
-    if(!intReg.i2c_burst != 1)
+    if(intReg.i2c_burst != 1)
         return false;
 
     return true;
@@ -1000,7 +1002,7 @@ uint32_t QwOpt4048::getLux()
     uint32_t lux;
 
     adcCh1 = getADCCh1();
-    lux = adcCh1 * cieMatrix[2][4];
+    lux = adcCh1 * cieMatrix[1][3];
 
     return lux;
 }

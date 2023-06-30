@@ -22,9 +22,10 @@ void setup()
    // Serial.println(myColor.getQwake(), HEX);
    // 
     myColor.setRange(RANGE_144LUX);
-    Serial.println(myColor.getRange(), HEX);
+    Serial.println(myColor.getRange(), BIN);
     myColor.setConversionTime(CONVERSION_TIME_200MS);
-    Serial.println(myColor.getConversionTime(), HEX);
+   // Serial.println(myColor.getConversionTime(), BIN);
+   // myColor.setRange(RANGE_144LUX);
     myColor.setOperationMode(OPERATION_MODE_CONTINUOUS);
 
     //myColor.setOperationMode(OPERATION_MODE_CONTINUOUS);
@@ -78,9 +79,6 @@ void setup()
 
 void loop()
 {
-   Serial.println(myColor.getADCCh0());
-   Serial.println(myColor.getADCCh1());
-   Serial.println(myColor.getADCCh2());
-   Serial.println(myColor.getADCCh3());
+   Serial.println(myColor.getLux());
    delay(200);
 }

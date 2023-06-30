@@ -105,7 +105,7 @@ bool QwI2C::ping(uint8_t i2c_address)
 /// @param data Pointer to byte to store read data
 /// @param length Number of bytes to read
 /// @return Number of bytes read (-1 indicates failure)
-int QwI2C::writeRegisterRegion(uint8_t i2c_address, uint8_t offset, const uint8_t *data, uint16_t length)
+int QwI2C::writeRegisterRegion(uint8_t i2c_address, uint8_t offset, uint8_t *data, uint16_t length)
 {
 
     _i2cPort->beginTransmission(i2c_address);
