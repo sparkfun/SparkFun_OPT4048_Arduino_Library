@@ -77,7 +77,6 @@ typedef union {
 #define OPT_MATRIX_ROWS 4
 #define OPT_MATRIX_COLS 4
 
-#define OPT4048_DEVICE_ID 0x24
 class QwOpt4048
 {
   public:

@@ -6,15 +6,15 @@
 #define OPT4048_ADDR_SDA 0x46
 #define OPT4048_ADDR_SCL 0x45
 
-#define OPT4048_DEVICE_ID 0x24
+#define OPT4048_DEVICE_ID 0x208
 
 /// @brief OPT4048 Register for Exponent and Result (MSB) for Channel 0
 #define SFE_OPT4048_REGISTER_EXP_RES_CH0 0x00
 typedef union {
     struct
     {
-        uint8_t exponent_ch0 : 4;
         uint16_t result_msb_ch0 : 12;
+        uint8_t exponent_ch0 : 4;
     };
     uint16_t word;
 
@@ -25,9 +25,9 @@ typedef union {
 typedef union {
     struct
     {
-        uint8_t result_lsb_ch0 : 8;
         uint8_t counter_ch0 : 4;
         uint8_t crc_ch0 : 4;
+        uint8_t result_lsb_ch0 : 8;
     };
     uint16_t word;
 
@@ -63,8 +63,8 @@ typedef union {
 typedef union {
     struct
     {
-        uint8_t exponent_ch2 : 4;
         uint16_t result_msb_ch2 : 12;
+        uint8_t exponent_ch2 : 4;
     };
     uint16_t word;
 
@@ -75,9 +75,9 @@ typedef union {
 typedef union {
     struct
     {
-        uint8_t result_lsb_ch2 : 8;
         uint8_t counter_ch2 : 4;
         uint8_t crc_ch2 : 4;
+        uint8_t result_lsb_ch2 : 8;
     };
     uint16_t word;
 
@@ -88,8 +88,8 @@ typedef union {
 typedef union {
     struct
     {
-        uint8_t exponent_ch3 : 4;
         uint16_t result_msb_ch3 : 12;
+        uint8_t exponent_ch3 : 4;
     };
     uint16_t word;
 
@@ -100,9 +100,9 @@ typedef union {
 typedef union {
     struct
     {
-        uint8_t result_lsb_ch3 : 8;
         uint8_t counter_ch3 : 4;
         uint8_t crc_ch3 : 4;
+        uint8_t result_lsb_ch3 : 8;
     };
     uint8_t word;
 
@@ -246,9 +246,10 @@ typedef union {
 typedef union {
     struct
     {
-        uint16_t reserved : 2;
+        uint8_t DIDH : 8;
+        uint8_t reserved : 2;
         uint8_t DIDL : 2;
-        uint16_t DIDH : 12;
+        uint8_t DIDH2 : 4;
     };
     uint16_t word;
 

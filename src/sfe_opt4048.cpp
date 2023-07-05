@@ -33,11 +33,18 @@ uint16_t QwOpt4048::getDeviceID()
     uint8_t buff[2];
     uint16_t uniqueId;
     int32_t retVal;
+    opt4048_reg_device_id_t idReg;
 
     retVal = readRegisterRegion(SFE_OPT4048_REGISTER_DEVICE_ID, buff);
 
-    uniqueId = ((buff[1] & 0x0F) | buff[0]) << 2;
-    uniqueId |= (buff[0] & 0x30) >> 10;
+    idReg.word = buff[0] << 8;
+    idReg.word |= buff[1];
+
+    uniqueId |= idReg.DIDH2 << 10; 
+    uniqueId = idReg.DIDH << 2; 
+    uniqueId |= idReg.DIDL;  
+    Serial.print("Device ID: ");
+    Serial.println(uniqueId, HEX);
 
     if (retVal != 0)
         return 0;
@@ -822,7 +829,6 @@ uint32_t QwOpt4048::getADCCh1()
 {
 
     uint8_t buff[4];
-    uint8_t expon;
     uint32_t adcCode;
     uint32_t mantissa;
     opt4048_reg_exp_res_ch1_t adcReg; 
@@ -839,11 +845,6 @@ uint32_t QwOpt4048::getADCCh1()
     mantissa |= adc1Reg.result_lsb_ch1; 
 
     adcCode = mantissa << adcReg.exponent_ch1; 
-    //expon = buff[0] >> 8 & 0xF0; // Four bit expon
-    //mantissa = buff[1] << 16;    // Four bits of mantissa
-    //mantissa |= buff[0] << 8;    // 8 more bits of mantissa
-    //mantissa |= buff[3];         // 8 more bits of mantissa - 20 total.
-    //adcCode = mantissa << expon;
 
     return adcCode;
 }
