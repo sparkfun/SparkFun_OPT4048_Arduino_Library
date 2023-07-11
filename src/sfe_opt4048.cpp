@@ -40,8 +40,8 @@ uint16_t QwOpt4048::getDeviceID()
     idReg.word = buff[0] << 8;
     idReg.word |= buff[1];
 
-    uniqueId |= idReg.DIDH2 << 10; 
-    uniqueId = idReg.DIDH << 2; 
+    uniqueId = idReg.DIDH2 << 10; 
+    uniqueId |= idReg.DIDH << 2; 
     uniqueId |= idReg.DIDL;  
     Serial.print("Device ID: ");
     Serial.println(uniqueId, HEX);
@@ -440,6 +440,27 @@ bool QwOpt4048::getIntInputEnable()
     intReg.word = buff[0] << 8;
     intReg.word |= buff[1];
 
+    Serial.println("Interrupt Enable Register: ");
+    Serial.print("Expecting: Registers One - Register Two: ");
+    Serial.println("10000000 - 00010001");
+    Serial.print("Actual: ");
+    Serial.print(buff[0], BIN);
+    Serial.print("-");
+    Serial.println(buff[1], BIN);
+    Serial.print("What's stored in the word: ");
+    Serial.println(intReg.word, BIN);
+    Serial.print("i2c Burst: ");
+    Serial.println(intReg.i2c_burst, BIN);
+    Serial.print("Reserved Two: ");
+    Serial.println(intReg.reserved_two, BIN);
+    Serial.print("int_cfg: ");
+    Serial.println(intReg.int_cfg, BIN);
+    Serial.print("i2c Direction: ");
+    Serial.println(intReg.int_dir, BIN);
+    Serial.print("Threshold_ch_sel: ");
+    Serial.println(intReg.int_dir, BIN);
+    Serial.print("Reserved One: ");
+    Serial.println(intReg.reserved_one, BIN);
     if(!intReg.int_dir)
         return false; 
 
@@ -845,6 +866,8 @@ uint32_t QwOpt4048::getADCCh1()
     mantissa |= adc1Reg.result_lsb_ch1; 
 
     adcCode = mantissa << adcReg.exponent_ch1; 
+    Serial.print("Exponent (should be ): ");
+    Serial.println(adcReg.exponent_ch1, HEX);
 
     return adcCode;
 }

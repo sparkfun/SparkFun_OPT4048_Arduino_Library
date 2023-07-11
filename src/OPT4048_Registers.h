@@ -6,7 +6,7 @@
 #define OPT4048_ADDR_SDA 0x46
 #define OPT4048_ADDR_SCL 0x45
 
-#define OPT4048_DEVICE_ID 0x208
+#define OPT4048_DEVICE_ID 0x86
 
 /// @brief OPT4048 Register for Exponent and Result (MSB) for Channel 0
 #define SFE_OPT4048_REGISTER_EXP_RES_CH0 0x00
@@ -209,11 +209,13 @@ typedef enum
 typedef union {
     struct
     {
-        uint8_t threshold_ch_sel : 8;
-        uint8_t int_dir : 1;
-        uint8_t int_cfg : 2;
-        uint8_t reserved : 1;
         uint8_t i2c_burst : 1;
+        uint8_t reserved_two : 1;
+        uint8_t int_cfg : 2;
+        uint8_t int_dir : 1;
+        uint8_t threshold_ch_sel : 2;
+        //uint8_t reserved_wrap : 1;
+        uint16_t reserved_one : 9;
     };
     uint16_t word;
 

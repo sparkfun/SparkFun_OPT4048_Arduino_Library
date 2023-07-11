@@ -1,5 +1,6 @@
 #include "SparkFun_OPT4048.h"
 #include <Wire.h>
+#include <SparkFun_Qwiic_OLED.h>
 
 SparkFun_OPT4048 myColor;
 
@@ -20,16 +21,16 @@ void setup()
    // Serial.println(myColor.getQwake(), HEX);
    // myColor.enableQwake(false);
    // Serial.println(myColor.getQwake(), HEX);
-   // 
-    myColor.setRange(RANGE_144LUX);
+     
+    myColor.setRange(RANGE_72LUX);
 //    Serial.println(myColor.getRange(), BIN);
     myColor.setConversionTime(CONVERSION_TIME_200MS);
    // Serial.println(myColor.getConversionTime(), BIN);
-   // myColor.setRange(RANGE_144LUX);
     myColor.setOperationMode(OPERATION_MODE_CONTINUOUS);
-
+    
     //myColor.setOperationMode(OPERATION_MODE_CONTINUOUS);
     //Serial.println(myColor.getOperationMode(), HEX);
+    myColor.getIntInputEnable();
 
     //Serial.println("Latch: ");
     //myColor.enableIntLatch(true);
@@ -75,10 +76,11 @@ void setup()
    // uint32_t getCCT();
 
     Serial.println("Great");
+    while(1);
 }
 
 void loop()
 {
-   Serial.println(myColor.getLux());
-   delay(200);
+    Serial.println(myColor.getLux());
+    delay(200);
 }
