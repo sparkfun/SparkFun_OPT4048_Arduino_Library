@@ -453,12 +453,12 @@ bool QwOpt4048::getIntInputEnable()
     Serial.println(intReg.i2c_burst, BIN);
     Serial.print("Reserved Two: ");
     Serial.println(intReg.reserved_two, BIN);
-    Serial.print("int_cfg: ");
-    Serial.println(intReg.int_cfg, BIN);
+    Serial.printf("int_cfg: %04X \n", intReg.int_cfg);
+    //Serial.println(intReg.int_cfg, BIN);
     Serial.print("i2c Direction: ");
     Serial.println(intReg.int_dir, BIN);
     Serial.print("Threshold_ch_sel: ");
-    Serial.println(intReg.int_dir, BIN);
+    Serial.println(intReg.threshold_ch_sel, BIN);
     Serial.print("Reserved One: ");
     Serial.println(intReg.reserved_one, BIN);
     if(!intReg.int_dir)

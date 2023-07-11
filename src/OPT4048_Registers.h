@@ -209,12 +209,11 @@ typedef enum
 typedef union {
     struct
     {
-        uint8_t i2c_burst : 1;
-        uint8_t reserved_two : 1;
-        uint8_t int_cfg : 2;
-        uint8_t int_dir : 1;
-        uint8_t threshold_ch_sel : 2;
-        //uint8_t reserved_wrap : 1;
+        uint16_t i2c_burst : 1;
+        uint16_t reserved_two : 1;
+        uint16_t int_cfg : 2;
+        uint16_t int_dir : 1;
+        uint16_t threshold_ch_sel : 2;
         uint16_t reserved_one : 9;
     };
     uint16_t word;
@@ -233,10 +232,10 @@ typedef enum
 typedef union {
     struct
     {
+        uint8_t flag_low : 1;
+        uint8_t flag_high : 1;
         uint8_t overload_flag : 1;
         uint8_t conv_ready_flag : 1;
-        uint8_t flag_high : 1;
-        uint8_t flag_low : 1;
         uint16_t reserved : 12;
     };
     uint16_t word;
@@ -248,10 +247,9 @@ typedef union {
 typedef union {
     struct
     {
-        uint8_t DIDH : 8;
-        uint8_t reserved : 2;
-        uint8_t DIDL : 2;
-        uint8_t DIDH2 : 4;
+        uint16_t DIDH : 12;
+        uint16_t DIDL : 2;
+        uint16_t reserved : 2;
     };
     uint16_t word;
 

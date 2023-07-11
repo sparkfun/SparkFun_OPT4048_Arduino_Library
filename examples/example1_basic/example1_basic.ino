@@ -1,6 +1,5 @@
 #include "SparkFun_OPT4048.h"
 #include <Wire.h>
-#include <SparkFun_Qwiic_OLED.h>
 
 SparkFun_OPT4048 myColor;
 
@@ -8,7 +7,7 @@ void setup()
 {
     Serial.begin(115200);
     Serial.println("OPT4048 Example 1 Basic");
-
+    pinMode(13, OUTPUT);
     Wire.begin();
 
     if (!myColor.begin())
