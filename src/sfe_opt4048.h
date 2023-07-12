@@ -152,8 +152,8 @@ class QwOpt4048
     uint8_t calculateCRC(uint32_t manitssa, uint8_t expon, uint8_t crc);
 
     uint32_t getLux();
-    uint32_t getCIEx();
-    uint32_t getCIEy();
+    double getCIEx();
+    double getCIEy();
     uint32_t getCCT();
 
   private:

@@ -1,7 +1,21 @@
 #include "SparkFun_OPT4048.h"
+#include "lp55231.h"
 #include <Wire.h>
 
 SparkFun_OPT4048 myColor;
+Lp55231 ledChip(0x35);
+
+int channel[] = {2,1,7,3,4,8,5,6,9};
+
+#define ROYAL_BLUE 0
+#define LIGHT_BLUE 1
+#define CYAN 2
+#define GREEN 3
+#define YELLOW 4
+#define ORANGE 5
+#define LIGHT_RED 6
+#define BRIGHT_RED 7
+#define FAR_RED    8
 
 void setup()
 {
@@ -16,70 +30,46 @@ void setup()
         while (1) ;
     }
 
-   // myColor.enableQwake(true);
-   // Serial.println(myColor.getQwake(), HEX);
-   // myColor.enableQwake(false);
-   // Serial.println(myColor.getQwake(), HEX);
-     
-    myColor.setRange(RANGE_144LUX);
-//    Serial.println(myColor.getRange(), BIN);
+    ledChip.Begin();
+    ledChip.Enable();
+    ledChip.SetChargePumpMode(CP_BYPASS);
+
+    delay(500);
+
+    for(uint8_t i = 0; i < 9; i++)
+    {
+        ledChip.SetLogBrightness(i, true);
+    }
+
+    myColor.setRange(RANGE_2KLUX2);
+    //Serial.println(myColor.getRange());
     myColor.setConversionTime(CONVERSION_TIME_800MS);
-   // Serial.println(myColor.getConversionTime(), BIN);
+    //Serial.println(myColor.getConversionTime());
     myColor.setOperationMode(OPERATION_MODE_CONTINUOUS);
-    
-    //myColor.setOperationMode(OPERATION_MODE_CONTINUOUS);
-    //Serial.println(myColor.getOperationMode(), HEX);
-    myColor.getIntInputEnable();
-
-    //Serial.println("Latch: ");
-    //myColor.enableIntLatch(true);
-    //Serial.println(myColor.getIntLatch(), HEX);
-
-    ////WHAT.
-    //myColor.setFaultCount(FAULT_COUNT_2);
-    //Serial.println(myColor.getFaultCount(), HEX);
-
-    //myColor.enableIntActiveHigh(true);
-    //Serial.println(myColor.getIntActiveHigh(), HEX);
- 
-    //myColor.setThresholdChannel(THRESH_CHANNEL_CH3);
-    //Serial.println(myColor.getThresholdChannel(), HEX);
- 
-   // uint16_t getThresholdHigh();
-   // uint16_t getThresholdLow();
-
-   // void enableCRC(bool enable);
-
-   //myColor.enableIntInput(true);
-   //Serial.println(myColor.getIntInputEnable(), HEX);
-
-   //myColor.setIntMechanism(INT_DR_ALL_CHANNELS);
-   //Serial.println(myColor.getIntMechanism(),HEX);
-
-   //myColor.enableI2CBurst(true);
-   //Serial.println(myColor.getI2CBurst(), HEX);
-
-   // uint8_t getFlag();
-   //Serial.println(myColor.getOverloadFlag(), HEX);
-   //Serial.println(myColor.getConvReadyFlag(),HEX);
-   //Serial.println(myColor.getTooBrightFlag(),HEX);
-   //Serial.println(myColor.getTooDimFlag(),HEX);
-   // ///////////////////////////////////////////////////////////////////Color Information
-   // sfe_color_t getAllADC();
-   // bool getAllChannelData(sfe_color_t *color);
-   // uint8_t calculateCRC(uint32_t manitssa, uint8_t expon, uint8_t crc);
-
-   // uint32_t getLux();
-   // uint32_t getCIEx();
-   // uint32_t getCIEy();
-   // uint32_t getCCT();
 
     Serial.println("Great");
 }
 
 void loop()
 {
-    Serial.println(myColor.getCIEx());
-    Serial.println(myColor.getCIEy());
-    delay(800);
+
+    // Full brightness 255
+    // Array is as follows:[blue]
+    for(int i = 0; i < FAR_RED; i++)
+    {
+        ledChip.SetChannelPWM(channel[i]-1, 50);
+
+        Serial.printf("Color: %d \n", i);
+
+        for(int j = 0; j < 3; j++)
+        {
+            Serial.printf("\nCIEx: %0.4f, CIEy %0.4f, Sample: %d\n", 
+                            myColor.getCIEx(), myColor.getCIEy(), j+1);
+            // Four times converstion time
+            delay(3200);
+        }
+
+        ledChip.SetChannelPWM(channel[i]-1, 0);
+
+    }
 }

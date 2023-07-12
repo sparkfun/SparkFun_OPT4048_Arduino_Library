@@ -843,7 +843,6 @@ uint32_t QwOpt4048::getADCCh1()
 
     mantissa = adcReg.result_msb_ch1 << 8; 
     mantissa |= adc1Reg.result_lsb_ch1; 
-
     adcCode = mantissa << adcReg.exponent_ch1; 
 
     return adcCode;
@@ -922,56 +921,81 @@ sfe_color_t QwOpt4048::getAllADC()
 /// @return Returns true on successful execution, false otherwise.
 bool QwOpt4048::getAllChannelData(sfe_color_t *color)
 {
-    uint8_t expon;
-    uint8_t crc;
     int32_t retVal;
-    uint32_t mantissa;
+    uint8_t buff[16];
+    uint32_t mantissaCh0;
+    uint32_t mantissaCh1;
+    uint32_t mantissaCh2;
+    uint32_t mantissaCh3;
+    uint32_t adcCodeCh0;
+    uint32_t adcCodeCh1;
+    uint32_t adcCodeCh2;
+    uint32_t adcCodeCh3;
 
-    // Iterators
-    uint8_t chan;
-    uint8_t offset;
-    uint8_t buff[16]= {0};
-    uint8_t crcArr[4]= {0};
-    uint8_t counterArr[4]= {0};
-    uint32_t adcArr[4]= {0};
+    opt4048_reg_exp_res_ch0_t adc0MSB; 
+    opt4048_reg_res_cnt_crc_ch0_t adc0LSB; 
+    opt4048_reg_exp_res_ch1_t adc1MSB; 
+    opt4048_reg_res_cnt_crc_ch1_t adc1LSB; 
+    opt4048_reg_exp_res_ch2_t adc2MSB; 
+    opt4048_reg_res_cnt_crc_ch2_t adc2LSB; 
+    opt4048_reg_exp_res_ch3_t adc3MSB; 
+    opt4048_reg_res_cnt_crc_ch3_t adc3LSB; 
 
     retVal = readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH0, buff, 16);
 
     if (retVal != 0)
         return false;
 
-    for (chan = 0, offset = 0; offset < 4; chan++, offset += 4)
-    {
-        expon = (buff[0 + offset] >> 8) & 0xF0; // Four bit expon
-        mantissa = buff[1 + offset] << 16;      // Four bits of mantissa
-        mantissa |= buff[0 + offset] << 8;      // 8 more bits of mantissa
-        mantissa |= buff[3 + offset];           // 8 more bits of mantissa - 20 total.
-        crc = buff[2 + offset] & 0x0F;
-        counterArr[chan] = buff[2] >> 4;
-        adcArr[chan] = mantissa << expon;
+    adc0MSB.word = buff[0] << 8;
+    adc0MSB.word |= buff[1];
+    adc0LSB.word = buff[2] << 8;
+    adc0LSB.word |= buff[3];
 
-        if (crcEnabled == true)
-        {
-            crcArr[chan] = calculateCRC(mantissa, expon, crc);
-        }
+    adc1MSB.word = buff[4] << 8;
+    adc1MSB.word |= buff[5];
+    adc1LSB.word = buff[6] << 8;
+    adc1LSB.word |= buff[7];
 
-        chan++;
-    }
+    adc2MSB.word = buff[8] << 8;
+    adc2MSB.word |= buff[9];
+    adc2LSB.word = buff[10] << 8;
+    adc2LSB.word |= buff[11];
 
-    color->red = adcArr[0];
-    color->green = adcArr[1];
-    color->blue = adcArr[2];
-    color->white = adcArr[3];
+    adc3MSB.word = buff[12] << 8;
+    adc3MSB.word |= buff[13];
+    adc3LSB.word = buff[14] << 8;
+    adc3LSB.word |= buff[15];
 
-    color->counterR = counterArr[0];
-    color->counterG = counterArr[1];
-    color->counterR = counterArr[2];
-    color->counterR = counterArr[3];
+    mantissaCh0 = adc0MSB.result_msb_ch0 << 8; 
+    mantissaCh0 |= adc0LSB.result_lsb_ch0; 
+    adcCodeCh0 = mantissaCh0 << adc0MSB.exponent_ch0; 
 
-    color->CRCR = crcArr[0];
-    color->CRCG = crcArr[1];
-    color->CRCB = crcArr[2];
-    color->CRCW = crcArr[3];
+    mantissaCh1 = adc1MSB.result_msb_ch1 << 8; 
+    mantissaCh1|= adc1LSB.result_lsb_ch1; 
+    adcCodeCh1 = mantissaCh1 << adc1MSB.exponent_ch1; 
+
+    mantissaCh2 = adc2MSB.result_msb_ch2 << 8; 
+    mantissaCh2 |= adc2LSB.result_lsb_ch2; 
+    adcCodeCh2 = mantissaCh2 << adc2MSB.exponent_ch2; 
+
+    mantissaCh3 = adc3MSB.result_msb_ch3 << 8; 
+    mantissaCh3 |= adc3LSB.result_lsb_ch3; 
+    adcCodeCh3 = mantissaCh3 << adc3MSB.exponent_ch3; 
+
+    color->red = adcCodeCh0;
+    color->green = adcCodeCh1;
+    color->blue = adcCodeCh2;
+    color->white = adcCodeCh3;
+
+    color->counterR = adc0LSB.counter_ch0;
+    color->counterG = adc1LSB.counter_ch1;
+    color->counterR = adc2LSB.counter_ch2;
+    color->counterR = adc3LSB.counter_ch3;
+
+    color->CRCR = adc0LSB.crc_ch0;
+    color->CRCG = adc1LSB.crc_ch1;
+    color->CRCB = adc2LSB.crc_ch2;
+    color->CRCW = adc3LSB.crc_ch3;
 
     return true;
 }
@@ -1029,12 +1053,12 @@ uint32_t QwOpt4048::getLux()
 
 /// @brief  Retrieves the CIE X value of the sensor.
 /// @return Returns the CIE X value of the sensor
-uint32_t QwOpt4048::getCIEx()
+double QwOpt4048::getCIEx()
 {
-    int32_t x = 0;
-    int32_t y = 0;
-    int32_t z = 0;
-    uint32_t CIEx;
+    double x = 0;
+    double y = 0;
+    double z = 0;
+    double CIEx;
     sfe_color_t color;
 
     getAllChannelData(&color);
@@ -1053,12 +1077,12 @@ uint32_t QwOpt4048::getCIEx()
 
 /// @brief Retrieves the CIE Y value of the sensor.
 /// @return Returns the CIE Y value of the sensor
-uint32_t QwOpt4048::getCIEy()
+double QwOpt4048::getCIEy()
 {
-    int32_t x = 0;
-    int32_t y = 0;
-    int32_t z = 0;
-    uint32_t CIEy;
+    double x = 0;
+    double y = 0;
+    double z = 0;
+    double  CIEy;
     sfe_color_t color;
 
     getAllChannelData(&color);
