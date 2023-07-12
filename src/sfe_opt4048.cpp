@@ -40,11 +40,8 @@ uint16_t QwOpt4048::getDeviceID()
     idReg.word = buff[0] << 8;
     idReg.word |= buff[1];
 
-    uniqueId = idReg.DIDH2 << 10; 
-    uniqueId |= idReg.DIDH << 2; 
+    uniqueId = idReg.DIDH << 2; 
     uniqueId |= idReg.DIDL;  
-    Serial.print("Device ID: ");
-    Serial.println(uniqueId, HEX);
 
     if (retVal != 0)
         return 0;
@@ -440,27 +437,6 @@ bool QwOpt4048::getIntInputEnable()
     intReg.word = buff[0] << 8;
     intReg.word |= buff[1];
 
-    Serial.println("Interrupt Enable Register: ");
-    Serial.print("Expecting: Registers One - Register Two: ");
-    Serial.println("10000000 - 00010001");
-    Serial.print("Actual: ");
-    Serial.print(buff[0], BIN);
-    Serial.print("-");
-    Serial.println(buff[1], BIN);
-    Serial.print("What's stored in the word: ");
-    Serial.println(intReg.word, BIN);
-    Serial.print("i2c Burst: ");
-    Serial.println(intReg.i2c_burst, BIN);
-    Serial.print("Reserved Two: ");
-    Serial.println(intReg.reserved_two, BIN);
-    Serial.printf("int_cfg: %04X \n", intReg.int_cfg);
-    //Serial.println(intReg.int_cfg, BIN);
-    Serial.print("i2c Direction: ");
-    Serial.println(intReg.int_dir, BIN);
-    Serial.print("Threshold_ch_sel: ");
-    Serial.println(intReg.threshold_ch_sel, BIN);
-    Serial.print("Reserved One: ");
-    Serial.println(intReg.reserved_one, BIN);
     if(!intReg.int_dir)
         return false; 
 
@@ -827,19 +803,22 @@ void QwOpt4048::enableCRC(bool enable)
 uint32_t QwOpt4048::getADCCh0()
 {
     uint8_t buff[4];
-    uint8_t expon;
     uint32_t adcCode;
     uint32_t mantissa;
+    opt4048_reg_exp_res_ch0_t adcReg; 
+    opt4048_reg_res_cnt_crc_ch0_t adc1Reg; 
 
     readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH0, buff, 4);
 
+    adcReg.word = buff[0] << 8; 
+    adcReg.word |= buff[1]; 
+    adc1Reg.word = buff[2] << 8; 
+    adc1Reg.word |= buff[3]; 
 
-    expon = (buff[0] >> 8) & 0xF0; // Four bit expon
-    mantissa = buff[1] << 16;      // Four bits of mantissa
-    mantissa |= buff[0] << 8;      // 8 more bits of mantissa
-    mantissa |= buff[3];           // 8 more bits of mantissa - 20 total.
+    mantissa = adcReg.result_msb_ch0 << 8; 
+    mantissa |= adc1Reg.result_lsb_ch0; 
 
-    adcCode = mantissa << expon;
+    adcCode = mantissa << adcReg.exponent_ch0; 
 
     return adcCode;
 }
@@ -866,8 +845,6 @@ uint32_t QwOpt4048::getADCCh1()
     mantissa |= adc1Reg.result_lsb_ch1; 
 
     adcCode = mantissa << adcReg.exponent_ch1; 
-    Serial.print("Exponent (should be ): ");
-    Serial.println(adcReg.exponent_ch1, HEX);
 
     return adcCode;
 }
@@ -878,18 +855,22 @@ uint32_t QwOpt4048::getADCCh2()
 {
 
     uint8_t buff[4];
-    uint8_t expon;
     uint32_t adcCode;
     uint32_t mantissa;
+    opt4048_reg_exp_res_ch2_t adcReg; 
+    opt4048_reg_res_cnt_crc_ch2_t adc1Reg; 
 
     readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH2, buff, 4);
 
-    expon = (buff[0] >> 8) & 0xF0; // Four bit expon
-    mantissa = buff[1] << 16;      // Four bits of mantissa
-    mantissa |= buff[0] << 8;      // 8 more bits of mantissa
-    mantissa |= buff[3];           // 8 more bits of mantissa - 20 total.
+    adcReg.word = buff[0] << 8; 
+    adcReg.word |= buff[1]; 
+    adc1Reg.word = buff[2] << 8; 
+    adc1Reg.word |= buff[3]; 
 
-    adcCode = mantissa << expon;
+    mantissa = adcReg.result_msb_ch2 << 8; 
+    mantissa |= adc1Reg.result_lsb_ch2; 
+
+    adcCode = mantissa << adcReg.exponent_ch2; 
 
     return adcCode;
 }
@@ -900,18 +881,22 @@ uint32_t QwOpt4048::getADCCh3()
 {
 
     uint8_t buff[4];
-    uint8_t expon;
     uint32_t adcCode;
     uint32_t mantissa;
+    opt4048_reg_exp_res_ch3_t adcReg; 
+    opt4048_reg_res_cnt_crc_ch3_t adc1Reg; 
 
     readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH3, buff, 4);
 
-    expon = (buff[0] >> 8) & 0xF0; // Four bit expon
-    mantissa = buff[1] << 16;      // Four bits of mantissa
-    mantissa |= buff[0] << 8;      // 8 more bits of mantissa
-    mantissa |= buff[3];           // 8 more bits of mantissa - 20 total.
+    adcReg.word = buff[0] << 8; 
+    adcReg.word |= buff[1]; 
+    adc1Reg.word = buff[2] << 8; 
+    adc1Reg.word |= buff[3]; 
 
-    adcCode = mantissa << expon;
+    mantissa = adcReg.result_msb_ch3 << 8; 
+    mantissa |= adc1Reg.result_lsb_ch3; 
+
+    adcCode = mantissa << adcReg.exponent_ch3; 
 
     return adcCode;
 }

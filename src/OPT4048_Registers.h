@@ -6,7 +6,7 @@
 #define OPT4048_ADDR_SDA 0x46
 #define OPT4048_ADDR_SCL 0x45
 
-#define OPT4048_DEVICE_ID 0x86
+#define OPT4048_DEVICE_ID 0x2084
 
 /// @brief OPT4048 Register for Exponent and Result (MSB) for Channel 0
 #define SFE_OPT4048_REGISTER_EXP_RES_CH0 0x00
@@ -25,8 +25,8 @@ typedef union {
 typedef union {
     struct
     {
-        uint8_t counter_ch0 : 4;
         uint8_t crc_ch0 : 4;
+        uint8_t counter_ch0 : 4;
         uint8_t result_lsb_ch0 : 8;
     };
     uint16_t word;
@@ -50,8 +50,8 @@ typedef union {
 typedef union {
     struct
     {
-        uint8_t counter_ch1 : 4;
         uint8_t crc_ch1 : 4;
+        uint8_t counter_ch1 : 4;
         uint8_t result_lsb_ch1 : 8;
     };
     uint16_t word;
@@ -75,8 +75,8 @@ typedef union {
 typedef union {
     struct
     {
-        uint8_t counter_ch2 : 4;
         uint8_t crc_ch2 : 4;
+        uint8_t counter_ch2 : 4;
         uint8_t result_lsb_ch2 : 8;
     };
     uint16_t word;
@@ -100,8 +100,8 @@ typedef union {
 typedef union {
     struct
     {
-        uint8_t counter_ch3 : 4;
         uint8_t crc_ch3 : 4;
+        uint8_t counter_ch3 : 4;
         uint8_t result_lsb_ch3 : 8;
     };
     uint8_t word;
@@ -113,8 +113,8 @@ typedef union {
 typedef union {
     struct
     {
-        uint8_t thresh_exp : 4;
         uint16_t thresh_result : 12;
+        uint8_t thresh_exp : 4;
     };
     uint16_t word;
 
@@ -125,8 +125,8 @@ typedef union {
 typedef union {
     struct
     {
-        uint8_t thresh_exp : 4;
         uint16_t thresh_result : 12;
+        uint8_t thresh_exp : 4;
     };
     uint16_t word;
 
@@ -184,14 +184,14 @@ typedef enum
 typedef union {
     struct
     {
-        uint8_t conversion_time : 4;
-        uint8_t op_mode : 2;
-        uint8_t latch : 1;
-        uint8_t int_pol : 1;
-        uint8_t fault_count : 2;
-        uint8_t qwake : 1;
-        uint8_t reserved : 1;
-        uint8_t range : 4;
+        uint16_t fault_count : 2;
+        uint16_t int_pol : 1;
+        uint16_t latch : 1;
+        uint16_t op_mode : 2;
+        uint16_t conversion_time : 4;
+        uint16_t range : 4;
+        uint16_t reserved : 1;
+        uint16_t qwake : 1;
     };
     uint16_t word;
 } opt4048_reg_control_t;
@@ -234,8 +234,8 @@ typedef union {
     {
         uint8_t flag_low : 1;
         uint8_t flag_high : 1;
-        uint8_t overload_flag : 1;
         uint8_t conv_ready_flag : 1;
+        uint8_t overload_flag : 1;
         uint16_t reserved : 12;
     };
     uint16_t word;

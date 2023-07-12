@@ -21,9 +21,9 @@ void setup()
    // myColor.enableQwake(false);
    // Serial.println(myColor.getQwake(), HEX);
      
-    myColor.setRange(RANGE_72LUX);
+    myColor.setRange(RANGE_144LUX);
 //    Serial.println(myColor.getRange(), BIN);
-    myColor.setConversionTime(CONVERSION_TIME_200MS);
+    myColor.setConversionTime(CONVERSION_TIME_800MS);
    // Serial.println(myColor.getConversionTime(), BIN);
     myColor.setOperationMode(OPERATION_MODE_CONTINUOUS);
     
@@ -75,11 +75,11 @@ void setup()
    // uint32_t getCCT();
 
     Serial.println("Great");
-    while(1);
 }
 
 void loop()
 {
-    Serial.println(myColor.getLux());
-    delay(200);
+    Serial.println(myColor.getCIEx());
+    Serial.println(myColor.getCIEy());
+    delay(800);
 }
