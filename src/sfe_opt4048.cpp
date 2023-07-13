@@ -1059,7 +1059,7 @@ double QwOpt4048::getCIEx()
     double y = 0;
     double z = 0;
     double CIEx;
-    sfe_color_t color;
+    static sfe_color_t color;
 
     getAllChannelData(&color);
 
@@ -1086,15 +1086,13 @@ double QwOpt4048::getCIEy()
     sfe_color_t color;
 
     getAllChannelData(&color);
-
+    
     for (int row = 0; row < OPT_MATRIX_ROWS; row++)
     {
         x += color.red * cieMatrix[row][0];
         y += color.green * cieMatrix[row][1];
         z += color.blue * cieMatrix[row][2];
-        Serial.printf("x: %0.4f, y: %0.4f, z: %0.4f\n", x, y, z);
     }
-        Serial.printf("Total: x: %0.4f, y: %0.4f, z: %0.4f\n", x, y, z);
 
     CIEy = y / (x + y + z);
 
@@ -1103,7 +1101,7 @@ double QwOpt4048::getCIEy()
 
 /// @brief Retrieves the Correlated Color Temperature (CCT) of the sensor.
 /// @return Returns the CCT of the sensor in Kelvin
-uint32_t QwOpt4048::getCCT()
+double QwOpt4048::getCCT()
 {
     double CIEx;
     double CIEy;

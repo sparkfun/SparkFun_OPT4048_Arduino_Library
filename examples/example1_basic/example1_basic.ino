@@ -48,6 +48,7 @@ void setup()
     myColor.setOperationMode(OPERATION_MODE_CONTINUOUS);
 
     Serial.println("Great");
+    ledChip.SetChannelPWM(channel[ROYAL_BLUE]-1, 50);
 }
 
 void loop()
@@ -55,21 +56,24 @@ void loop()
 
     // Full brightness 255
     // Array is as follows:[blue]
-    for(int i = 0; i < FAR_RED; i++)
-    {
-        ledChip.SetChannelPWM(channel[i]-1, 50);
+    delay(3200);
+    Serial.printf("\nCIEx: %0.4f, CIEy %0.4f, CCT %0.4f\n", myColor.getCIEx(), myColor.getCIEy(), myColor.getCCT());
 
-        Serial.printf("Color: %d \n", i);
+    //for(int i = 0; i < FAR_RED; i++)
+    //{
+    //    ledChip.SetChannelPWM(channel[i]-1, 50);
 
-        for(int j = 0; j < 3; j++)
-        {
-            delay(3200);
-            Serial.printf("\nCIEx: %0.4f, CIEy %0.4f, Sample: %d\n", 
-                            myColor.getCIEx(), myColor.getCIEy(), j+1);
-            // Four times converstion time
-        }
+    //    Serial.printf("Color: %d \n", i);
 
-        ledChip.SetChannelPWM(channel[i]-1, 0);
+    //    for(int j = 0; j < 3; j++)
+    //    {
+    //        delay(3200);
+    //        Serial.printf("\nCIEx: %0.4f, CIEy %0.4f, Sample: %d\n", 
+    //                        myColor.getCIEx(), myColor.getCIEy(), j+1);
+    //        // Four times converstion time
+    //    }
 
-    }
+    //    ledChip.SetChannelPWM(channel[i]-1, 0);
+
+    //}
 }
