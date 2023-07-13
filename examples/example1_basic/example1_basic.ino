@@ -63,10 +63,10 @@ void loop()
 
         for(int j = 0; j < 3; j++)
         {
+            delay(3200);
             Serial.printf("\nCIEx: %0.4f, CIEy %0.4f, Sample: %d\n", 
                             myColor.getCIEx(), myColor.getCIEy(), j+1);
             // Four times converstion time
-            delay(3200);
         }
 
         ledChip.SetChannelPWM(channel[i]-1, 0);

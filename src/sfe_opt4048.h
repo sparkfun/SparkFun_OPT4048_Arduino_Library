@@ -154,7 +154,7 @@ class QwOpt4048
     uint32_t getLux();
     double getCIEx();
     double getCIEy();
-    uint32_t getCCT();
+    double getCCT();
 
   private:
 
@@ -164,8 +164,8 @@ class QwOpt4048
 
     // Table in 9.2.4 of Datasheet for calculating CIE x and y, and Lux.
     const long double cieMatrix[OPT_MATRIX_ROWS][OPT_MATRIX_COLS] = {
-        {pow(2.34802002, -4), pow(-1.89652390, -5), pow(1.20811684, -5), 0},
-        {pow(4.07467441, -5), pow(1.98958202, -4), pow(-1.58848114, -5), pow(2.15, -3)},
-        {pow(8.28619404, -5), pow(-1.69739553, -5), pow(6.74021520, -4), 0},
+        {pow(2.34892992, -4), pow(-1.89652390, -5), pow(1.20811684, -5), 0},
+        {pow(4.07467441, -5), pow(1.98958202, -4), pow(-1.58848115, -5), pow(2.15, -3)},
+        {pow(9.28619404, -5), pow(-1.69739553, -5), pow(6.74021520, -4), 0},
         {0, 0, 0, 0}};
 };

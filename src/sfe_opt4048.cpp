@@ -1063,11 +1063,11 @@ double QwOpt4048::getCIEx()
 
     getAllChannelData(&color);
 
-    for (int col = 0; col < OPT_MATRIX_COLS; col++)
+    for (int row = 0; row < OPT_MATRIX_ROWS; row++)
     {
-        x += color.red * cieMatrix[0][col];
-        y += color.green * cieMatrix[1][col];
-        z += color.blue * cieMatrix[2][col];
+        x += color.red * cieMatrix[row][0];
+        y += color.green * cieMatrix[row][1];
+        z += color.blue * cieMatrix[row][2];
     }
 
     CIEx = x / (x + y + z);
@@ -1087,12 +1087,14 @@ double QwOpt4048::getCIEy()
 
     getAllChannelData(&color);
 
-    for (int col = 0; col < OPT_MATRIX_COLS; col++)
+    for (int row = 0; row < OPT_MATRIX_ROWS; row++)
     {
-        x += color.red * cieMatrix[0][col];
-        y += color.green * cieMatrix[1][col];
-        z += color.blue * cieMatrix[2][col];
+        x += color.red * cieMatrix[row][0];
+        y += color.green * cieMatrix[row][1];
+        z += color.blue * cieMatrix[row][2];
+        Serial.printf("x: %0.4f, y: %0.4f, z: %0.4f\n", x, y, z);
     }
+        Serial.printf("Total: x: %0.4f, y: %0.4f, z: %0.4f\n", x, y, z);
 
     CIEy = y / (x + y + z);
 
@@ -1103,9 +1105,9 @@ double QwOpt4048::getCIEy()
 /// @return Returns the CCT of the sensor in Kelvin
 uint32_t QwOpt4048::getCCT()
 {
-    uint32_t CIEx;
-    uint32_t CIEy;
-    uint32_t CCT;
+    double CIEx;
+    double CIEy;
+    double CCT;
 
     CIEx = getCIEx();
     CIEy = getCIEy();
