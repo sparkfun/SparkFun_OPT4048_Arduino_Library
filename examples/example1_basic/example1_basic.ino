@@ -19,24 +19,28 @@
 #define BRIGHT_RED 7
 #define FAR_RED    8
 #define LED_ADDRESS 0x35   
+#define ARRAY_SIZE 20   
 
-SparkFun_OPT4048 myColor;
+SparkFun_OPT4048 blackMask;
+SparkFun_OPT4048 redMask;
 Lp55231 ledChip(LED_ADDRESS);
 
 const int channel[] = {2,1,7,3,4,8,5,6,9};
-const int chipSelect = 28;
-char intContents[100] = {};
+const int chipSelect = 5;
+char intContents[ARRAY_SIZE] = {};
 
 unsigned long lastTime;
 File myFile; 
 
-bool testSD()
+void testSD()
 {
     
     myFile = SD.open("test.txt", FILE_WRITE);
 
-    if(!myFile)
-        return false;
+    if(!myFile){
+        Serial.println("Could not read, or create file.");
+        while(1);
+    }
 
     if(myFile) {
 
@@ -44,30 +48,31 @@ bool testSD()
         myFile.close(); 
     }
 
-    delay(500);
+    delay(100);
 
     myFile = SD.open("test.txt", FILE_READ);
 
     if(myFile){
         Serial.println("Opening test.");
-        Serial.print("Position");
+        Serial.print("Position: ");
         Serial.println(myFile.position());
         while(myFile.available()){
-            myFile.read(intContents, 100);
+            myFile.read(intContents, ARRAY_SIZE);
         }
 
         myFile.close();
     }
     
-    for(int i = 0; i < 100; i++) {
+    for(int i = 0; i < ARRAY_SIZE; i++) {
         
         if(intContents[i] == NULL)
             break;
 
         Serial.println(intContents[i]);
     }
-
-    return false; 
+    
+    Serial.println("Success.");
+    while(1);
 
 }
 
@@ -79,7 +84,7 @@ void setup()
     Wire.begin();
     SPI.begin();
 
-    if (!myColor.begin()) {
+    if (!blackMask.begin() || !redMask.begin(OPT4048_ADDR_HIGH)) {
         Serial.println("OPT4048 not detected. Please check wiring. Freezing...");
         while (1) ;
     }
@@ -97,63 +102,89 @@ void setup()
 
     delay(100);
 
-    for(uint8_t i = 0; i < 9; i++) {
+    for(int i = 0; i < 9; i++) {
         ledChip.SetLogBrightness(i, true);
     }
 
-    testSD();
-    while(1);
+    //testSD();
 
-    ledChip.SetChannelPWM(channel[ROYAL_BLUE]-1, 50);
+    //ledChip.SetChannelPWM(channel[ROYAL_BLUE]-1, 50);
     // Color sensor setup
-    myColor.setRange(RANGE_2KLUX2);
-    //Serial.println(myColor.getRange());
-    myColor.setConversionTime(CONVERSION_TIME_800MS);
-    //Serial.println(myColor.getConversionTime());
-    myColor.setOperationMode(OPERATION_MODE_CONTINUOUS);
+    blackMask.setRange(RANGE_2KLUX2);
+    redMask.setRange(RANGE_2KLUX2);
+    //Serial.println(blackMask.getRange());
+    blackMask.setConversionTime(CONVERSION_TIME_800MS);
+    redMask.setConversionTime(CONVERSION_TIME_800MS);
+    //Serial.println(blackMask.getConversionTime());
+    blackMask.setOperationMode(OPERATION_MODE_CONTINUOUS);
+    redMask.setOperationMode(OPERATION_MODE_CONTINUOUS);
 
     lastTime = millis();
 
-    myFile = SD.open("test.txt", FILE_WRITE); // Open file "data.txt"
+    myFile = SD.open("colorData.txt", FILE_WRITE); // Open file "data.txt"
 
     if(myFile){
+
         myFile.seek(0);
         Serial.println("File created.");
+        delay(100);
+        myFile.println("Red/Black, Color, CIEx, CIEy, sample");
+        myFile.close();
+
     }
 
     Serial.println("Great!");
+
+    while(!(Serial.available() > 0)){
+        delay(10);
+    }
+
+
 
 }
 
 
 void loop()
 {
-    myFile.write("Color, CIEx, CIEy, sample\n");
 
+
+    myFile = SD.open("colorData.txt", FILE_WRITE); // Open file "data.txt"
+
+    // Total cycle of time 9 colors @ 9.6 seconds/3 samples == 86.4 seconds 
     if(myFile) {
 
         Serial.println("Measurements started.");
-        for(int color = 0; color < FAR_RED; color++) {
+        for(int color = 0; color <= FAR_RED; color++) {
 
             ledChip.SetChannelPWM(channel[color]-1, 50);
 
             // Color
             Serial.print("Color, ");
             Serial.println(color);
-            myFile.print(color);
-            myFile.print(", ");
 
             for(int sample = 0; sample < 3; sample++) {
                 delay(3200);
-                //myFile.print("\nCIEx: ");
-                myFile.print(myColor.getCIEx()); 
+
+                // Black Solder Mask
+                myFile.print("b");
                 myFile.print(", ");
-                //myFile.print("CIEy: "); 
-                myFile.print(myColor.getCIEy());
+                myFile.print(color);
                 myFile.print(", ");
-                //myFile.print("Sample:"); 
-                myFile.print(sample+1);
-                myFile.print("\n");
+                myFile.print(blackMask.getCIEx()); 
+                myFile.print(", ");
+                myFile.print(blackMask.getCIEy());
+                myFile.print(", ");
+                myFile.println(sample+1);
+
+                // Red Solder Mask
+                myFile.print("r");
+                myFile.print(", ");
+                myFile.print(color);
+                myFile.print(", ");
+                myFile.print(redMask.getCIEx());
+                myFile.print(", ");
+                myFile.print(redMask.getCIEy());
+                myFile.println(sample+1);
             }
 
             ledChip.SetChannelPWM(channel[color]-1, 0);
@@ -161,6 +192,12 @@ void loop()
         }
     }
 
-    if (millis() - lastTime > 30000)
+    myFile.close();
+
+    if (millis() - lastTime > 8640000){
+        Serial.println("---------------------------------------------------");
+        Serial.println("Finished");
+        Serial.println("---------------------------------------------------");
         while(1);
+    }
 }
