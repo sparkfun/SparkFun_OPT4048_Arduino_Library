@@ -163,9 +163,9 @@ class QwOpt4048
     bool crcEnabled = false;
 
     // Table in 9.2.4 of Datasheet for calculating CIE x and y, and Lux.
-    const long double cieMatrix[OPT_MATRIX_ROWS][OPT_MATRIX_COLS] = {
-        {pow(2.34892992, -4), pow(-1.89652390, -5), pow(1.20811684, -5), 0},
-        {pow(4.07467441, -5), pow(1.98958202, -4), pow(-1.58848115, -5), pow(2.15, -3)},
-        {pow(9.28619404, -5), pow(-1.69739553, -5), pow(6.74021520, -4), 0},
+    const double cieMatrix[OPT_MATRIX_ROWS][OPT_MATRIX_COLS] = {
+        {2.34892992 * pow(10, -4), -1.89652390 * pow(10, -5), 1.20811684 * pow(10, -5), 0},
+        {4.07467441 * pow(10, -5), 1.98958202 * pow(10, -4), -1.58848115 * pow(10, -5), 2.15 * pow(10, -3)},
+        {9.28619404 * pow(10, -5), -1.69739553 * pow(10, -5), 6.74021520 * pow(10, -4), 0},
         {0, 0, 0, 0}};
 };

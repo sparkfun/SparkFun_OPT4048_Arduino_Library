@@ -194,8 +194,10 @@ void loop()
     }
 
     myFile.close();
+    Serial.print("Time running: ");
+    Serial.println(((millis() - lastTime)/1000)/60);
 
-    if (millis() - lastTime > 8640000){
+    if (millis() - lastTime > 864000){
         Serial.println("---------------------------------------------------");
         Serial.println("Finished");
         Serial.println("---------------------------------------------------");
