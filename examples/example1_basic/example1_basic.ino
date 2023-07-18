@@ -184,6 +184,7 @@ void loop()
                 myFile.print(redMask.getCIEx());
                 myFile.print(", ");
                 myFile.print(redMask.getCIEy());
+                myFile.print(", ");
                 myFile.println(sample+1);
             }
 
