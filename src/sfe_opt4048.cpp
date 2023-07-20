@@ -85,6 +85,14 @@ int32_t QwOpt4048::readRegisterRegion(uint8_t offset, uint8_t *data, uint16_t le
     return _sfeBus->readRegisterRegion(_i2cAddress, offset, data, length);
 }
 
+/// @brief Sets the minimum of settings to get the board running. 
+void QwOpt4048::setBasicSetup()
+{
+    setRange(RANGE_36LUX);
+    setConversionTime(CONVERSION_TIME_200MS);
+    setOperationMode(OPERATION_MODE_CONTINUOUS);
+}
+
 /// @brief Sets the OPT4048's effective sensing range which will effect its resolution.
 /// @param range The range to set the device to.
 ///   RANGE_2KLUX2,

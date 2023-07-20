@@ -95,6 +95,8 @@ class QwOpt4048
 
     ///////////////////////////////////////////////////////////////////Device Settings
 
+    void setBasicSetup();
+
     bool enableQwake(bool enable);
     bool getQwake();
 
