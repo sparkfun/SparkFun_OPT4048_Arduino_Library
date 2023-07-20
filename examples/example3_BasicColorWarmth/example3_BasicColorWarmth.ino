@@ -1,9 +1,9 @@
 /*
-Example 1 - Basic Color Sensing
+Example 3 - Color Warmth
 
-This example shows the basic operation of the OPT4048 Color Sensor. 
-If you're curious about CIE 1931 color space, check out this link:
-https://en.wikipedia.org/wiki/CIE_1931_color_space
+This example shows how to retrieve the Corelated Color Temperature (CCT) from the OPT4048.
+If you need more information on CCT, check out this Wikipedia article:
+https://en.wikipedia.org/wiki/Correlated_color_temperature
 
 Written by Elias Santistevan @ SparkFun Electronics, July 2023
 
@@ -43,11 +43,9 @@ void setup()
 
 void loop()
 {
-    Serial.print("CIEx: ");
-    Serial.print(myColor.getCIEx());
-    Serial.print(" CIEy: ");
-    Serial.println(myColor.getCIEy());
+    Serial.print("Color Warmth: ");
+    Serial.print(myColor.getCCT());
     // Delay time is set to the conversion time * number of channels
     // You need three channels for color sensing @ 200ms conversion time = 600ms.
-    delay(200);
+    delay(600);
 }
