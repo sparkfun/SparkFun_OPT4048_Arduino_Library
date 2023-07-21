@@ -80,8 +80,7 @@ typedef union {
 class QwOpt4048
 {
   public:
-
-    QwOpt4048() : _i2cAddress{0}  {};
+    QwOpt4048() : _i2cAddress{0} {};
 
     bool init();
     bool isConnected();
@@ -159,7 +158,6 @@ class QwOpt4048
     double getCCT();
 
   private:
-
     sfe_OPT4048::QwDeviceBus *_sfeBus;
     uint8_t _i2cAddress;
     bool crcEnabled = false;

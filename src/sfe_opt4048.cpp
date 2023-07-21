@@ -40,8 +40,8 @@ uint16_t QwOpt4048::getDeviceID()
     idReg.word = buff[0] << 8;
     idReg.word |= buff[1];
 
-    uniqueId = idReg.DIDH << 2; 
-    uniqueId |= idReg.DIDL;  
+    uniqueId = idReg.DIDH << 2;
+    uniqueId |= idReg.DIDL;
 
     if (retVal != 0)
         return 0;
@@ -85,7 +85,7 @@ int32_t QwOpt4048::readRegisterRegion(uint8_t offset, uint8_t *data, uint16_t le
     return _sfeBus->readRegisterRegion(_i2cAddress, offset, data, length);
 }
 
-/// @brief Sets the minimum of settings to get the board running. 
+/// @brief Sets the minimum of settings to get the board running.
 void QwOpt4048::setBasicSetup()
 {
     setRange(RANGE_36LUX);
@@ -131,14 +131,13 @@ bool QwOpt4048::setRange(opt4048_range_t range)
     return true;
 }
 
-/// @brief Retrieves the light range in lux of the OPT4048. 
-/// @return The range of lux able to be measured. 
+/// @brief Retrieves the light range in lux of the OPT4048.
+/// @return The range of lux able to be measured.
 opt4048_range_t QwOpt4048::getRange()
 {
     uint8_t buff[2];
     opt4048_reg_control_t controlReg;
 
-    
     readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
     controlReg.word = buff[0] << 8;
@@ -190,9 +189,8 @@ bool QwOpt4048::setConversionTime(opt4048_conversion_time_t time)
     return true;
 }
 
-
-/// @brief Retrieves the conversion time used for the ADC. 
-/// @return The OPT4048 conversion time. 
+/// @brief Retrieves the conversion time used for the ADC.
+/// @return The OPT4048 conversion time.
 opt4048_conversion_time_t QwOpt4048::getConversionTime()
 {
     uint8_t buff[2];
@@ -236,8 +234,8 @@ bool QwOpt4048::enableQwake(bool enable)
     return true;
 }
 
-/// @brief Checks the quick wake bit. 
-/// @return True the quick wake bit is set. 
+/// @brief Checks the quick wake bit.
+/// @return True the quick wake bit is set.
 bool QwOpt4048::getQwake()
 {
     uint8_t buff[2];
@@ -248,12 +246,11 @@ bool QwOpt4048::getQwake()
     controlReg.word = buff[0] << 8;
     controlReg.word |= buff[1];
 
-    if( controlReg.qwake != 0x01)
+    if (controlReg.qwake != 0x01)
         return false;
 
     return true;
 }
-
 
 /// @brief Sets the OPT4048's operation mode.
 /// @param mode The mode to set the device to. Possible Values:
@@ -289,9 +286,8 @@ bool QwOpt4048::setOperationMode(opt4048_operation_mode_t mode)
     return true;
 }
 
-
 /// @brief Retrieves the set operation mode.
-/// @return The OPT4048 conversion time. 
+/// @return The OPT4048 conversion time.
 opt4048_operation_mode_t QwOpt4048::getOperationMode()
 {
     uint8_t buff[2];
@@ -335,8 +331,8 @@ bool QwOpt4048::enableIntLatch(bool enable)
     return true;
 }
 
-/// @brief Checks if the interrupt is set to pulse or latch. 
-/// @return True if set to latch, false if not. 
+/// @brief Checks if the interrupt is set to pulse or latch.
+/// @return True if set to latch, false if not.
 bool QwOpt4048::getIntLatch()
 {
     uint8_t buff[2];
@@ -347,10 +343,10 @@ bool QwOpt4048::getIntLatch()
     controlReg.word = buff[0] << 8;
     controlReg.word |= buff[1];
 
-    if(controlReg.latch == 1)
+    if (controlReg.latch == 1)
         return true;
 
-    return false; 
+    return false;
 }
 
 /// @brief Sets the OPT4048's interrupt polarity.
@@ -396,10 +392,10 @@ bool QwOpt4048::getIntActiveHigh()
     intReg.word = buff[0] << 8;
     intReg.word |= buff[1];
 
-    if(!intReg.int_pol)
-        return false; 
+    if (!intReg.int_pol)
+        return false;
 
-    return true;   
+    return true;
 }
 
 /// @brief Changes the behavior of the interrupt pin to be an INPUT to trigger
@@ -434,7 +430,7 @@ bool QwOpt4048::enableIntInput(bool enable)
 }
 
 /// @brief Gets the interrupt input bit
-/// @return True if the interrupt is set to INPUT. 
+/// @return True if the interrupt is set to INPUT.
 bool QwOpt4048::getIntInputEnable()
 {
     uint8_t buff[2];
@@ -445,12 +441,11 @@ bool QwOpt4048::getIntInputEnable()
     intReg.word = buff[0] << 8;
     intReg.word |= buff[1];
 
-    if(!intReg.int_dir)
-        return false; 
+    if (!intReg.int_dir)
+        return false;
 
-    return true; 
+    return true;
 }
-
 
 /// @brief Changes the behavior interrupt mechanism after the end of conversion
 /// @param mechanism The mechanism to set
@@ -482,7 +477,6 @@ bool QwOpt4048::setIntMechanism(opt4048_mechanism_t mechanism)
     return true;
 }
 
-
 /// @brief Gets the interrupt mechanism for the OPT4048
 /// @return Returns the enabled mechanism.
 opt4048_mechanism_t QwOpt4048::getIntMechanism()
@@ -495,8 +489,7 @@ opt4048_mechanism_t QwOpt4048::getIntMechanism()
     intReg.word = buff[0] << 8;
     intReg.word |= buff[1];
 
-    return((opt4048_mechanism_t)intReg.int_cfg);
-
+    return ((opt4048_mechanism_t)intReg.int_cfg);
 }
 
 /// @brief Retrieves the flag register
@@ -514,55 +507,53 @@ opt4048_reg_flags_t QwOpt4048::getAllFlags()
     return flagReg;
 }
 
-/// @brief Checks the overload flag bit. 
+/// @brief Checks the overload flag bit.
 /// @return True if the overload flag bit is set, false otherwise
 bool QwOpt4048::getOverloadFlag()
 {
     opt4048_reg_flags_t flagReg;
     flagReg = getAllFlags();
 
-    if(flagReg.overload_flag != 1)
+    if (flagReg.overload_flag != 1)
         return false;
 
     return true;
 }
 
-
-
-/// @brief Checks the conversion ready flag bit. 
+/// @brief Checks the conversion ready flag bit.
 /// @return True if that flag bit is set, false otherwise
 bool QwOpt4048::getConvReadyFlag()
 {
     opt4048_reg_flags_t flagReg;
     flagReg = getAllFlags();
 
-    if(flagReg.conv_ready_flag != 1)
+    if (flagReg.conv_ready_flag != 1)
         return false;
 
     return true;
 }
 
-/// @brief Checks the too bright flag bit. 
+/// @brief Checks the too bright flag bit.
 /// @return True if that flag bit is set, false otherwise
 bool QwOpt4048::getTooBrightFlag()
 {
     opt4048_reg_flags_t flagReg;
     flagReg = getAllFlags();
 
-    if(flagReg.flag_high != 1)
+    if (flagReg.flag_high != 1)
         return false;
 
     return true;
 }
 
-/// @brief Checks the too dim flag bit. 
+/// @brief Checks the too dim flag bit.
 /// @return True if that flag bit is set, false otherwise
 bool QwOpt4048::getTooDimFlag()
 {
     opt4048_reg_flags_t flagReg;
     flagReg = getAllFlags();
 
-    if(flagReg.flag_low != 1)
+    if (flagReg.flag_low != 1)
         return false;
 
     return true;
@@ -602,22 +593,20 @@ bool QwOpt4048::setFaultCount(opt4048_fault_count_t count)
     return true;
 }
 
-
 /// @brief Retrieves the number of faults (light values over or under) before an interrupt is triggered.
-/// @return The fault count. 
+/// @return The fault count.
 opt4048_fault_count_t QwOpt4048::getFaultCount()
 {
     uint8_t buff[2];
     opt4048_reg_control_t controlReg;
-    controlReg.fault_count = 0; 
+    controlReg.fault_count = 0;
 
     readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
     controlReg.word = buff[0] << 8;
     controlReg.word |= buff[1];
 
-    return((opt4048_fault_count_t)controlReg.fault_count);
-
+    return ((opt4048_fault_count_t)controlReg.fault_count);
 }
 
 /// @brief Sets the channel for threshold logic
@@ -666,87 +655,83 @@ opt4048_threshold_channel_t QwOpt4048::getThresholdChannel()
     intReg.word = buff[0] << 8;
     intReg.word |= buff[1];
 
-    return((opt4048_threshold_channel_t)intReg.threshold_ch_sel);
+    return ((opt4048_threshold_channel_t)intReg.threshold_ch_sel);
 }
 
-/// @brief Sets the Lux High Value threshold. 
+/// @brief Sets the Lux High Value threshold.
 /// @param thresh The value in float
-/// @return Returns the high threshold. 
+/// @return Returns the high threshold.
 bool QwOpt4048::setThresholdHigh(float thresh)
 {
-    if(thresh < 2.15 || thresh > 144000)
-        return false; 
+    if (thresh < 2.15 || thresh > 144000)
+        return false;
 
     uint8_t buff[2];
     int32_t retVal;
-    //opt4048_reg_thresh_exp_res_high_t threshReg; 
+    // opt4048_reg_thresh_exp_res_high_t threshReg;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_THRESH_H_EXP_RES, buff);
 
-    if(retVal != 0)
+    if (retVal != 0)
         return false;
 
     return true;
-    
 }
 
-/// @brief Retrieves the Lux High Value threshold. 
-/// @return Returns the high threshold. 
+/// @brief Retrieves the Lux High Value threshold.
+/// @return Returns the high threshold.
 uint16_t QwOpt4048::getThresholdHigh()
 {
     uint8_t buff[2];
-    opt4048_reg_thresh_exp_res_high_t threshReg; 
-    uint16_t thresholdHigh; 
+    opt4048_reg_thresh_exp_res_high_t threshReg;
+    uint16_t thresholdHigh;
 
     readRegisterRegion(SFE_OPT4048_REGISTER_THRESH_H_EXP_RES, buff);
 
     threshReg.word = buff[0] << 8;
     threshReg.word |= buff[1];
 
-    thresholdHigh = threshReg.thresh_result << threshReg.thresh_exp; 
+    thresholdHigh = threshReg.thresh_result << threshReg.thresh_exp;
 
-    return thresholdHigh; 
+    return thresholdHigh;
 }
 
-/// @brief Sets the Lux Low Value threshold. 
+/// @brief Sets the Lux Low Value threshold.
 /// @param thresh The value in float
-/// @return Returns the high threshold. 
+/// @return Returns the high threshold.
 bool QwOpt4048::setThresholdLow(float thresh)
 {
-    if(thresh < 2.15 || thresh > 144000)
-        return false; 
+    if (thresh < 2.15 || thresh > 144000)
+        return false;
 
     uint8_t buff[2];
     int32_t retVal;
-    //opt4048_reg_thresh_exp_res_low_t threshReg; 
+    // opt4048_reg_thresh_exp_res_low_t threshReg;
 
     retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_THRESH_L_EXP_RES, buff);
 
-    if(retVal != 0)
+    if (retVal != 0)
         return false;
 
     return true;
-    
 }
 
-
-
-/// @brief Retrieves the Lux Low Value threshold. 
-/// @return Returns the low threshold. 
+/// @brief Retrieves the Lux Low Value threshold.
+/// @return Returns the low threshold.
 uint16_t QwOpt4048::getThresholdLow()
 {
     uint8_t buff[2];
-    opt4048_reg_thresh_exp_res_low_t threshReg; 
-    uint16_t thresholdLow; 
+    opt4048_reg_thresh_exp_res_low_t threshReg;
+    uint16_t thresholdLow;
 
     readRegisterRegion(SFE_OPT4048_REGISTER_THRESH_L_EXP_RES, buff);
 
     threshReg.word = buff[0] << 8;
     threshReg.word |= buff[1];
 
-    thresholdLow = threshReg.thresh_result << threshReg.thresh_exp; 
+    thresholdLow = threshReg.thresh_result << threshReg.thresh_exp;
 
-    return thresholdLow; 
+    return thresholdLow;
 }
 
 /// @brief Enable register auto increment .
@@ -779,9 +764,8 @@ bool QwOpt4048::enableI2CBurst(bool enable)
     return true;
 }
 
-
-/// @brief Retrieves the I2C burst bit. 
-/// @return True if I2C burst is enabled, false otherwise. 
+/// @brief Retrieves the I2C burst bit.
+/// @return True if I2C burst is enabled, false otherwise.
 bool QwOpt4048::getI2CBurst()
 {
     uint8_t buff[2];
@@ -792,7 +776,7 @@ bool QwOpt4048::getI2CBurst()
     intReg.word = buff[0] << 8;
     intReg.word |= buff[1];
 
-    if(intReg.i2c_burst != 1)
+    if (intReg.i2c_burst != 1)
         return false;
 
     return true;
@@ -813,20 +797,20 @@ uint32_t QwOpt4048::getADCCh0()
     uint8_t buff[4];
     uint32_t adcCode;
     uint32_t mantissa;
-    opt4048_reg_exp_res_ch0_t adcReg; 
-    opt4048_reg_res_cnt_crc_ch0_t adc1Reg; 
+    opt4048_reg_exp_res_ch0_t adcReg;
+    opt4048_reg_res_cnt_crc_ch0_t adc1Reg;
 
     readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH0, buff, 4);
 
-    adcReg.word = buff[0] << 8; 
-    adcReg.word |= buff[1]; 
-    adc1Reg.word = buff[2] << 8; 
-    adc1Reg.word |= buff[3]; 
+    adcReg.word = buff[0] << 8;
+    adcReg.word |= buff[1];
+    adc1Reg.word = buff[2] << 8;
+    adc1Reg.word |= buff[3];
 
-    mantissa = adcReg.result_msb_ch0 << 8; 
-    mantissa |= adc1Reg.result_lsb_ch0; 
+    mantissa = adcReg.result_msb_ch0 << 8;
+    mantissa |= adc1Reg.result_lsb_ch0;
 
-    adcCode = mantissa << adcReg.exponent_ch0; 
+    adcCode = mantissa << adcReg.exponent_ch0;
 
     return adcCode;
 }
@@ -839,19 +823,19 @@ uint32_t QwOpt4048::getADCCh1()
     uint8_t buff[4];
     uint32_t adcCode;
     uint32_t mantissa;
-    opt4048_reg_exp_res_ch1_t adcReg; 
-    opt4048_reg_res_cnt_crc_ch1_t adc1Reg; 
+    opt4048_reg_exp_res_ch1_t adcReg;
+    opt4048_reg_res_cnt_crc_ch1_t adc1Reg;
 
     readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH1, buff, 4);
 
-    adcReg.word = buff[0] << 8; 
-    adcReg.word |= buff[1]; 
-    adc1Reg.word = buff[2] << 8; 
-    adc1Reg.word |= buff[3]; 
+    adcReg.word = buff[0] << 8;
+    adcReg.word |= buff[1];
+    adc1Reg.word = buff[2] << 8;
+    adc1Reg.word |= buff[3];
 
-    mantissa = adcReg.result_msb_ch1 << 8; 
-    mantissa |= adc1Reg.result_lsb_ch1; 
-    adcCode = mantissa << adcReg.exponent_ch1; 
+    mantissa = adcReg.result_msb_ch1 << 8;
+    mantissa |= adc1Reg.result_lsb_ch1;
+    adcCode = mantissa << adcReg.exponent_ch1;
 
     return adcCode;
 }
@@ -864,20 +848,20 @@ uint32_t QwOpt4048::getADCCh2()
     uint8_t buff[4];
     uint32_t adcCode;
     uint32_t mantissa;
-    opt4048_reg_exp_res_ch2_t adcReg; 
-    opt4048_reg_res_cnt_crc_ch2_t adc1Reg; 
+    opt4048_reg_exp_res_ch2_t adcReg;
+    opt4048_reg_res_cnt_crc_ch2_t adc1Reg;
 
     readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH2, buff, 4);
 
-    adcReg.word = buff[0] << 8; 
-    adcReg.word |= buff[1]; 
-    adc1Reg.word = buff[2] << 8; 
-    adc1Reg.word |= buff[3]; 
+    adcReg.word = buff[0] << 8;
+    adcReg.word |= buff[1];
+    adc1Reg.word = buff[2] << 8;
+    adc1Reg.word |= buff[3];
 
-    mantissa = adcReg.result_msb_ch2 << 8; 
-    mantissa |= adc1Reg.result_lsb_ch2; 
+    mantissa = adcReg.result_msb_ch2 << 8;
+    mantissa |= adc1Reg.result_lsb_ch2;
 
-    adcCode = mantissa << adcReg.exponent_ch2; 
+    adcCode = mantissa << adcReg.exponent_ch2;
 
     return adcCode;
 }
@@ -890,20 +874,20 @@ uint32_t QwOpt4048::getADCCh3()
     uint8_t buff[4];
     uint32_t adcCode;
     uint32_t mantissa;
-    opt4048_reg_exp_res_ch3_t adcReg; 
-    opt4048_reg_res_cnt_crc_ch3_t adc1Reg; 
+    opt4048_reg_exp_res_ch3_t adcReg;
+    opt4048_reg_res_cnt_crc_ch3_t adc1Reg;
 
     readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH3, buff, 4);
 
-    adcReg.word = buff[0] << 8; 
-    adcReg.word |= buff[1]; 
-    adc1Reg.word = buff[2] << 8; 
-    adc1Reg.word |= buff[3]; 
+    adcReg.word = buff[0] << 8;
+    adcReg.word |= buff[1];
+    adc1Reg.word = buff[2] << 8;
+    adc1Reg.word |= buff[3];
 
-    mantissa = adcReg.result_msb_ch3 << 8; 
-    mantissa |= adc1Reg.result_lsb_ch3; 
+    mantissa = adcReg.result_msb_ch3 << 8;
+    mantissa |= adc1Reg.result_lsb_ch3;
 
-    adcCode = mantissa << adcReg.exponent_ch3; 
+    adcCode = mantissa << adcReg.exponent_ch3;
 
     return adcCode;
 }
@@ -940,14 +924,14 @@ bool QwOpt4048::getAllChannelData(sfe_color_t *color)
     uint32_t adcCodeCh2;
     uint32_t adcCodeCh3;
 
-    opt4048_reg_exp_res_ch0_t adc0MSB; 
-    opt4048_reg_res_cnt_crc_ch0_t adc0LSB; 
-    opt4048_reg_exp_res_ch1_t adc1MSB; 
-    opt4048_reg_res_cnt_crc_ch1_t adc1LSB; 
-    opt4048_reg_exp_res_ch2_t adc2MSB; 
-    opt4048_reg_res_cnt_crc_ch2_t adc2LSB; 
-    opt4048_reg_exp_res_ch3_t adc3MSB; 
-    opt4048_reg_res_cnt_crc_ch3_t adc3LSB; 
+    opt4048_reg_exp_res_ch0_t adc0MSB;
+    opt4048_reg_res_cnt_crc_ch0_t adc0LSB;
+    opt4048_reg_exp_res_ch1_t adc1MSB;
+    opt4048_reg_res_cnt_crc_ch1_t adc1LSB;
+    opt4048_reg_exp_res_ch2_t adc2MSB;
+    opt4048_reg_res_cnt_crc_ch2_t adc2LSB;
+    opt4048_reg_exp_res_ch3_t adc3MSB;
+    opt4048_reg_res_cnt_crc_ch3_t adc3LSB;
 
     retVal = readRegisterRegion(SFE_OPT4048_REGISTER_EXP_RES_CH0, buff, 16);
 
@@ -974,21 +958,21 @@ bool QwOpt4048::getAllChannelData(sfe_color_t *color)
     adc3LSB.word = buff[14] << 8;
     adc3LSB.word |= buff[15];
 
-    mantissaCh0 = adc0MSB.result_msb_ch0 << 8; 
-    mantissaCh0 |= adc0LSB.result_lsb_ch0; 
-    adcCodeCh0 = mantissaCh0 << adc0MSB.exponent_ch0; 
+    mantissaCh0 = adc0MSB.result_msb_ch0 << 8;
+    mantissaCh0 |= adc0LSB.result_lsb_ch0;
+    adcCodeCh0 = mantissaCh0 << adc0MSB.exponent_ch0;
 
-    mantissaCh1 = adc1MSB.result_msb_ch1 << 8; 
-    mantissaCh1|= adc1LSB.result_lsb_ch1; 
-    adcCodeCh1 = mantissaCh1 << adc1MSB.exponent_ch1; 
+    mantissaCh1 = adc1MSB.result_msb_ch1 << 8;
+    mantissaCh1 |= adc1LSB.result_lsb_ch1;
+    adcCodeCh1 = mantissaCh1 << adc1MSB.exponent_ch1;
 
-    mantissaCh2 = adc2MSB.result_msb_ch2 << 8; 
-    mantissaCh2 |= adc2LSB.result_lsb_ch2; 
-    adcCodeCh2 = mantissaCh2 << adc2MSB.exponent_ch2; 
+    mantissaCh2 = adc2MSB.result_msb_ch2 << 8;
+    mantissaCh2 |= adc2LSB.result_lsb_ch2;
+    adcCodeCh2 = mantissaCh2 << adc2MSB.exponent_ch2;
 
-    mantissaCh3 = adc3MSB.result_msb_ch3 << 8; 
-    mantissaCh3 |= adc3LSB.result_lsb_ch3; 
-    adcCodeCh3 = mantissaCh3 << adc3MSB.exponent_ch3; 
+    mantissaCh3 = adc3MSB.result_msb_ch3 << 8;
+    mantissaCh3 |= adc3LSB.result_lsb_ch3;
+    adcCodeCh3 = mantissaCh3 << adc3MSB.exponent_ch3;
 
     color->red = adcCodeCh0;
     color->green = adcCodeCh1;
@@ -1028,15 +1012,12 @@ uint8_t QwOpt4048::calculateCRC(uint32_t mantissa, uint8_t expon, uint8_t crc)
 
     compareAgainst.bit0 = exBits.byte xor mantissa xor cBits.byte;
 
-    compareAgainst.bit1 =
-        cBits.bit1 xor cBits.bit3 xor mBits.bit1 xor mBits.bit3 xor
-        mBits.bit5 xor mBits.bit7 xor mBits.bit9 xor
-        mBits.bit11 xor mBits.bit13 xor mBits.bit15 xor mBits.bit17 xor
-        mBits.bit19 xor exBits.bit1 xor exBits.bit3;
+    compareAgainst.bit1 = cBits.bit1 xor cBits.bit3 xor mBits.bit1 xor mBits.bit3 xor mBits.bit5 xor mBits.bit7 xor
+                          mBits.bit9 xor mBits.bit11 xor mBits.bit13 xor mBits.bit15 xor mBits.bit17 xor mBits.bit19 xor
+                          exBits.bit1 xor exBits.bit3;
 
     compareAgainst.bit2 =
-        cBits.bit3 xor mBits.bit3 xor mBits.bit7 xor mBits.bit11 xor
-        mBits.bit16 xor mBits.bit18 xor exBits.bit3;
+        cBits.bit3 xor mBits.bit3 xor mBits.bit7 xor mBits.bit11 xor mBits.bit16 xor mBits.bit18 xor exBits.bit3;
 
     compareAgainst.bit3 = mBits.bit3 xor mBits.bit11 xor mBits.bit19;
 
@@ -1090,11 +1071,11 @@ double QwOpt4048::getCIEy()
     double x = 0;
     double y = 0;
     double z = 0;
-    double  CIEy;
+    double CIEy;
     sfe_color_t color;
 
     getAllChannelData(&color);
-    
+
     for (int row = 0; row < OPT_MATRIX_ROWS; row++)
     {
         x += color.red * cieMatrix[row][0];
