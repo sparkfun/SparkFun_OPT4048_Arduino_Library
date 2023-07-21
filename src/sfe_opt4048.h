@@ -1,7 +1,6 @@
 #pragma once
 #include "OPT4048_Registers.h"
 #include "sfe_bus.h"
-#include <Math.h>
 #include <Wire.h>
 
 /// @brief Struct used to store the color data from the OPT4048.
@@ -164,8 +163,8 @@ class QwOpt4048
 
     // Table in 9.2.4 of Datasheet for calculating CIE x and y, and Lux.
     const double cieMatrix[OPT_MATRIX_ROWS][OPT_MATRIX_COLS] = {
-        {2.34892992 * pow(10, -4), -1.89652390 * pow(10, -5), 1.20811684 * pow(10, -5), 0},
-        {4.07467441 * pow(10, -5), 1.98958202 * pow(10, -4), -1.58848115 * pow(10, -5), 2.15 * pow(10, -3)},
-        {9.28619404 * pow(10, -5), -1.69739553 * pow(10, -5), 6.74021520 * pow(10, -4), 0},
+        {.000234892992, -.0000189652390, .0000120811684, 0},
+        {.0000407467441, .000198958202, -.0000158848115, .00215},
+        {.0000928619404, -.0000169739553, .000674021520, 0},
         {0, 0, 0, 0}};
 };
