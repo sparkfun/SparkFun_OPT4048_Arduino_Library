@@ -1,5 +1,6 @@
 #pragma once
 #include "Arduino.h"
+#include <stdint.h>
 
 #define OPT4048_ADDR_HIGH 0x45 
 #define OPT4048_ADDR_LOW 0x44 // DEFAULT
