@@ -95,7 +95,7 @@ class QwOpt4048
 
     void setBasicSetup();
 
-    bool enableQwake(bool enable);
+    bool enableQwake(bool enable = true);
     bool getQwake();
 
     bool setRange(opt4048_range_t range);
@@ -107,10 +107,10 @@ class QwOpt4048
     bool setOperationMode(opt4048_operation_mode_t mode);
     opt4048_operation_mode_t getOperationMode();
 
-    bool enableIntLatch(bool enable);
+    bool enableIntLatch(bool enable = true);
     bool getIntLatch();
 
-    bool enableIntActiveHigh(bool enable);
+    bool enableIntActiveHigh(bool enable = true);
     bool getIntActiveHigh();
 
     bool setFaultCount(opt4048_fault_count_t count);
@@ -124,16 +124,16 @@ class QwOpt4048
     bool setThresholdLow(float thresh);
     uint16_t getThresholdLow();
 
-    void enableCRC(bool enable);
+    void enableCRC(bool enable = true);
 
     ///////////////////////////////////////////////////////////////////Interrupt Settings
-    bool enableIntInput(bool enable);
+    bool enableIntInput(bool enable = true);
     bool getIntInputEnable();
 
     bool setIntMechanism(opt4048_mechanism_t mechanism);
     opt4048_mechanism_t getIntMechanism();
 
-    bool enableI2CBurst(bool enable);
+    bool enableI2CBurst(bool enable = true);
     bool getI2CBurst();
 
     opt4048_reg_flags_t getAllFlags();

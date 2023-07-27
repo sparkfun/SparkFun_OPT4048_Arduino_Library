@@ -33,6 +33,8 @@ void setup()
         while (1) ;
     }
 
+
+
     /////////////////////////////////////////////General Settings
     /*
      RANGE_2KLUX2,
@@ -82,11 +84,10 @@ void setup()
     Serial.print("Conversion time set to:");
     Serial.println(myColor.getOperationMode());
 
-    ////////////////////////////////////////////Interrupt Settings
-    /*
     
-
-    */
+   // The Quick wake setting changes the behavior of the chip while in power down mode: 
+   // Not all of the circuitry will be powered down. 
+   // myColor.enableQwake();
     Serial.println("Ready to go!");
 }
 
