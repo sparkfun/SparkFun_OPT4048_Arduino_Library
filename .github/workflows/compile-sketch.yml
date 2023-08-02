@@ -99,7 +99,7 @@ jobs:
           libraries: |
             - source-path: ./
           sketch-paths: |
-            - examples/Example1_config_BPM_Mode1
+            - examples/example1_BasicColorSensing
           enable-warnings-report: true
           enable-deltas-report: true
           verbose: true
