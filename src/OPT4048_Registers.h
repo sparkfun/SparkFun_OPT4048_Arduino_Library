@@ -175,7 +175,7 @@ typedef union {
         uint8_t counter_ch3 : 4;
         uint8_t result_lsb_ch3 : 8;
     };
-    uint8_t word;
+    uint16_t word;
 
 } opt4048_reg_res_cnt_crc_ch3_t;
 
