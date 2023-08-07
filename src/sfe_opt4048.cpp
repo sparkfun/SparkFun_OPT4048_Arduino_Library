@@ -787,7 +787,10 @@ bool QwOpt4048::getI2CBurst()
 /// @return True on successful execution.
 void QwOpt4048::enableCRC(bool enable)
 {
-    crcEnabled = true;
+    if(enable)
+        crcEnabled = true;
+    else
+        crcEnabled = false;
 }
 
 /// @brief Reads Channel Zero (Red)

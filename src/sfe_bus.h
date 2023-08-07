@@ -49,6 +49,7 @@
 #pragma once
 
 #include <Wire.h>
+#include <stdint.h>
 
 namespace sfe_OPT4048
 {

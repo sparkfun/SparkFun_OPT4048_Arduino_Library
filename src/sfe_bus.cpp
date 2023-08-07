@@ -6,13 +6,17 @@
 //
 // Do you like this library? Help support SparkFun. Buy a board!
 //
-// SparkFun Qwiic 6DoF - ISM330DHCX        https://www.sparkfun.com/products/19764
+// SparkFun Tristimulus Color Sensor - OPT4048
+// 	Qwiic 1x1
+//		* https://www.sparkfun.com/products/
+//	Qwiic Mini
+//		* https://www.sparkfun.com/products/
 //
 // Written by Kirk Benell @ SparkFun Electronics
 // Modified by Elias Santistevan @ SparkFun Electronics, April 2022
 //
 // Repository:
-//     https://github.com/sparkfun/SparkFun_6DoF_ISM330DHCX_Arduino_Library
+//	    * https://github.com/sparkfun/SparkFun_OPT4048_Arduino_Library
 //
 //
 // SparkFun code, firmware, and software is released under the MIT
@@ -40,7 +44,6 @@
 
 // The following classes specify the behavior for communicating
 // over the respective data buses: Inter-Integrated Circuit (I2C)
-// Can you change references to ISM330DHCX to OPT4048?
 
 #include "sfe_bus.h"
 #include <Arduino.h>
