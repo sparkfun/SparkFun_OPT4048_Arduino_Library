@@ -358,7 +358,7 @@ bool QwOpt4048::enableIntActiveHigh(bool enable)
     int32_t retVal;
     opt4048_reg_control_t intReg;
 
-    retVal = readRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
+    retVal = readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
     if (retVal != 0)
         return false;
@@ -371,7 +371,7 @@ bool QwOpt4048::enableIntActiveHigh(bool enable)
     buff[0] = intReg.word >> 8;
     buff[1] = intReg.word;
 
-    retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
+    retVal = writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
     if (retVal != 0)
         return false;
@@ -387,7 +387,7 @@ bool QwOpt4048::getIntActiveHigh()
     uint8_t buff[2];
     opt4048_reg_control_t intReg;
 
-    readRegisterRegion(SFE_OPT4048_REGISTER_INT_CONTROL, buff);
+    readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff);
 
     intReg.word = buff[0] << 8;
     intReg.word |= buff[1];

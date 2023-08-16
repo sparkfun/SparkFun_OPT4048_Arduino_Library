@@ -69,7 +69,6 @@ void loop()
         Serial.print("CIEy: ");
         Serial.println(myColor.getCIEy());
     }
-    Serial.println(digitalRead(interruptPin) ? "HIGH":"LOW");
     // Delay time is set to the conversion time * number of channels
     // You need three channels for color sensing @ 200ms conversion time = 600ms.
     delay(200);
