@@ -43,22 +43,29 @@ void setup()
 
     // Basic usage: if interrupt is set to latched mode
     myColor.enableIntLatch();
+
+    // Select the channel that will fire the interrupt
+    // Lux values are generated in Channel One.
+    myColor.setThresholdChannel(THRESH_CHANNEL_CH1);
+
     // Change the interrupt direction to active HIGH. 
     //myColor.enableIntActiveHigh();
 
     // Change the interrupt to an INPUT to trigger measurements
     // set operation mode to one shot mode in this case. 
-    myColor.enableIntInput();
+    // myColor.enableIntInput();
+
     Serial.println("Ready to go!");
 }
 
 
 void loop()
 {
-    Serial.print("CIEx: ");
-    Serial.print(myColor.getCIEx());
-    Serial.print(" CIEy: ");
-    Serial.println(myColor.getCIEy());
+    if(digitalRead(interruptPin) == LOW)
+    {
+        Serial.print("Lux Value: ");
+        Serial.println(myColor.getLux());
+    }
     // Delay time is set to the conversion time * number of channels
     // You need three channels for color sensing @ 200ms conversion time = 600ms.
     delay(200);
