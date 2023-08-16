@@ -26,9 +26,9 @@ int interruptPin = 3;
 void setup()
 {
     Serial.begin(115200);
-    Serial.println("OPT4048 Example 5 - Interrups.");
+    Serial.println("OPT4048 Example 5 - Interrupts.");
 
-    pinMode(interruptPin, OUTPUT);
+    pinMode(interruptPin, INPUT);
 
     Wire.begin();
 
@@ -42,11 +42,12 @@ void setup()
     myColor.setBasicSetup();
 
     // Basic usage: if interrupt is set to latched mode
-    myColor.enableIntLatch();
+    //myColor.enableIntLatch();
+    myColor.setIntMechanism(INT_DR_ALL_CHANNELS);
 
     // Select the channel that will fire the interrupt
     // Lux values are generated in Channel One.
-    myColor.setThresholdChannel(THRESH_CHANNEL_CH1);
+    //myColor.setThresholdChannel(THRESH_CHANNEL_CH1);
 
     // Change the interrupt direction to active HIGH. 
     //myColor.enableIntActiveHigh();
@@ -63,9 +64,12 @@ void loop()
 {
     if(digitalRead(interruptPin) == LOW)
     {
-        Serial.print("Lux Value: ");
-        Serial.println(myColor.getLux());
+        Serial.print("CIEx: ");
+        Serial.println(myColor.getCIEx());
+        Serial.print("CIEy: ");
+        Serial.println(myColor.getCIEy());
     }
+    Serial.println(digitalRead(interruptPin) ? "HIGH":"LOW");
     // Delay time is set to the conversion time * number of channels
     // You need three channels for color sensing @ 200ms conversion time = 600ms.
     delay(200);
