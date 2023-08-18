@@ -25,7 +25,7 @@ SparkFun_OPT4048 myColor;
 void setup()
 {
     Serial.begin(115200);
-    Serial.println("OPT4048 Example 1 Basic Color Sensing.");
+    Serial.println("OPT4048 Example 2 Basic Lux Sensing.");
 
     Wire.begin();
 
