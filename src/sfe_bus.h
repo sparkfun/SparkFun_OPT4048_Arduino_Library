@@ -69,7 +69,8 @@ class QwDeviceBus
 class QwI2C : public QwDeviceBus
 {
   public:
-    QwI2C(void);
+
+    QwI2C(void) : _i2cPort(nullptr) {};
 
     bool init();
 

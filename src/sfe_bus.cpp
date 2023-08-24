@@ -56,10 +56,6 @@ const static uint16_t kChunkSize = kMaxTransferBuffer;
 namespace sfe_OPT4048
 {
 
-QwI2C::QwI2C(void) : _i2cPort{nullptr}
-{
-}
-
 /// @brief  Initializes I2C and checks for device
 /// @param wirePort I2C port
 /// @param bInit   If true, initializes the I2C port
