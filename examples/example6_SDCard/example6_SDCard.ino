@@ -1,6 +1,22 @@
 /*
+Example 6 - SD Card
+
+This example writes color data to a file. 
     Color data is filed comma-separated as follows:
     "Color tag, CIEx, CIEy, Sample number"
+
+Written by Elias Santistevan @ SparkFun Electronics, July 2023
+
+Products:
+    Qwiic 1x1: https://www.sparkfun.com/products/22638
+    Qwiic Mini: https://www.sparkfun.com/products/22639
+
+Repository:
+    https://github.com/sparkfun/SparkFun_OPT4048_Arduino_Library
+
+SparkFun code, firmware, and software is released under the MIT 
+License	(http://opensource.org/licenses/MIT).
+
 */
 
 #include <SD.h>
