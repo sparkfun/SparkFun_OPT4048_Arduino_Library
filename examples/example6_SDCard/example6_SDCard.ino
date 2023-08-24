@@ -1,9 +1,13 @@
 /*
 Example 6 - SD Card
 
-This example writes color data to a file. 
-    Color data is filed comma-separated as follows:
-    "Color tag, CIEx, CIEy, Sample number"
+This is a highly specialized example that uses the SparkX Visible Spectrum Emitter and this Color Sensor, to check
+the relative accuracy of the color sensing capabilities of the Color Sensor. All of the LEDs on the Visible Spectrum 
+Emitter are turned on for one conversion cycle, values are recorded in a comma-seperated list for easy integration 
+into a spreadsheet, and then the next light is turned on. 
+
+Color data is filed comma-separated as follows:
+"Color tag, CIEx, CIEy, Sample number"
 
 Written by Elias Santistevan @ SparkFun Electronics, July 2023
 
@@ -13,6 +17,9 @@ Products:
 
 Repository:
     https://github.com/sparkfun/SparkFun_OPT4048_Arduino_Library
+
+SparkX Visible Spectrum Emitter used in this example:
+* https://www.sparkfun.com/products/21316
 
 SparkFun code, firmware, and software is released under the MIT 
 License	(http://opensource.org/licenses/MIT).
@@ -34,6 +41,7 @@ License	(http://opensource.org/licenses/MIT).
 #define LIGHT_RED 6
 #define BRIGHT_RED 7
 #define FAR_RED    8
+
 #define LED_ADDRESS 0x35   
 #define ARRAY_SIZE 20   
 
@@ -47,6 +55,12 @@ char intContents[ARRAY_SIZE] = {};
 unsigned long lastTime;
 File myFile; 
 
+/*
+    If you're having trouble with the SD Card, then you can use the 
+    following "testSD" function to test that it works. I found a few 
+    failed SD cards this way. This funciton will open a file on the SD 
+    Card, write a value, and then read it back. 
+*/
 void testSD()
 {
     
@@ -83,9 +97,8 @@ void testSD()
         Serial.println(intContents[i]);
     }
     
-    Serial.println("Success.");
+    Serial.println("Done.");
     while(1);
-
 }
 
 void setup()
@@ -93,6 +106,7 @@ void setup()
     Serial.begin(115200);
     Serial.println("OPT4048 Example 1 Basic");
 
+    // Usng SPI for the SD Card.
     Wire.begin();
     SPI.begin();
 
@@ -137,12 +151,15 @@ void setup()
     }
 
     Serial.println("Great!");
+    Serial.println("Press any key in the Serial Monitor to begin.");
 
+    // Press someting to begin the test. 
     while(!(Serial.available() > 0))
     {
         delay(10);
     }
-
+    
+    Serial.println("Away we go!");
 
 
 }
@@ -152,7 +169,7 @@ void loop()
 {
 
 
-    myFile = SD.open("colorData.txt", FILE_WRITE); // Open file "data.txt"
+    myFile = SD.open("colorData.txt", FILE_WRITE); // Open file "colorData.txt"
 
     // Total cycle of time 9 colors @ 9.6 seconds/3 samples == 86.4 seconds 
     if(myFile) {
@@ -191,7 +208,8 @@ void loop()
     Serial.print("Time running: ");
     Serial.println(((millis() - lastTime)/1000)/60);
 
-    if (millis() - lastTime > 864000){
+    // 9600 conversion time * 9 Colors
+    if (millis() - lastTime > (9600 * 9){
         Serial.println("---------------------------------------------------");
         Serial.println("Finished");
         Serial.println("---------------------------------------------------");
