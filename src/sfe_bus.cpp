@@ -46,7 +46,6 @@
 // over the respective data buses: Inter-Integrated Circuit (I2C)
 
 #include "sfe_bus.h"
-#include <Arduino.h>
 
 #define kMaxTransferBuffer 32
 
