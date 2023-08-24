@@ -1,5 +1,6 @@
 #include "sfe_opt4048.h"
 #include "OPT4048_Registers.h"
+#include <math.h>
 
 bool QwOpt4048::init(void)
 {
@@ -938,7 +939,10 @@ double QwOpt4048::getCCT()
     CIEx = getCIEx();
     CIEy = getCIEy();
 
-    CCT = (CIEx - 0.3320) / (0.1858 - CIEy);
+    double n = (CIEx - 0.3320) / (0.1858 - CIEy);
+
+    // Formula can be found under the CCT section in the datasheet.
+    CCT = 432 * pow(n, 3) + 3601 * pow(n, 2) + 6861 * n + 5517; 
 
     return CCT;
 }
