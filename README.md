@@ -10,8 +10,8 @@
         </th>
     </tr>
     <tr align="center">
-        <td><a href="https://www.sparkfun.com/products/22638"><img src="" alt=""></a></td>
-        <td><a href="https://www.sparkfun.com/products/22639"><img src="" alt=""></a></td>
+        <td><a href="https://www.sparkfun.com/products/22638"><img src="https://cdn.sparkfun.com/assets/parts/2/2/7/9/8/22638-_SEN_SparkFun_Tristimulus_Color_Sensor-_01.jpg" alt=""></a></td>
+        <td><a href="https://www.sparkfun.com/products/22639"><img src="https://cdn.sparkfun.com/assets/parts/2/2/7/9/9/22639-_SEN_SparkFun_Mini_Tristimulus_Color_Sensor-_01.jpg" alt=""></a></td>
     </tr>
     <tr align="center">
         <td><a href="https://www.sparkfun.com/products/22638">SparkFun Tristimulus Color Sensor - OPT4048DTSR (Qwiic)</a></td>
