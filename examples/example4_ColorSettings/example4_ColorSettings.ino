@@ -94,11 +94,11 @@ void setup()
 
 void loop()
 {
-    Serial.print("CIEx");
-    Serial.print(myColor.getCIEx());
-    Serial.print("CIEy");
-    Serial.print(myColor.getCIEy());
-    Serial.print("CCT");
+    Serial.print("CIEx: ");
+    Serial.println(myColor.getCIEx());
+    Serial.print("CIEy: ");
+    Serial.println(myColor.getCIEy());
+    Serial.print("CCT: ");
     Serial.println(myColor.getCCT());
     // Delay time is set to the conversion time * number of channels
     // You need three channels for color sensing @ 800ms conversion time = 3200ms.
