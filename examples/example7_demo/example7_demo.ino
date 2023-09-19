@@ -22,6 +22,7 @@ Lp55231 ledChip(LED_ADDRESS);
 
 const int channel[ARRAY_SIZE] = {2,1,7,3,4,8,5,6,9};
 int arrayPos = 0; 
+int prevLED = 0; 
 
 unsigned long lastTime;
 
@@ -30,7 +31,6 @@ void setup()
     Serial.begin(115200);
     Serial.println("OPT4048 Example 1 Basic");
 
-    // Usng SPI for the SD Card.
     Wire.begin();
 
     if (!myColor.begin()) 
@@ -40,14 +40,14 @@ void setup()
             ;
     }
 
-    //ledChip.Begin();
-    //ledChip.Enable();
-    //ledChip.SetChargePumpMode(CP_BYPASS);
+    ledChip.Begin();
+    ledChip.Enable();
+    ledChip.SetChargePumpMode(CP_BYPASS);
 
-    //delay(100);
+    delay(100);
 
-    //for(int i = 0; i < 9; i++) 
-    //    ledChip.SetLogBrightness(i, true);
+    for(int i = 0; i < 9; i++) 
+        ledChip.SetLogBrightness(i, true);
 
     myColor.setRange(RANGE_2KLUX2);
     myColor.setConversionTime(CONVERSION_TIME_800MS);
@@ -67,20 +67,22 @@ void setup()
 
 void loop()
 {
-    if(arrayPos == HEAD)
-    {
-        ledChip.SetChannelPWM(channel[TAIL]-1, 0);
-        ledChip.SetChannelPWM(channel[arrayPos]-1, 50);
-    }
-
-    ledChip.SetChannelPWM(channel[arrayPos]-2, 0);
+//    if(arrayPos == HEAD)
+//    {
+//        ledChip.SetChannelPWM(channel[TAIL]-1, 0);
+//        ledChip.SetChannelPWM(channel[arrayPos]-1, 50);
+//    }
+//
+    ledChip.SetChannelPWM(channel[prevLED]-1, 0);
     ledChip.SetChannelPWM(channel[arrayPos]-1, 50);
     Serial.print("CIEx: ");
     Serial.print(myColor.getCIEx());
     Serial.print(" CIEy: ");
     Serial.print(myColor.getCIEy());
     Serial.print(" Color, ");
-    Serial.println(arrayPos);
+    Serial.print(arrayPos);
+    Serial.print(" Previous Color, ");
+    Serial.println(prevLED);
 
     delay(200);
 }
@@ -88,6 +90,13 @@ void loop()
 void serialEvent()
 {
     int entry = Serial.parseInt();
+    if(entry < 0 && entry > 8)
+    {
+        Serial.println("Enter a number between 0-8");
+        return;
+    }
+
+    prevLED = arrayPos; 
     switch(entry)
     {
         case 0: 
