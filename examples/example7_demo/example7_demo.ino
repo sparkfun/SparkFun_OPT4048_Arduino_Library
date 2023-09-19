@@ -14,7 +14,7 @@
 
 #define LED_ADDRESS 0x35   
 #define ARRAY_SIZE 9   
-#define TAIL 9   
+#define TAIL 8   
 #define HEAD 0   
 
 SparkFun_OPT4048 myColor;
@@ -55,7 +55,11 @@ void setup()
 
     lastTime = millis();
 
-    Serial.println("Away we go!");
+    Serial.println("-------------------------------------");
+    Serial.println("Enter a number between 0-8");
+    Serial.println("Make sure to add 'NO LINE ENDING'!!");
+    Serial.println("-------------------------------------");
+    delay(3000);
 
 
 }
@@ -63,44 +67,58 @@ void setup()
 
 void loop()
 {
-
-    for(int arrayPos; arrayPos <= FAR_RED;) 
+    if(arrayPos == HEAD)
     {
-
-        if(arrayPos == HEAD)
-        {
-            ledChip.SetChannelPWM(channel[TAIL]-1, 0);
-            ledChip.SetChannelPWM(channel[arrayPos]-1, 50);
-        }
-
-        ledChip.SetChannelPWM(channel[arrayPos]-2, 0);
+        ledChip.SetChannelPWM(channel[TAIL]-1, 0);
         ledChip.SetChannelPWM(channel[arrayPos]-1, 50);
-
-        Serial.print("Color, ");
-        Serial.println(arrayPos);
-
     }
 
+    ledChip.SetChannelPWM(channel[arrayPos]-2, 0);
+    ledChip.SetChannelPWM(channel[arrayPos]-1, 50);
+    Serial.print("CIEx: ");
+    Serial.print(myColor.getCIEx());
+    Serial.print(" CIEy: ");
+    Serial.print(myColor.getCIEy());
+    Serial.print(" Color, ");
     Serial.println(arrayPos);
-    delay(100);
+
+    delay(200);
 }
 
 void serialEvent()
 {
-    int entry; 
-    entry = Serial.parseInt();
-    Serial.print("Entered into the event:");
-    Serial.println(entry);
-
-    if(entry == 1)
-    {        
-        if(arrayPos >= ARRAY_SIZE)
-        {
-            arrayPos = 0; 
-            return;
-        }
-
-        arrayPos = arrayPos + 1;
+    int entry = Serial.parseInt();
+    switch(entry)
+    {
+        case 0: 
+            arrayPos = 0;
+            break;
+        case 1: 
+            arrayPos = 1;
+            break;
+        case 2: 
+            arrayPos = 2;
+            break;
+        case 3: 
+            arrayPos = 3;
+            break;
+        case 4: 
+            arrayPos = 4;
+            break;
+        case 5: 
+            arrayPos = 5;
+            break;
+        case 6: 
+            arrayPos = 6;
+            break;
+        case 7: 
+            arrayPos = 7;
+            break;
+        case 8: 
+            arrayPos = 8;
+            break;
+        default:
+            Serial.println("Enter a number between 0-8");
     }
 
     return;
