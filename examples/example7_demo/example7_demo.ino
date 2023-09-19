@@ -14,6 +14,8 @@
 
 #define LED_ADDRESS 0x35   
 #define ARRAY_SIZE 9   
+#define TAIL 9   
+#define HEAD 0   
 
 SparkFun_OPT4048 myColor;
 Lp55231 ledChip(LED_ADDRESS);
@@ -53,16 +55,6 @@ void setup()
 
     lastTime = millis();
 
-
-    Serial.println("Great!");
-    Serial.println("Press any key in the Serial Monitor to begin.");
-
-    // Press someting to begin the test. 
-    while(!(Serial.available() > 0))
-    {
-        delay(10);
-    }
-    
     Serial.println("Away we go!");
 
 
@@ -72,36 +64,41 @@ void setup()
 void loop()
 {
 
-    Serial.println("Measurements started.");
+    for(int arrayPos; arrayPos <= FAR_RED;) 
+    {
 
-    //for(int color = 0; color <= FAR_RED; color++) {
+        if(arrayPos == HEAD)
+        {
+            ledChip.SetChannelPWM(channel[TAIL]-1, 0);
+            ledChip.SetChannelPWM(channel[arrayPos]-1, 50);
+        }
 
-    //    ledChip.SetChannelPWM(channel[color]-1, 50);
+        ledChip.SetChannelPWM(channel[arrayPos]-2, 0);
+        ledChip.SetChannelPWM(channel[arrayPos]-1, 50);
 
-    //    // Color
-    //    Serial.print("Color, ");
-    //    Serial.println(color);
+        Serial.print("Color, ");
+        Serial.println(arrayPos);
 
-    //   // for(int sample = 0; sample < 3; sample++) {
-    //    //    delay(3200);
-
-    //    ledChip.SetChannelPWM(channel[color]-1, 0);
-
-    //}
+    }
 
     Serial.println(arrayPos);
+    delay(100);
 }
 
 void serialEvent()
 {
     int entry; 
     entry = Serial.parseInt();
+    Serial.print("Entered into the event:");
+    Serial.println(entry);
 
     if(entry == 1)
     {        
         if(arrayPos >= ARRAY_SIZE)
+        {
             arrayPos = 0; 
             return;
+        }
 
         arrayPos = arrayPos + 1;
     }
