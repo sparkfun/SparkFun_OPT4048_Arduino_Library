@@ -45,6 +45,7 @@ void loop()
 {
     Serial.print("Color Warmth: ");
     Serial.print(myColor.getCCT());
+    Serial.println("K");
     // Delay time is set to the conversion time * number of channels
     // You need three channels for color sensing @ 200ms conversion time = 600ms.
     delay(600);
