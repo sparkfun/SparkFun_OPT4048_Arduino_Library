@@ -188,7 +188,7 @@ opt4048_conversion_time_t QwOpt4048::getConversionTime()
     return (opt4048_conversion_time_t)controlReg.conversion_time;
 }
 
-bool QwOpt4048::enableQwake(bool enable)
+bool QwOpt4048::setQwake(bool enable)
 {
     uint8_t buff[2];
     int32_t retVal;
@@ -271,7 +271,7 @@ opt4048_operation_mode_t QwOpt4048::getOperationMode()
     return (opt4048_operation_mode_t)controlReg.op_mode;
 }
 
-bool QwOpt4048::enableIntLatch(bool enable)
+bool QwOpt4048::setIntLatch(bool enable)
 {
     uint8_t buff[2];
     int32_t retVal;
@@ -314,7 +314,7 @@ bool QwOpt4048::getIntLatch()
     return false;
 }
 
-bool QwOpt4048::enableIntActiveHigh(bool enable)
+bool QwOpt4048::setIntActiveHigh(bool enable)
 {
     uint8_t buff[2];
     int32_t retVal;
@@ -357,7 +357,7 @@ bool QwOpt4048::getIntActiveHigh()
     return true;
 }
 
-bool QwOpt4048::enableIntInput(bool enable)
+bool QwOpt4048::setIntInput(bool enable)
 {
     uint8_t buff[2];
     int32_t retVal;
@@ -400,7 +400,7 @@ bool QwOpt4048::getIntInputEnable()
     return true;
 }
 
-bool QwOpt4048::setIntMechanism(opt4048_mechanism_t mechanism)
+bool QwOpt4048::setIntMechanism(opt4048_int_cfg_t mechanism)
 {
     uint8_t buff[2];
     int32_t retVal;
@@ -427,7 +427,7 @@ bool QwOpt4048::setIntMechanism(opt4048_mechanism_t mechanism)
     return true;
 }
 
-opt4048_mechanism_t QwOpt4048::getIntMechanism()
+opt4048_int_cfg_t QwOpt4048::getIntMechanism()
 {
     uint8_t buff[2];
     opt4048_reg_int_control_t intReg;
@@ -437,7 +437,7 @@ opt4048_mechanism_t QwOpt4048::getIntMechanism()
     intReg.word = buff[0] << 8;
     intReg.word |= buff[1];
 
-    return ((opt4048_mechanism_t)intReg.int_cfg);
+    return ((opt4048_int_cfg_t)intReg.int_cfg);
 }
 
 opt4048_reg_flags_t QwOpt4048::getAllFlags()
@@ -644,7 +644,7 @@ uint16_t QwOpt4048::getThresholdLow()
     return thresholdLow;
 }
 
-bool QwOpt4048::enableI2CBurst(bool enable)
+bool QwOpt4048::setI2CBurst(bool enable)
 {
     uint8_t buff[2];
     int32_t retVal;
@@ -687,7 +687,7 @@ bool QwOpt4048::getI2CBurst()
     return true;
 }
 
-void QwOpt4048::enableCRC(bool enable)
+void QwOpt4048::setCRC(bool enable)
 {
     if (enable)
         crcEnabled = true;
@@ -883,8 +883,11 @@ bool QwOpt4048::getAllChannelData(sfe_color_t *color)
     return true;
 }
 
-uint8_t QwOpt4048::calculateCRC(uint32_t mantissa, uint8_t expon, uint8_t crc)
+bool QwOpt4048::calculateCRC(uint32_t mantissa, uint8_t expon, uint8_t crc)
 {
+
+    if(!crcEnabled)
+        return false; 
 
     mantissaBits mBits;
     exponBits exBits;
@@ -907,9 +910,9 @@ uint8_t QwOpt4048::calculateCRC(uint32_t mantissa, uint8_t expon, uint8_t crc)
     compareAgainst.bit3 = mBits.bit3 xor mBits.bit11 xor mBits.bit19;
 
     if (compareAgainst.byte == crc)
-        return 1;
+        return true;
 
-    return 0;
+    return false;
 }
 
 uint32_t QwOpt4048::getLux()

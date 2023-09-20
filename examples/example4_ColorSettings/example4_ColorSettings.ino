@@ -87,7 +87,7 @@ void setup()
     
    // The Quick wake setting changes the behavior of the chip while in power down mode: 
    // Not all of the circuitry will be powered down. 
-   // myColor.enableQwake();
+   // myColor.setQwake();
     Serial.println("Ready to go!");
 }
 

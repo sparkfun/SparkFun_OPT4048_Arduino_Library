@@ -42,7 +42,7 @@ void setup()
     myColor.setBasicSetup();
 
     // Basic usage: if interrupt is set to latched mode
-    //myColor.enableIntLatch();
+    //myColor.setIntLatch();
     myColor.setIntMechanism(INT_DR_ALL_CHANNELS);
 
     // Select the channel that will fire the interrupt
@@ -50,11 +50,11 @@ void setup()
     //myColor.setThresholdChannel(THRESH_CHANNEL_CH1);
 
     // Change the interrupt direction to active HIGH. 
-    //myColor.enableIntActiveHigh();
+    //myColor.setIntActiveHigh();
 
     // Change the interrupt to an INPUT to trigger measurements
     // set operation mode to one shot mode in this case. 
-    // myColor.enableIntInput();
+    // myColor.setIntInput();
 
     Serial.println("Ready to go!");
 }

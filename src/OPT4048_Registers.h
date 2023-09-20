@@ -113,7 +113,7 @@ typedef enum
     INT_SMBUS_ALERT = 0x00,
     INT_DR_NEXT_CHANNEL,
     INT_DR_ALL_CHANNELS = 0x03
-} opt4048_mechanism_t;
+} opt4048_int_cfg_t;
 
 /// @brief OPT4048 Register for Exponent and Result (MSB) for Channel 0
 #define SFE_OPT4048_REGISTER_EXP_RES_CH0 0x00

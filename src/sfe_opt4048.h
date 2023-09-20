@@ -117,7 +117,7 @@ typedef union {
 class QwOpt4048
 {
   public:
-    QwOpt4048() : _i2cAddress{0} {};
+    QwOpt4048() : _sfeBus(nullptr) , _i2cAddress(0) {};
 
     /// @brief Sets the struct that interfaces with STMicroelectronic's C Library.
     /// @return true on successful execution.
@@ -163,7 +163,7 @@ class QwOpt4048
     /// @brief Sets the OPT4048's effective sensing range which will effect its resolution.
     /// @param range The range to set the device to.
     /// @return True on successful execution.
-    bool enableQwake(bool enable = true);
+    bool setQwake(bool enable = true);
     
     /// @brief Retrieves the light range in lux of the OPT4048.
     /// @return The range of lux able to be measured.
@@ -223,21 +223,21 @@ class QwOpt4048
     opt4048_operation_mode_t getOperationMode();
 
     /// @brief Changes the behavior of the interrupt from pin to latch.
-    /// @param enable True to enable, false to disable.
+    /// @param set True to enable, false to disable.
     /// @return True on successful execution.
-    bool enableIntLatch(bool enable = true);
+    bool setIntLatch(bool enable = true);
 
     /// @brief Checks if the interrupt is set to pulse or latch.
     /// @return True if set to latch, false if not.
     bool getIntLatch();
 
     /// @brief Sets the OPT4048's interrupt polarity.
-    /// @param enable True to enable, false to disable.
+    /// @param set True to enable, false to disable.
     /// @return True on successful execution.
-    bool enableIntActiveHigh(bool enable = true);
+    bool setIntActiveHigh(bool enable = true);
 
     /// @brief Sets the OPT4048's interrupt polarity.
-    /// @param enable True to enable, false to disable.
+    /// @param set True to enable, false to disable.
     /// @return True on successful execution.
     bool getIntActiveHigh();
 
@@ -287,15 +287,15 @@ class QwOpt4048
     uint16_t getThresholdLow();
 
     /// @brief Enable CRC for ADC calues
-    /// @param enable True to enable, false to disable.
+    /// @param set True to enable, false to disable.
     /// @return True on successful execution.
-    void enableCRC(bool enable = true);
+    void setCRC(bool enable = true);
 
     ///////////////////////////////////////////////////////////////////Interrupt Settings
     /// @brief Changes the behavior of the interrupt pin to be an INPUT to trigger single shot.
-    /// @param enable True to enable, false to disable.
+    /// @param set True to enable, false to disable.
     /// @return True on successful execution.
-    bool enableIntInput(bool enable = true);
+    bool setIntInput(bool enable = true);
 
     /// @brief Gets the interrupt input bit
     /// @return True if the interrupt is set to INPUT.
@@ -304,19 +304,19 @@ class QwOpt4048
     /// @brief Changes the behavior interrupt mechanism after the end of conversion
     /// @param mechanism The mechanism to set
     /// @return True on successful execution.
-    bool setIntMechanism(opt4048_mechanism_t mechanism);
+    bool setIntMechanism(opt4048_int_cfg_t mechanism);
 
     /// @brief Gets the interrupt mechanism for the OPT4048
-    /// @return Returns the enabled mechanism.
-    opt4048_mechanism_t getIntMechanism();
+    /// @return Returns the setd mechanism.
+    opt4048_int_cfg_t getIntMechanism();
 
     /// @brief Enable register auto increment .
-    /// @param enable True to enable, false to disable.
+    /// @param set True to enable, false to disable.
     /// @return True on successful execution.
-    bool enableI2CBurst(bool enable = true);
+    bool setI2CBurst(bool enable = true);
 
     /// @brief Retrieves the I2C burst bit.
-    /// @return True if I2C burst is enabled, false otherwise.
+    /// @return True if I2C burst is setd, false otherwise.
     bool getI2CBurst();
 
     /// @brief Retrieves the flag register
@@ -372,7 +372,7 @@ class QwOpt4048
     /// @param exponent The exponent value of the ADC
     /// @param crc The CRC value of the ADC
     /// @return Returns the calculated CRC value.
-    uint8_t calculateCRC(uint32_t manitssa, uint8_t expon, uint8_t crc);
+    bool calculateCRC(uint32_t manitssa, uint8_t expon, uint8_t crc);
 
     /// @brief Retrieves the Lux value.
     /// @return Returns the Lux value of the sensor
