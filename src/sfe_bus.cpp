@@ -1,49 +1,39 @@
-// sfe_bus.cpp
-//
-// This is a library written for SparkFun Qwiic OPT4048 boards
-//
-// SparkFun sells these bpards at its website: www.sparkfun.com
-//
-// Do you like this library? Help support SparkFun. Buy a board!
-//
-// SparkFun Tristimulus Color Sensor - OPT4048
-// 	Qwiic 1x1
-//		* https://www.sparkfun.com/products/
-//	Qwiic Mini
-//		* https://www.sparkfun.com/products/
-//
-// Written by Kirk Benell @ SparkFun Electronics
-// Modified by Elias Santistevan @ SparkFun Electronics, April 2022
-//
-// Repository:
-//	    * https://github.com/sparkfun/SparkFun_OPT4048_Arduino_Library
-//
-//
-// SparkFun code, firmware, and software is released under the MIT
-// License(http://opensource.org/licenses/MIT).
-//
-// SPDX-License-Identifier: MIT
-//
-//    The MIT License (MIT)
-//
-//    Copyright (c) 2022 SparkFun Electronics
-//    Permission is hereby granted, free of charge, to any person obtaining a
-//    copy of this software and associated documentation files (the "Software"),
-//    to deal in the Software without restriction, including without limitation
-//    the rights to use, copy, modify, merge, publish, distribute, sublicense,
-//    and/or sell copies of the Software, and to permit persons to whom the
-//    Software is furnished to do so, subject to the following conditions: The
-//    above copyright notice and this permission notice shall be included in all
-//    copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED
-//    "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
-//    NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-//    PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-//    HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-//    ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-//    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/* 
+sfe_bus.cpp
 
-// The following classes specify the behavior for communicating
-// over the respective data buses: Inter-Integrated Circuit (I2C)
+SparkFun Tristimulus Color Sensor - OPT4048
+
+Qwiic 1x1
+* https://www.sparkfun.com/products/
+Qwiic Mini
+* https://www.sparkfun.com/products/
+
+Repository:
+* https://github.com/sparkfun/SparkFun_OPT4048_Arduino_Library
+
+The MIT License (MIT)
+
+Copyright (c) 2022 SparkFun Electronics
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions: The
+above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED
+"AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+License(http://opensource.org/licenses/MIT).
+
+The following class specifies the behavior for communicating
+over Inter-Integrated Circuit (I2C).
+*/
 
 #include "sfe_bus.h"
 
