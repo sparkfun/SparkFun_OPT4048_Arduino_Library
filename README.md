@@ -1,5 +1,4 @@
-# SparkFun_OPT4048_Arduino_Library
-
+SparkFun OPT4048 Arduino Library
 ========================================
 
 <table class="table table-hover table-striped table-bordered">
