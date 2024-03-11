@@ -710,7 +710,7 @@ uint32_t QwOpt4048::getADCCh0()
     adc1Reg.word = buff[2] << 8;
     adc1Reg.word |= buff[3];
 
-    mantissa = adcReg.result_msb_ch0 << 8;
+    mantissa = (uint32_t)adcReg.result_msb_ch0 << 8;
     mantissa |= adc1Reg.result_lsb_ch0;
 
     adcCode = mantissa << adcReg.exponent_ch0;
@@ -734,7 +734,7 @@ uint32_t QwOpt4048::getADCCh1()
     adc1Reg.word = buff[2] << 8;
     adc1Reg.word |= buff[3];
 
-    mantissa = adcReg.result_msb_ch1 << 8;
+    mantissa = (uint32_t)adcReg.result_msb_ch1 << 8;
     mantissa |= adc1Reg.result_lsb_ch1;
     adcCode = mantissa << adcReg.exponent_ch1;
 
@@ -757,7 +757,7 @@ uint32_t QwOpt4048::getADCCh2()
     adc1Reg.word = buff[2] << 8;
     adc1Reg.word |= buff[3];
 
-    mantissa = adcReg.result_msb_ch2 << 8;
+    mantissa = (uint32_t)adcReg.result_msb_ch2 << 8;
     mantissa |= adc1Reg.result_lsb_ch2;
 
     adcCode = mantissa << adcReg.exponent_ch2;
@@ -781,7 +781,7 @@ uint32_t QwOpt4048::getADCCh3()
     adc1Reg.word = buff[2] << 8;
     adc1Reg.word |= buff[3];
 
-    mantissa = adcReg.result_msb_ch3 << 8;
+    mantissa = (uint32_t)adcReg.result_msb_ch3 << 8;
     mantissa |= adc1Reg.result_lsb_ch3;
 
     adcCode = mantissa << adcReg.exponent_ch3;
@@ -849,19 +849,19 @@ bool QwOpt4048::getAllChannelData(sfe_color_t *color)
     adc3LSB.word = buff[14] << 8;
     adc3LSB.word |= buff[15];
 
-    mantissaCh0 = adc0MSB.result_msb_ch0 << 8;
+    mantissaCh0 = (uint32_t)adc0MSB.result_msb_ch0 << 8;
     mantissaCh0 |= adc0LSB.result_lsb_ch0;
     adcCodeCh0 = mantissaCh0 << adc0MSB.exponent_ch0;
 
-    mantissaCh1 = adc1MSB.result_msb_ch1 << 8;
+    mantissaCh1 = (uint32_t)adc1MSB.result_msb_ch1 << 8;
     mantissaCh1 |= adc1LSB.result_lsb_ch1;
     adcCodeCh1 = mantissaCh1 << adc1MSB.exponent_ch1;
 
-    mantissaCh2 = adc2MSB.result_msb_ch2 << 8;
+    mantissaCh2 = (uint32_t)adc2MSB.result_msb_ch2 << 8;
     mantissaCh2 |= adc2LSB.result_lsb_ch2;
     adcCodeCh2 = mantissaCh2 << adc2MSB.exponent_ch2;
 
-    mantissaCh3 = adc3MSB.result_msb_ch3 << 8;
+    mantissaCh3 = (uint32_t)adc3MSB.result_msb_ch3 << 8;
     mantissaCh3 |= adc3LSB.result_lsb_ch3;
     adcCodeCh3 = mantissaCh3 << adc3MSB.exponent_ch3;
 
