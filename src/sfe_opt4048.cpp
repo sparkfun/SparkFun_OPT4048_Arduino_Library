@@ -30,9 +30,9 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 License(http://opensource.org/licenses/MIT).
-             
-The following functions are for the QwOpt4048 class which handles the 
-main functionality for the OPT4048 IC. 
+
+The following functions are for the QwOpt4048 class which handles the
+main functionality for the OPT4048 IC.
 
 */
 #include "sfe_opt4048.h"
@@ -70,7 +70,6 @@ uint16_t QwOpt4048::getDeviceID()
 
     idReg.word = buff[0] << 8;
     idReg.word |= buff[1];
-
     uniqueId = idReg.DIDH << 2;
     uniqueId |= idReg.DIDL;
 
@@ -886,8 +885,8 @@ bool QwOpt4048::getAllChannelData(sfe_color_t *color)
 bool QwOpt4048::calculateCRC(uint32_t mantissa, uint8_t expon, uint8_t crc)
 {
 
-    if(!crcEnabled)
-        return false; 
+    if (!crcEnabled)
+        return false;
 
     mantissaBits mBits;
     exponBits exBits;
@@ -936,12 +935,17 @@ double QwOpt4048::getCIEx()
 
     getAllChannelData(&color);
 
-    for (int row = 0; row < OPT_MATRIX_ROWS; row++)
-    {
-        x += color.red * cieMatrix[row][0];
-        y += color.green * cieMatrix[row][1];
-        z += color.blue * cieMatrix[row][2];
-    }
+    x += color.red * cieMatrix[0][0];
+    x += color.green * cieMatrix[1][0];
+    x += color.blue * cieMatrix[2][0];
+
+    y += color.red * cieMatrix[0][1];
+    y += color.green * cieMatrix[1][1];
+    y += color.blue * cieMatrix[2][1];
+
+    z += color.blue * cieMatrix[0][2];
+    z += color.green * cieMatrix[1][2];
+    z += color.blue * cieMatrix[2][2];
 
     CIEx = x / (x + y + z);
 
@@ -958,12 +962,17 @@ double QwOpt4048::getCIEy()
 
     getAllChannelData(&color);
 
-    for (int row = 0; row < OPT_MATRIX_ROWS; row++)
-    {
-        x += color.red * cieMatrix[row][0];
-        y += color.green * cieMatrix[row][1];
-        z += color.blue * cieMatrix[row][2];
-    }
+    x += color.red * cieMatrix[0][0];
+    x += color.green * cieMatrix[1][0];
+    x += color.blue * cieMatrix[2][0];
+
+    y += color.red * cieMatrix[0][1];
+    y += color.green * cieMatrix[1][1];
+    y += color.blue * cieMatrix[2][1];
+
+    z += color.blue * cieMatrix[0][2];
+    z += color.green * cieMatrix[1][2];
+    z += color.blue * cieMatrix[2][2];
 
     CIEy = y / (x + y + z);
 
@@ -982,7 +991,7 @@ double QwOpt4048::getCCT()
     double n = (CIEx - 0.3320) / (0.1858 - CIEy);
 
     // Formula can be found under the CCT section in the datasheet.
-    CCT = 432 * pow(n, 3) + 3601 * pow(n, 2) + 6861 * n + 5517; 
+    CCT = 437 * pow(n, 3) + 3601 * pow(n, 2) + 6861 * n + 5517;
 
     return CCT;
 }

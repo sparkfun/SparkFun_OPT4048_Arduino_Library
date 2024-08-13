@@ -31,9 +31,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 License(http://opensource.org/licenses/MIT).
 
-The following QwOpt4048 class defines the main main functionality for the OPT4048 IC. 
-This file also includes the type definitions for function parameters as well as 
-data types for the color data. 
+The following QwOpt4048 class defines the main main functionality for the OPT4048 IC.
+This file also includes the type definitions for function parameters as well as
+data types for the color data.
 
 */
 #pragma once
@@ -111,13 +111,10 @@ typedef union {
     uint32_t word;
 } mantissaBits;
 
-#define OPT_MATRIX_ROWS 4
-#define OPT_MATRIX_COLS 4
-
 class QwOpt4048
 {
   public:
-    QwOpt4048() : _sfeBus(nullptr) , _i2cAddress(0) {};
+    QwOpt4048() : _sfeBus(nullptr), _i2cAddress(0) {};
 
     /// @brief Sets the struct that interfaces with STMicroelectronic's C Library.
     /// @return true on successful execution.
@@ -164,7 +161,7 @@ class QwOpt4048
     /// @param range The range to set the device to.
     /// @return True on successful execution.
     bool setQwake(bool enable = true);
-    
+
     /// @brief Retrieves the light range in lux of the OPT4048.
     /// @return The range of lux able to be measured.
     bool getQwake();
@@ -181,7 +178,7 @@ class QwOpt4048
     ///   RANGE_AUTO
     /// @return True on successful execution.
     bool setRange(opt4048_range_t range);
-    
+
     /// @brief Retrieves the light range in lux of the OPT4048.
     /// @return The range of lux able to be measured.
     opt4048_range_t getRange();
@@ -207,7 +204,6 @@ class QwOpt4048
     /// @brief Retrieves the conversion time used for the ADC.
     /// @return The OPT4048 conversion time.
     opt4048_conversion_time_t getConversionTime();
-
 
     /// @brief Sets the OPT4048's operation mode.
     /// @param mode The mode to set the device to. Possible Values:
@@ -250,7 +246,7 @@ class QwOpt4048
     /// @return True on successful execution.
     bool setFaultCount(opt4048_fault_count_t count);
 
-    /// @brief Retrieves the number of faults (light values over or under) before 
+    /// @brief Retrieves the number of faults (light values over or under) before
     /// an interrupt is triggered.
     /// @return The fault count.
     opt4048_fault_count_t getFaultCount();
@@ -265,14 +261,14 @@ class QwOpt4048
     bool setThresholdChannel(opt4048_threshold_channel_t channel);
 
     /// @brief Retrives the threshold channel.
-    /// @return THe selected channel. 
+    /// @return THe selected channel.
     opt4048_threshold_channel_t getThresholdChannel();
 
     /// @brief Sets the Lux High Value threshold.
     /// @param thresh The value in float
     /// @return Returns the high threshold.
     bool setThresholdHigh(float thresh);
-    
+
     /// @brief Retrieves the Lux High Value threshold.
     /// @return Returns the high threshold.
     uint16_t getThresholdHigh();
@@ -338,7 +334,7 @@ class QwOpt4048
     /// @brief Checks the too dim flag bit.
     /// @return True if that flag bit is set, false otherwise
     bool getTooDimFlag();
-    
+
     ///////////////////////////////////////////////////////////////////Color Information
     /// @brief Reads Channel Zero (Red)
     /// @return Returns the ADC value of Channel Zero
@@ -360,7 +356,8 @@ class QwOpt4048
     /// @return Returns the ADC values of the channels.
     sfe_color_t getAllADC();
 
-    /// @brief Retrieves all ADC values for all channels: Red, Green, Blue, and White, as well as the sample counter, and
+    /// @brief Retrieves all ADC values for all channels: Red, Green, Blue, and White, as well as the sample counter,
+    /// and
     ///        the CRC value.
     /// @param color Pointer to the color struct to be populated with the channels values.
     /// @return Returns true on successful execution, false otherwise.
@@ -395,10 +392,11 @@ class QwOpt4048
     uint8_t _i2cAddress;
     bool crcEnabled = false;
 
+    static constexpr uint8_t kOPTMatrixRows = 4;
+    static constexpr uint8_t kOPTMatrixCols = 4;
     // Table in 9.2.4 of Datasheet for calculating CIE x and y, and Lux.
-    const double cieMatrix[OPT_MATRIX_ROWS][OPT_MATRIX_COLS] = {
-        {.000234892992, -.0000189652390, .0000120811684, 0},
-        {.0000407467441, .000198958202, -.0000158848115, .00215},
-        {.0000928619404, -.0000169739553, .000674021520, 0},
-        {0, 0, 0, 0}};
+    const double cieMatrix[kOPTMatrixRows][kOPTMatrixCols] = {{.000234892992, -.0000189652390, .0000120811684, 0},
+                                                              {.0000407467441, .000198958202, -.0000158848115, .00215},
+                                                              {.0000928619404, -.0000169739553, .000674021520, 0},
+                                                              {0, 0, 0, 0}};
 };
