@@ -943,7 +943,7 @@ double QwOpt4048::getCIEx()
     y += color.green * cieMatrix[1][1];
     y += color.blue * cieMatrix[2][1];
 
-    z += color.blue * cieMatrix[0][2];
+    z += color.red * cieMatrix[0][2];
     z += color.green * cieMatrix[1][2];
     z += color.blue * cieMatrix[2][2];
 
@@ -970,7 +970,7 @@ double QwOpt4048::getCIEy()
     y += color.green * cieMatrix[1][1];
     y += color.blue * cieMatrix[2][1];
 
-    z += color.blue * cieMatrix[0][2];
+    z += color.red * cieMatrix[0][2];
     z += color.green * cieMatrix[1][2];
     z += color.blue * cieMatrix[2][2];
 
